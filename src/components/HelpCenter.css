@@ -729,11 +729,20 @@ body.help-center-site {
 
 @media (max-width: 760px) {
   .hc-container {
-    width: min(100% - 1.5rem, 76rem);
+    width: min(100% - 5rem, 76rem);
   }
 
   .hc-hero {
-    padding-top: 3.35rem;
+    padding-top: 2.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .hc-hero h1 {
+    font-size: clamp(2rem, 10vw, 3.2rem);
+  }
+
+  .hc-search {
+    width: 100%;
   }
 
   .hc-layout {
@@ -801,6 +810,10 @@ body.help-center-site {
     display: none;
   }
 
+  .hc-home-link {
+    display: none;
+  }
+
   .hc-search {
     min-height: 3.25rem;
     margin-top: 1.55rem;
@@ -811,6 +824,17 @@ body.help-center-site {
     justify-content: center;
     flex-direction: column;
     padding-block: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hc-brand img {
+    width: 7.75rem;
+  }
+
+  .hc-language button {
+    min-width: 1.9rem;
+    padding-inline: 0.3rem;
   }
 }
 

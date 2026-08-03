@@ -1,6 +1,7 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import {
   ArrowRight,
+  BadgeCheck,
   CalendarCheck2,
   Check,
   ChevronRight,
@@ -15,7 +16,6 @@ import {
   ScrollText,
   Server,
   Settings,
-  ShieldCheck,
   UsersRound,
   WalletCards,
   Wrench,
@@ -107,7 +107,7 @@ const pageCopy = {
     meta: { title: 'Habitae: Gestão de condomínios, sem ruído', description: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', socialDescription: 'Finanças, quotas, documentos, pessoas e tarefas do condomínio, num só lugar.', locale: 'pt_PT' },
     brandAlt: 'Habitae, Gestão de Condomínios', skip: 'Saltar para o conteúdo', homeLabel: 'Habitae, página inicial', menuOpen: 'Abrir menu', menuClose: 'Fechar menu', navigationLabel: 'Navegação principal',
     nav: { platform: 'Plataforma', features: 'Funcionalidades', pricing: 'Planos', process: 'Como funciona', trust: 'Confiança', help: 'Ajuda', login: 'Entrar', open: 'Abrir Habitae' },
-    hero: { eyebrow: 'Gestão de condomínios, sem ruído', line1: 'O condomínio', line2: 'inteiro.', accent: 'Num só lugar.', lead: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa área de trabalho clara, para gerir melhor e explicar tudo com confiança.', primary: 'Começar com 15 dias gratuitos', secondary: 'Conhecer a plataforma', pointsLabel: 'Vantagens principais', points: ['Pensado para Portugal', 'Vários condomínios', 'Dados no seu controlo'] },
+    hero: { eyebrow: 'Gestão de condomínios', line1: 'O condomínio', line2: 'inteiro.', accent: 'Num só lugar.', lead: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa área de trabalho clara, para gerir melhor e explicar tudo com confiança.', primary: 'Começar com 15 dias gratuitos', secondary: 'Conhecer a plataforma' },
     context: { label: 'Uma única fonte de verdade para', items: ['Finanças', 'Condóminos', 'Operação', 'Documentos'] },
     outcomes: { kicker: 'A plataforma', title1: 'Menos dispersão.', title2: 'Mais controlo.', intro: 'Troque ficheiros isolados, notas soltas e processos difíceis de seguir por uma visão partilhada e sempre pronta a consultar.', items: [{ title: 'Veja primeiro o que importa', description: 'Saldos, quotas, orçamento e alertas resumidos para decidir onde agir.' }, { title: 'Gira tudo no mesmo contexto', description: 'Cada condomínio mantém os seus dados, pessoas e operação bem organizados.' }, { title: 'Partilhe com confiança', description: 'Informação coerente, documentos consistentes e acessos adequados a cada função.' }] },
     features: { kicker: 'Tudo ligado', title: 'Da conta bancária à porta do prédio.', intro: 'As ferramentas essenciais da administração de condomínios, organizadas para funcionarem em conjunto.', includes: 'Inclui' },
@@ -121,7 +121,7 @@ const pageCopy = {
     meta: { title: 'Habitae: Clear condominium management', description: 'Habitae brings finances, fees, documents, people and tasks together in one clear condominium management platform.', socialDescription: 'Your condominium finances, fees, documents, people and tasks in one place.', locale: 'en_GB' },
     brandAlt: 'Habitae, Condominium Management', skip: 'Skip to content', homeLabel: 'Habitae, home page', menuOpen: 'Open menu', menuClose: 'Close menu', navigationLabel: 'Main navigation',
     nav: { platform: 'Platform', features: 'Features', pricing: 'Plans', process: 'How it works', trust: 'Trust', help: 'Help', login: 'Log in', open: 'Open Habitae' },
-    hero: { eyebrow: 'Condominium management without the noise', line1: 'Your whole', line2: 'condominium.', accent: 'In one place.', lead: 'Habitae brings finances, fees, documents, people and tasks together in a clear workspace, so you can manage better and explain everything with confidence.', primary: 'Start with 15 free days', secondary: 'Explore the platform', pointsLabel: 'Key benefits', points: ['Built for Portugal', 'Multiple condominiums', 'Your data, your control'] },
+    hero: { eyebrow: 'Condominium management', line1: 'Your whole', line2: 'condominium.', accent: 'In one place.', lead: 'Habitae brings finances, fees, documents, people and tasks together in a clear workspace, so you can manage better and explain everything with confidence.', primary: 'Start with 15 free days', secondary: 'Explore the platform' },
     context: { label: 'One reliable source for', items: ['Finances', 'Residents', 'Operations', 'Documents'] },
     outcomes: { kicker: 'The platform', title1: 'Less clutter.', title2: 'More control.', intro: 'Replace isolated files, scattered notes and hard-to-follow processes with a shared view that is always ready to consult.', items: [{ title: 'See what matters first', description: 'Balances, fees, budgets and alerts summarised so you know where to act.' }, { title: 'Manage everything in context', description: 'Each condominium keeps its data, people and operations neatly organised.' }, { title: 'Share with confidence', description: 'Consistent information and documents, with the right access for every role.' }] },
     features: { kicker: 'Everything connected', title: 'From the bank account to the front door.', intro: 'The essential condominium management tools, organised to work together.', includes: 'Includes' },
@@ -376,10 +376,6 @@ export default function MarketingPage() {
           </a>
 
           <div className="mk-mobile-header-actions">
-            <div className="mk-mobile-language" role="group" aria-label={c.footer.languageLabel}>
-              <button type="button" className={language === 'pt' ? 'is-active' : ''} aria-pressed={language === 'pt'} onClick={() => setLanguage('pt')}>PT</button>
-              <button type="button" className={language === 'en' ? 'is-active' : ''} aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>EN</button>
-            </div>
             <button
               type="button"
               className="mk-menu-toggle"
@@ -437,9 +433,6 @@ export default function MarketingPage() {
                   {c.hero.secondary} <ChevronRight size={17} aria-hidden="true" />
                 </a>
               </div>
-              <ul className="mk-hero-points" aria-label={c.hero.pointsLabel}>
-                {c.hero.points.map((point) => <li key={point}><Check size={15} aria-hidden="true" /> {point}</li>)}
-              </ul>
             </div>
 
             <ProductPreview language={language} />
@@ -484,7 +477,7 @@ export default function MarketingPage() {
               </article>
               <article className="mk-outcome-card">
                 <span className="mk-outcome-number">03</span>
-                <span className="mk-outcome-icon"><ShieldCheck size={21} aria-hidden="true" /></span>
+                <span className="mk-outcome-icon"><BadgeCheck size={21} aria-hidden="true" /></span>
                 <h3>{c.outcomes.items[2].title}</h3>
                 <p>{c.outcomes.items[2].description}</p>
                 <span className="mk-outcome-line" />
@@ -617,7 +610,6 @@ export default function MarketingPage() {
         <section id="confianca" className="mk-section mk-trust" aria-labelledby="trust-title">
           <div className="mk-container">
             <div className="mk-trust-heading">
-              <div className="mk-trust-seal" aria-hidden="true"><ShieldCheck size={31} strokeWidth={1.6} /></div>
               <div>
                 <h2 id="trust-title">{c.trust.title1}<br />{c.trust.title2}</h2>
               </div>

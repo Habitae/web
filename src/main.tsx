@@ -8,6 +8,7 @@ const pathname = appPathname();
 const isMarketingHomepage = pathname === '/';
 const isComingSoonPage = /^\/app\/?$/.test(pathname);
 const isHelpCenter = /^\/(?:ajuda|help)(?:\/|$)/.test(pathname);
+const isNotFound = !isMarketingHomepage && !isComingSoonPage && !isHelpCenter;
 
 const loadSurface = isMarketingHomepage
   ? () => import('./components/MarketingPage')
@@ -15,7 +16,9 @@ const loadSurface = isMarketingHomepage
     ? () => import('./components/ComingSoonPage')
     : isHelpCenter
       ? () => import('./components/HelpCenter')
-      : () => import('./components/MarketingPage');
+      : isNotFound
+        ? () => import('./components/NotFoundPage')
+        : () => import('./components/MarketingPage');
 
 const Surface = React.lazy(loadSurface);
 

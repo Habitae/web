@@ -1,0 +1,215 @@
+html:has(.not-found-page) {
+  background: #f7f5ee;
+}
+
+body:has(.not-found-page) {
+  margin: 0;
+  background: #f7f5ee;
+  color: #17251f;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.not-found-page,
+.not-found-page *,
+.not-found-page *::before,
+.not-found-page *::after {
+  box-sizing: border-box;
+}
+
+.not-found-page {
+  min-height: 100dvh;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(137, 169, 151, 0.13), transparent 22rem),
+    #f7f5ee;
+}
+
+.not-found-shell {
+  display: grid;
+  width: min(100%, 76rem);
+  min-height: calc(100dvh - 2.5rem);
+  margin: 0 auto;
+  grid-template-rows: auto 1fr;
+}
+
+.not-found-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0.25rem;
+}
+
+.not-found-brand img {
+  display: block;
+  width: 10.5rem;
+  height: auto;
+}
+
+.not-found-language {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  border: 1px solid #d9dfd8;
+  border-radius: 99px;
+  background: rgba(255, 254, 250, 0.72);
+}
+
+.not-found-language button {
+  min-width: 2.25rem;
+  padding: 0.38rem 0.5rem;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  color: #718078;
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.not-found-language button.is-active {
+  background: #245d46;
+  color: #fff;
+}
+
+.not-found-card {
+  display: flex;
+  width: min(100%, 48rem);
+  align-self: center;
+  justify-self: center;
+  margin: 2rem auto;
+  padding: clamp(2rem, 7vw, 5rem);
+  flex-direction: column;
+  border: 1px solid #dedfd7;
+  border-radius: 0.6rem;
+  background: rgba(255, 254, 250, 0.9);
+  box-shadow: 0 1rem 2.75rem rgba(35, 66, 51, 0.06);
+}
+
+.not-found-card h1 {
+  max-width: 38rem;
+  margin: 1.25rem 0 0;
+  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  font-weight: 670;
+  letter-spacing: -0.06em;
+  line-height: 1.02;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.not-found-card p {
+  max-width: 34rem;
+  margin: 1.35rem 0 0;
+  color: #68746e;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 2.25rem;
+}
+
+.not-found-button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.not-found-button--primary {
+  border-color: #245d46;
+  background: #245d46;
+  color: #fff;
+}
+
+.not-found-button--primary:hover {
+  border-color: #173f31;
+  background: #173f31;
+}
+
+.not-found-button--secondary {
+  border-color: #d5ded7;
+  background: transparent;
+  color: #245d46;
+}
+
+.not-found-button--secondary:hover {
+  border-color: #9fbea9;
+  background: #eef5f0;
+}
+
+.not-found-page :where(a, button):focus-visible {
+  outline: 3px solid rgba(53, 128, 94, 0.36);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .not-found-page {
+    padding: 0.75rem;
+  }
+
+  .not-found-shell {
+    min-height: calc(100dvh - 1.5rem);
+  }
+
+  .not-found-header {
+    padding-inline: 0.15rem;
+  }
+
+  .not-found-brand img {
+    width: 8.5rem;
+  }
+
+  .not-found-card {
+    width: 100%;
+    margin-block: 1.5rem;
+    padding: clamp(1.75rem, 7vw, 2.5rem) 1.25rem;
+  }
+
+  .not-found-card h1 {
+    font-size: clamp(2rem, 10vw, 3.1rem);
+  }
+
+  .not-found-card p {
+    font-size: 0.9rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+  }
+
+  .not-found-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .not-found-page {
+    padding: 0.65rem;
+  }
+
+  .not-found-brand img {
+    width: 7.75rem;
+  }
+
+  .not-found-card {
+    padding-inline: 1rem;
+  }
+
+  .not-found-language button {
+    min-width: 2rem;
+    padding-inline: 0.4rem;
+  }
+}
