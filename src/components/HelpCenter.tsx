@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import './HelpCenter.css';
 import { useI18n, type Language } from '../context/I18nContext';
+import { appPathname, siteAsset, sitePath } from '../site';
 
 type Icon = ComponentType<{ size?: number; strokeWidth?: number; 'aria-hidden'?: boolean | 'true' | 'false' }>;
 type CategoryId = 'getting-started' | 'finance' | 'fees' | 'operations' | 'account';
@@ -311,7 +312,7 @@ const helpContent: Record<Language, HelpContent> = {
 };
 
 function routeArticleSlug() {
-  const parts = window.location.pathname.split('/').filter(Boolean);
+  const parts = appPathname().split('/').filter(Boolean);
   return parts.length > 1 ? parts[1] : null;
 }
 
@@ -327,7 +328,8 @@ export default function HelpCenter() {
   const [activeCategory, setActiveCategory] = useState<CategoryId | 'all'>('all');
   const [selectedSlug, setSelectedSlug] = useState<string | null>(() => routeArticleSlug());
   const selectedArticle = c.articles.find((article) => article.slug === selectedSlug) ?? null;
-  const articlePathBase = language === 'pt' ? '/ajuda' : '/help';
+  const articleRouteBase = language === 'pt' ? '/ajuda' : '/help';
+  const articlePathBase = sitePath(articleRouteBase);
   const relatedArticles = selectedArticle
     ? c.articles.filter((article) => article.category === selectedArticle.category && article.slug !== selectedArticle.slug)
     : [];
@@ -342,9 +344,9 @@ export default function HelpCenter() {
   }, []);
 
   useEffect(() => {
-    const languageFromPath = window.location.pathname.startsWith('/help')
+    const languageFromPath = appPathname().startsWith('/help')
       ? 'en'
-      : window.location.pathname.startsWith('/ajuda')
+      : appPathname().startsWith('/ajuda')
         ? 'pt'
         : null;
     if (languageFromPath && languageFromPath !== language) setLanguage(languageFromPath);
@@ -393,7 +395,7 @@ export default function HelpCenter() {
     if (nextLanguage === language) return;
     setLanguage(nextLanguage);
     setSelectedSlug(null);
-    window.history.replaceState(null, '', nextLanguage === 'pt' ? '/ajuda' : '/help');
+    window.history.replaceState(null, '', sitePath(nextLanguage === 'pt' ? '/ajuda' : '/help'));
   };
 
   return (
@@ -401,12 +403,12 @@ export default function HelpCenter() {
       <a className="hc-skip-link" href="#help-content">{language === 'pt' ? 'Saltar para o conteúdo' : 'Skip to content'}</a>
       <header className="hc-header">
         <div className="hc-container hc-header-inner">
-          <a href="/" className="hc-brand" aria-label={c.home}>
-            <img src="/default-condominium-logo-light.png" alt={c.brandAlt} />
+          <a href={sitePath('/')} className="hc-brand" aria-label={c.home}>
+            <img src={siteAsset('default-condominium-logo-light.png')} alt={c.brandAlt} />
           </a>
           <div className="hc-header-actions">
-            <a className="hc-home-link" href="/"><ArrowLeft size={15} aria-hidden="true" />{c.homeLink}</a>
-            <a className="hc-login" href="/app">{c.login}</a>
+            <a className="hc-home-link" href={sitePath('/')}><ArrowLeft size={15} aria-hidden="true" />{c.homeLink}</a>
+            <a className="hc-login" href={sitePath('/app')}>{c.login}</a>
             <div className="hc-language" role="group" aria-label={c.languageLabel}>
               <button type="button" className={language === 'pt' ? 'is-active' : ''} aria-pressed={language === 'pt'} onClick={() => changeLanguage('pt')}>PT</button>
               <button type="button" className={language === 'en' ? 'is-active' : ''} aria-pressed={language === 'en'} onClick={() => changeLanguage('en')}>EN</button>
@@ -552,7 +554,7 @@ export default function HelpCenter() {
       <footer className="hc-footer">
         <div className="hc-container">
           <span>{c.footer}</span>
-          <a href="/app">{c.openApp}<ArrowRight size={15} aria-hidden="true" /></a>
+          <a href={sitePath('/app')}>{c.openApp}<ArrowRight size={15} aria-hidden="true" /></a>
         </div>
       </footer>
     </div>

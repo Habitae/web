@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@fontsource-variable/manrope';
 import { I18nProvider } from './context/I18nContext';
+import { appPathname } from './site';
 
-const isMarketingHomepage = window.location.pathname === '/';
-const isComingSoonPage = /^\/app\/?$/.test(window.location.pathname);
-const isHelpCenter = /^\/(?:ajuda|help)(?:\/|$)/.test(window.location.pathname);
+const pathname = appPathname();
+const isMarketingHomepage = pathname === '/';
+const isComingSoonPage = /^\/app\/?$/.test(pathname);
+const isHelpCenter = /^\/(?:ajuda|help)(?:\/|$)/.test(pathname);
 
 const loadSurface = isMarketingHomepage
   ? () => import('./components/MarketingPage')

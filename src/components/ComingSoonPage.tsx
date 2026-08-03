@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { useI18n, type Language } from '../context/I18nContext';
+import { siteAsset, sitePath } from '../site';
 import './ComingSoonPage.css';
 
 const copy: Record<Language, {
@@ -30,8 +31,8 @@ export default function ComingSoonPage() {
     <main className="coming-soon-page">
       <div className="coming-soon-shell">
         <header className="coming-soon-header">
-          <a className="coming-soon-brand" href="/" aria-label="Habitae">
-            <img src="/default-condominium-logo-light.png" alt="Habitae" />
+          <a className="coming-soon-brand" href={sitePath('/')} aria-label="Habitae">
+            <img src={siteAsset('default-condominium-logo-light.png')} alt="Habitae" />
           </a>
           <div className="coming-soon-language" role="group" aria-label={c.language}>
             <button type="button" className={language === 'pt' ? 'is-active' : ''} aria-pressed={language === 'pt'} onClick={() => setLanguage('pt')}>PT</button>
@@ -42,7 +43,7 @@ export default function ComingSoonPage() {
         <section className="coming-soon-card" aria-labelledby="coming-soon-title">
           <h1 id="coming-soon-title">{c.title}</h1>
           <p>{c.body}</p>
-          <a className="coming-soon-back" href="/">
+          <a className="coming-soon-back" href={sitePath('/')}>
             <ArrowLeft size={16} aria-hidden="true" />
             {c.back}
           </a>

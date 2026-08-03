@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import './MarketingPage.css';
 import { useI18n, type Language } from '../context/I18nContext';
+import { siteAsset, sitePath } from '../site';
 
 type Icon = ComponentType<{
   size?: number;
@@ -136,7 +137,7 @@ function Brand({ inverse = false, alt }: { inverse?: boolean; alt: string }) {
   return (
     <img
       className="mk-brand-logo"
-      src={inverse ? '/default-condominium-logo-dark.png' : '/default-condominium-logo-light.png'}
+      src={siteAsset(inverse ? 'default-condominium-logo-dark.png' : 'default-condominium-logo-light.png')}
       alt={alt}
     />
   );
@@ -370,7 +371,7 @@ export default function MarketingPage() {
 
       <header className="mk-header">
         <div className="mk-container mk-header-inner">
-          <a className="mk-brand" href="/" aria-label={c.homeLabel}>
+          <a className="mk-brand" href={sitePath('/')} aria-label={c.homeLabel}>
             <Brand alt={c.brandAlt} />
           </a>
 
@@ -396,11 +397,11 @@ export default function MarketingPage() {
               <a href="#planos" onClick={closeMenu}>{c.nav.pricing}</a>
               <a href="#como-funciona" onClick={closeMenu}>{c.nav.process}</a>
               <a href="#confianca" onClick={closeMenu}>{c.nav.trust}</a>
-              <a href={language === 'pt' ? '/ajuda' : '/help'} onClick={closeMenu}>{c.nav.help}</a>
+              <a href={sitePath(language === 'pt' ? '/ajuda' : '/help')} onClick={closeMenu}>{c.nav.help}</a>
             </div>
             <div className="mk-nav-actions">
-              <a className="mk-button mk-button--ghost" href="/app">{c.nav.login}</a>
-              <a className="mk-button mk-button--primary mk-button--compact" href="/app">
+              <a className="mk-button mk-button--ghost" href={sitePath('/app')}>{c.nav.login}</a>
+              <a className="mk-button mk-button--primary mk-button--compact" href={sitePath('/app')}>
                 {c.nav.open} <ArrowRight size={15} aria-hidden="true" />
               </a>
             </div>
@@ -423,7 +424,7 @@ export default function MarketingPage() {
                 {c.hero.lead}
               </p>
               <div className="mk-hero-actions">
-                <a className="mk-button mk-button--primary mk-button--large" href="/app">
+                <a className="mk-button mk-button--primary mk-button--large" href={sitePath('/app')}>
                   {c.hero.primary} <ArrowRight size={18} aria-hidden="true" />
                 </a>
                 <a className="mk-button mk-button--text" href="#plataforma">
@@ -563,7 +564,7 @@ export default function MarketingPage() {
                       ))}
                     </ul>
                     {plan.available ? (
-                      <a className="mk-button mk-button--primary mk-pricing-action" href="/app">
+                      <a className="mk-button mk-button--primary mk-pricing-action" href={sitePath('/app')}>
                         {plan.action} <ArrowRight size={15} aria-hidden="true" />
                       </a>
                     ) : (
@@ -586,7 +587,7 @@ export default function MarketingPage() {
             <div className="mk-process-intro">
               <h2 id="process-title">{c.process.title}</h2>
               <p>{c.process.intro}</p>
-              <a className="mk-button mk-button--light" href="/app">
+              <a className="mk-button mk-button--light" href={sitePath('/app')}>
                 {c.process.button} <ArrowRight size={16} aria-hidden="true" />
               </a>
             </div>
@@ -636,7 +637,7 @@ export default function MarketingPage() {
               <h2 id="cta-title">{c.cta.title}</h2>
               <p>{c.cta.intro}</p>
             </div>
-            <a className="mk-button mk-button--primary mk-button--large" href="/app">
+            <a className="mk-button mk-button--primary mk-button--large" href={sitePath('/app')}>
               {c.cta.button} <ArrowRight size={18} aria-hidden="true" />
             </a>
           </div>
@@ -660,9 +661,9 @@ export default function MarketingPage() {
               </div>
               <div>
                 <strong>{c.footer.access}</strong>
-                <a href={language === 'pt' ? '/ajuda' : '/help'}>{c.footer.help}</a>
-                <a href="/app">{c.footer.login}</a>
-                <a href="/app">{c.footer.open}</a>
+                <a href={sitePath(language === 'pt' ? '/ajuda' : '/help')}>{c.footer.help}</a>
+                <a href={sitePath('/app')}>{c.footer.login}</a>
+                <a href={sitePath('/app')}>{c.footer.open}</a>
               </div>
             </div>
           </div>
