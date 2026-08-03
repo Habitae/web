@@ -293,6 +293,7 @@ body.help-center-site {
   display: flex;
   flex-direction: column;
   gap: 0.18rem;
+  min-width: 0;
 }
 
 .hc-category-list button {
@@ -361,6 +362,7 @@ body.help-center-site {
 .hc-article-card {
   display: grid;
   min-height: 13.8rem;
+  min-width: 0;
   align-content: start;
   justify-items: start;
   padding: 1.05rem;
@@ -397,6 +399,7 @@ body.help-center-site {
 }
 
 .hc-article-card > strong {
+  min-width: 0;
   margin-top: 0.2rem;
   color: #2c3932;
   font-size: 0.91rem;
@@ -405,6 +408,9 @@ body.help-center-site {
 }
 
 .hc-article-card > span:not(.hc-article-icon):not(.hc-article-category) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   margin-top: 0.38rem;
   color: var(--hc-muted);
   font-size: 0.7rem;
@@ -737,9 +743,12 @@ body.help-center-site {
 
   .hc-sidebar {
     position: static;
+    min-width: 0;
   }
 
   .hc-category-list {
+    width: 100%;
+    max-width: 100%;
     flex-direction: row;
     overflow-x: auto;
     padding-bottom: 0.25rem;
@@ -756,10 +765,13 @@ body.help-center-site {
   }
 
   .hc-article-grid {
+    width: 100%;
+    min-width: 0;
     grid-template-columns: 1fr;
   }
 
   .hc-article-card {
+    width: 100%;
     min-height: 11rem;
   }
 

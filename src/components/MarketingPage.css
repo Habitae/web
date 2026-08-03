@@ -189,6 +189,10 @@ body.marketing-site {
   cursor: pointer;
 }
 
+.mk-mobile-dock {
+  display: none;
+}
+
 .mk-button {
   display: inline-flex;
   min-height: 2.7rem;
@@ -1919,7 +1923,8 @@ body.marketing-site {
   }
 
   .mk-feature-copy {
-    padding-top: 3rem;
+    margin-top: 2rem;
+    padding-top: 0;
   }
 
   .mk-pricing-grid {
@@ -1937,6 +1942,10 @@ body.marketing-site {
 
   .mk-pricing-card:last-child {
     border-bottom: 0;
+  }
+
+  .mk-pricing-card:nth-child(3) {
+    grid-column: auto;
   }
 
   .mk-pricing-description {
@@ -2019,6 +2028,60 @@ body.marketing-site {
   .mk-footer-utility {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .marketing-page {
+    padding-bottom: 5.75rem;
+  }
+
+  .mk-mobile-dock {
+    position: fixed;
+    z-index: 90;
+    right: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    left: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(4.25rem, 1.2fr);
+    gap: 0.25rem;
+    padding: 0.35rem;
+    border: 1px solid rgba(209, 220, 211, 0.96);
+    border-radius: 1rem;
+    background: rgba(255, 254, 250, 0.92);
+    box-shadow: 0 0.9rem 2.5rem rgba(35, 66, 51, 0.18);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .mk-mobile-dock a {
+    display: flex;
+    min-width: 0;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.18rem;
+    flex-direction: column;
+    border-radius: 0.7rem;
+    color: #66746c;
+    font-size: 0.58rem;
+    font-weight: 750;
+    line-height: 1;
+  }
+
+  .mk-mobile-dock a:hover,
+  .mk-mobile-dock a.is-current {
+    background: #edf4ee;
+    color: var(--mk-forest-dark);
+  }
+
+  .mk-mobile-dock a.mk-mobile-dock-primary {
+    flex-direction: row;
+    gap: 0.3rem;
+    background: var(--mk-forest);
+    color: #fff;
+  }
+
+  .mk-mobile-dock a.mk-mobile-dock-primary:hover {
+    background: var(--mk-forest-dark);
   }
 }
 

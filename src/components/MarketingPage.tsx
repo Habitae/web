@@ -1,6 +1,7 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import {
   ArrowRight,
+  BookOpen,
   CalendarCheck2,
   Check,
   ChevronRight,
@@ -107,6 +108,7 @@ const pageCopy = {
     meta: { title: 'Habitae: Gestão de condomínios, sem ruído', description: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', socialDescription: 'Finanças, quotas, documentos, pessoas e tarefas do condomínio, num só lugar.', locale: 'pt_PT' },
     brandAlt: 'Habitae, Gestão de Condomínios', skip: 'Saltar para o conteúdo', homeLabel: 'Habitae, página inicial', menuOpen: 'Abrir menu', menuClose: 'Fechar menu', navigationLabel: 'Navegação principal',
     nav: { platform: 'Plataforma', features: 'Funcionalidades', pricing: 'Planos', process: 'Como funciona', trust: 'Confiança', help: 'Ajuda', login: 'Entrar', open: 'Abrir Habitae' },
+    mobileNav: { label: 'Atalhos rápidos', home: 'Início', product: 'Produto', help: 'Ajuda', open: 'Abrir' },
     hero: { eyebrow: 'Gestão de condomínios, sem ruído', line1: 'O condomínio', line2: 'inteiro.', accent: 'Num só lugar.', lead: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa área de trabalho clara, para gerir melhor e explicar tudo com confiança.', primary: 'Começar com 15 dias gratuitos', secondary: 'Conhecer a plataforma', pointsLabel: 'Vantagens principais', points: ['Pensado para Portugal', 'Vários condomínios', 'Dados no seu controlo'] },
     context: { label: 'Uma única fonte de verdade para', items: ['Finanças', 'Condóminos', 'Operação', 'Documentos'] },
     outcomes: { kicker: 'A plataforma', title1: 'Menos dispersão.', title2: 'Mais controlo.', intro: 'Troque ficheiros isolados, notas soltas e processos difíceis de seguir por uma visão partilhada e sempre pronta a consultar.', items: [{ title: 'Veja primeiro o que importa', description: 'Saldos, quotas, orçamento e alertas resumidos para decidir onde agir.' }, { title: 'Gira tudo no mesmo contexto', description: 'Cada condomínio mantém os seus dados, pessoas e operação bem organizados.' }, { title: 'Partilhe com confiança', description: 'Informação coerente, documentos consistentes e acessos adequados a cada função.' }] },
@@ -121,6 +123,7 @@ const pageCopy = {
     meta: { title: 'Habitae: Clear condominium management', description: 'Habitae brings finances, fees, documents, people and tasks together in one clear condominium management platform.', socialDescription: 'Your condominium finances, fees, documents, people and tasks in one place.', locale: 'en_GB' },
     brandAlt: 'Habitae, Condominium Management', skip: 'Skip to content', homeLabel: 'Habitae, home page', menuOpen: 'Open menu', menuClose: 'Close menu', navigationLabel: 'Main navigation',
     nav: { platform: 'Platform', features: 'Features', pricing: 'Plans', process: 'How it works', trust: 'Trust', help: 'Help', login: 'Log in', open: 'Open Habitae' },
+    mobileNav: { label: 'Quick links', home: 'Home', product: 'Product', help: 'Help', open: 'Open' },
     hero: { eyebrow: 'Condominium management without the noise', line1: 'Your whole', line2: 'condominium.', accent: 'In one place.', lead: 'Habitae brings finances, fees, documents, people and tasks together in a clear workspace, so you can manage better and explain everything with confidence.', primary: 'Start with 15 free days', secondary: 'Explore the platform', pointsLabel: 'Key benefits', points: ['Built for Portugal', 'Multiple condominiums', 'Your data, your control'] },
     context: { label: 'One reliable source for', items: ['Finances', 'Residents', 'Operations', 'Documents'] },
     outcomes: { kicker: 'The platform', title1: 'Less clutter.', title2: 'More control.', intro: 'Replace isolated files, scattered notes and hard-to-follow processes with a shared view that is always ready to consult.', items: [{ title: 'See what matters first', description: 'Balances, fees, budgets and alerts summarised so you know where to act.' }, { title: 'Manage everything in context', description: 'Each condominium keeps its data, people and operations neatly organised.' }, { title: 'Share with confidence', description: 'Consistent information and documents, with the right access for every role.' }] },
@@ -643,6 +646,25 @@ export default function MarketingPage() {
           </div>
         </section>
       </main>
+
+      <nav className="mk-mobile-dock" aria-label={c.mobileNav.label}>
+        <a className="is-current" href={sitePath('/')}>
+          <Home size={17} aria-hidden="true" />
+          <span>{c.mobileNav.home}</span>
+        </a>
+        <a href="#funcionalidades">
+          <LayoutDashboard size={17} aria-hidden="true" />
+          <span>{c.mobileNav.product}</span>
+        </a>
+        <a href={sitePath(language === 'pt' ? '/ajuda' : '/help')}>
+          <BookOpen size={17} aria-hidden="true" />
+          <span>{c.mobileNav.help}</span>
+        </a>
+        <a className="mk-mobile-dock-primary" href={sitePath('/app')}>
+          <ArrowRight size={16} aria-hidden="true" />
+          <span>{c.mobileNav.open}</span>
+        </a>
+      </nav>
 
       <footer className="mk-footer">
         <div className="mk-container">
