@@ -1,0 +1,177 @@
+html:has(.coming-soon-page) {
+  background: var(--habitae-canvas);
+}
+
+body:has(.coming-soon-page) {
+  margin: 0;
+  background: var(--habitae-canvas);
+  color: var(--habitae-ink);
+  font-family: var(--habitae-font);
+}
+
+.coming-soon-page *,
+.coming-soon-page *::before,
+.coming-soon-page *::after {
+  box-sizing: border-box;
+}
+
+.coming-soon-page {
+  min-height: 100dvh;
+  padding: var(--space-4);
+  background: var(--habitae-canvas);
+}
+
+.coming-soon-shell {
+  display: grid;
+  width: min(100%, var(--page-width));
+  min-height: calc(100dvh - var(--space-8));
+  margin: 0 auto;
+  grid-template-rows: auto 1fr;
+}
+
+.coming-soon-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: var(--space-2) 0;
+  min-height: 4.5rem;
+}
+
+.coming-soon-brand img {
+  display: block;
+  width: 10.5rem;
+  height: auto;
+}
+
+.coming-soon-language {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  border: 1px solid #d9dfd8;
+  border-radius: 99px;
+  background: var(--habitae-surface);
+}
+
+.coming-soon-language a {
+  min-width: 2.25rem;
+  padding: 0.38rem 0.5rem;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  color: var(--habitae-muted);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 2rem;
+}
+
+.coming-soon-language a.is-active {
+  background: #245d46;
+  color: #fff;
+}
+
+.coming-soon-card {
+  display: flex;
+  width: min(100%, 48rem);
+  align-self: center;
+  margin: 0 auto;
+  padding: var(--space-8);
+  flex-direction: column;
+  border: 1px solid var(--habitae-line);
+  border-radius: var(--radius-card);
+  background: var(--habitae-surface);
+}
+
+.coming-soon-card h1 {
+  max-width: 38rem;
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.coming-soon-card p {
+  max-width: 34rem;
+  margin: var(--space-4) 0 0;
+  color: var(--habitae-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.coming-soon-back {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: var(--space-4);
+  color: #173f31;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--habitae-brand);
+  border-radius: var(--radius-button);
+  text-decoration: none;
+}
+
+.coming-soon-back:hover {
+  color: #245d46;
+}
+
+@media (max-width: 600px) {
+  .coming-soon-page {
+    padding: var(--space-2);
+  }
+
+  .coming-soon-shell {
+    min-height: calc(100dvh - 1.5rem);
+  }
+
+  .coming-soon-header {
+    padding-inline: 0.15rem;
+  }
+
+  .coming-soon-brand img {
+    width: 8.5rem;
+  }
+
+  .coming-soon-card {
+    width: min(100%, 48rem);
+    padding: var(--space-4);
+  }
+
+  .coming-soon-card h1 {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+
+  .coming-soon-card p {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 360px) {
+  .coming-soon-page {
+    padding: var(--space-2);
+  }
+
+  .coming-soon-brand img {
+    width: 7.75rem;
+  }
+
+  .coming-soon-language a {
+    min-width: 2rem;
+    padding-inline: 0.4rem;
+  }
+
+  .coming-soon-card {
+    padding-inline: var(--space-4);
+  }
+}
+
+.coming-soon-page { padding: 0; }
+.coming-soon-shell { width: min(calc(100% - 3rem), var(--page-width)); min-height: 65dvh; grid-template-rows: 1fr; padding-block: 3rem; }

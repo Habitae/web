@@ -1,0 +1,18 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "habitae-agent-edge",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-06",
+  "workers_dev": false,
+  "preview_urls": false,
+  // Keep local requests on localhost; route inference otherwise uses habitae.pt.
+  "dev": { "host": "localhost" },
+  "routes": [{ "pattern": "habitae.pt/*", "zone_name": "habitae.pt" }],
+  "assets": {
+    "directory": "../../dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  }
+}

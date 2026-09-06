@@ -1,0 +1,12 @@
+.waitlist { margin-block: 2rem; text-align: left; }
+.waitlist h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+.waitlist form { display: grid; gap: .75rem; }
+.waitlist input[type='email'], .waitlist select { width: 100%; min-height: 48px; padding: .75rem; border: 1px solid var(--habitae-line); border-radius: 12px; background: var(--habitae-surface); color: var(--habitae-ink); font: inherit; }
+.waitlist-consent { display: flex; gap: .75rem; align-items: flex-start; font-size: .875rem; }
+.waitlist-consent input { margin-top: .25rem; min-width: 20px; min-height: 20px; }
+.waitlist button { min-height: 48px; padding: .75rem 1.5rem; border: 0; border-radius: 12px; background: var(--habitae-brand); color: var(--habitae-surface); font: inherit; cursor: pointer; }
+.waitlist button:disabled { opacity: .65; cursor: wait; }
+.waitlist-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.waitlist :focus-visible { outline: 2px solid var(--habitae-brand); outline-offset: 3px; }
+
+.waitlist a { color: var(--habitae-brand); }

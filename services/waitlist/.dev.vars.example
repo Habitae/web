@@ -1,0 +1,2 @@
+# Local Worker secret. Copy to .dev.vars and keep the real key out of git.
+RESEND_API_KEY=

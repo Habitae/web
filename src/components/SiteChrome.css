@@ -1,0 +1,472 @@
+
+
+.mk-container {
+  width: min(100% - var(--space-8), var(--page-width));
+  margin-inline: auto;
+}
+
+.mk-header {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  border-bottom: 1px solid var(--mk-line);
+  background: var(--mk-cream);
+}
+
+.mk-header-inner {
+  position: relative;
+  display: flex;
+  min-height: 4.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.mk-brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.mk-brand-logo {
+  display: block;
+  width: 10.4rem;
+  height: auto;
+}
+
+.mk-navigation {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(1.5rem, 4vw, 3.25rem);
+}
+
+.mk-nav-links,
+.mk-nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.mk-nav-links {
+  gap: clamp(1rem, 2.2vw, 1.8rem);
+}
+
+.mk-nav-links a {
+  position: relative;
+  padding-block: 0.4rem;
+  color: #4d5a54;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.mk-nav-links a::after {
+  position: absolute;
+  right: 50%;
+  bottom: 0;
+  left: 50%;
+  height: 1px;
+  background: var(--mk-forest);
+  content: '';
+  transition: right 180ms ease, left 180ms ease;
+}
+
+.mk-nav-links a:hover {
+  color: var(--mk-forest-dark);
+}
+
+.mk-nav-links a:hover::after {
+  right: 0;
+  left: 0;
+}
+
+.mk-nav-actions {
+  gap: 0.55rem;
+}
+
+.mk-menu-toggle {
+  display: none;
+  width: 2.7rem;
+  height: 2.7rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--mk-line);
+  border-radius: var(--radius-panel);
+  background: var(--mk-white);
+  color: var(--mk-ink);
+  cursor: pointer;
+}
+
+.mk-mobile-header-actions {
+  display: none;
+}
+
+.mk-button {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.mk-button--primary {
+  border-color: var(--mk-forest);
+  background: var(--mk-forest);
+  color: #fff !important;
+}
+
+.mk-button--primary:hover {
+  border-color: var(--mk-forest-dark);
+  background: var(--mk-forest-dark);
+}
+
+.mk-button--ghost {
+  color: #35443d;
+}
+
+.mk-button--ghost:hover {
+  border-color: var(--mk-line);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.mk-button--compact {
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+}
+
+.mk-button--large {
+  min-height: 3.25rem;
+  padding-inline: var(--space-4);
+  font-size: 0.875rem;
+}
+
+.mk-button--text {
+  padding-inline: 0.6rem;
+  color: var(--mk-forest-dark);
+}
+
+.mk-button--text:hover {
+  background: rgba(36, 93, 70, 0.07);
+}
+
+.mk-footer {
+  padding: var(--space-8) 0 var(--space-4);
+  border-top: 1px solid var(--mk-line);
+  background: var(--mk-cream);
+  color: var(--mk-ink);
+}
+
+.mk-footer-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+  gap: var(--space-12);
+}
+
+.mk-footer-brand .mk-brand-logo {
+  width: 10.4rem;
+}
+
+.mk-footer-brand p {
+  max-width: 17rem;
+  margin-top: var(--space-2);
+  color: var(--mk-muted);
+  font-size: 0.875rem;
+}
+
+.mk-footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-8);
+}
+
+.mk-footer-links ul {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mk-footer-links h2 {
+  color: var(--mk-ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.mk-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  color: var(--mk-muted);
+  font-size: 0.875rem;
+}
+
+.mk-footer-links a:hover,
+.mk-footer-legal a:hover {
+  color: var(--mk-forest);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.mk-footer-copyright {
+  display: block;
+  color: var(--mk-muted);
+  font-size: 0.75rem;
+}
+
+.mk-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--mk-line);
+}
+
+.mk-footer-legal {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+  color: var(--mk-muted);
+  font-size: 0.75rem;
+}
+
+.mk-footer-legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+@media (max-width: 1080px) {
+  .mk-footer-main {
+    gap: var(--space-8);
+  }
+
+  .mk-footer-links {
+    gap: var(--space-4);
+  }}
+
+@media (max-width: 900px) {
+  .mk-footer-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mk-footer-copyright {
+    flex-basis: 100%;
+  }}
+
+.mk-language-toggle {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+
+.mk-language-toggle a {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--mk-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: color 150ms ease;
+  min-height: 2.75rem;
+}
+
+.mk-language-toggle a:hover {
+  color: var(--mk-forest);
+}
+
+.mk-language-toggle a.is-active {
+  color: var(--mk-forest);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+@media (max-width: 1080px) {
+  .mk-header-inner {
+    gap: 1rem;
+  }
+
+  .mk-navigation {
+    gap: 1.25rem;
+  }
+
+  .mk-nav-links {
+    gap: 0.85rem;
+  }
+
+  .mk-nav-links a {
+    font-size: 0.875rem;
+  }}
+
+@media (max-width: 900px) {
+  .mk-mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .mk-menu-toggle {
+    display: grid;
+  }
+
+  .mk-navigation {
+    position: absolute;
+    top: calc(100% - 0.25rem);
+    right: 0;
+    left: 0;
+    display: none;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    padding: 0.8rem;
+    border: 1px solid var(--mk-line);
+    border-radius: 0.75rem;
+    background: rgba(255, 254, 250, 0.98);
+  }
+
+  .mk-navigation.is-open {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .mk-nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.3rem;
+  }
+
+  .mk-nav-links a {
+    min-height: 2.75rem;
+    padding: 0.75rem;
+    border-radius: 0.45rem;
+    font-size: 0.875rem;
+  }
+
+  .mk-nav-links a:hover {
+    background: #f2f3ed;
+  }
+
+  .mk-nav-links a::after {
+    display: none;
+  }
+
+  .mk-nav-actions {
+    justify-content: flex-end;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--mk-line);
+  }}
+
+@media (max-width: 680px) {
+  .mk-container {
+    width: calc(100% - var(--space-8));
+  }
+
+  .mk-header-inner {
+    min-height: 4.4rem;
+  }
+
+  .mk-brand-logo {
+    width: 8.8rem;
+  }
+
+  .mk-nav-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mk-nav-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: stretch;
+  }
+
+  .mk-nav-actions .mk-button {
+    width: 100%;
+  }
+
+  .mk-hero-actions .mk-button {
+    width: 100%;
+  }
+
+  .mk-footer-main {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .mk-footer-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8) var(--space-4);
+  }
+
+  .mk-footer-links a {
+    min-height: 2.75rem;
+  }
+
+  .mk-footer-links > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .mk-footer-links > div:last-child ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+  }
+
+  .mk-footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .mk-footer-legal {
+    gap: 0 var(--space-2);
+  }}
+
+.site-chrome {
+  --mk-forest: var(--habitae-brand);
+  --mk-forest-dark: var(--habitae-brand-dark);
+  --mk-ink: var(--habitae-ink);
+  --mk-muted: var(--habitae-muted);
+  --mk-cream: var(--habitae-canvas);
+  --mk-cream-strong: var(--habitae-sand);
+  --mk-white: var(--habitae-surface);
+  --mk-line: var(--habitae-line);
+  color: var(--mk-ink);
+  font-family: var(--habitae-font);
+  line-height: 1.55;
+}
+.site-chrome *, .site-chrome *::before, .site-chrome *::after { box-sizing: border-box; }
+.site-chrome a { text-decoration: none; }
+.site-chrome h2, .site-chrome p { margin: 0; }
+.site-chrome .mk-footer-brand p { margin-top: var(--space-2); }
+.site-chrome button { font: inherit; cursor: pointer; }
+.site-chrome :where(a, button):focus-visible { outline: 3px solid var(--habitae-brand); outline-offset: 3px; }
+.site-chrome .mk-nav-links a[aria-current='page'] { color: var(--mk-forest); text-decoration: underline; text-underline-offset: 5px; }
+/* Choose the fallback before first paint, without resizing the header at hydration. */
+@media (max-width: 900px) and (scripting: none) {
+  .site-chrome .mk-header-inner { flex-wrap: wrap; padding-block: 1rem; }
+  .site-chrome .mk-mobile-header-actions { display: none; }
+  .site-chrome .mk-navigation { display: grid; position: static; flex-basis: 100%; }
+}
+@media print { .site-chrome { display: none; } }
+.site-chrome .mk-nav-links a { color: #4d5a54; }
+.site-chrome .mk-nav-links a:hover { color: var(--mk-forest-dark); }
+.site-chrome .mk-button--ghost { color: #35443d; }
+.site-chrome .mk-footer-links h2 { color: var(--mk-ink); font-size: 0.875rem; font-weight: 500; letter-spacing: normal; line-height: 1.55; }
+.site-chrome .mk-footer-links a, .site-chrome .mk-footer-legal a, .site-chrome .mk-language-toggle a { color: var(--mk-muted); }
+.site-chrome .mk-footer-links a:hover, .site-chrome .mk-footer-legal a:hover, .site-chrome .mk-language-toggle a:hover, .site-chrome .mk-language-toggle a.is-active { color: var(--mk-forest); }
+.legal-page .legal-article section { scroll-margin-top: 6rem; }
+.legal-page .legal-contents { top: 6rem; max-height: calc(100dvh - 7.5rem); }
+@media (max-width: 720px) { .legal-page .legal-contents { max-height: none; } }
+@media (max-width: 900px) and (scripting: none) { .site-chrome.mk-header { position: static; } }
+.legal-skip { z-index: 200; }
+.site-chrome .mk-brand, .site-chrome .mk-footer-brand > a { color: var(--mk-ink); }

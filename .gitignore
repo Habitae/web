@@ -1,0 +1,31 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+test-results/
+playwright-report/
+audit-results/
+.wrangler/
+agent-verification/
+
+# Local configuration and credentials; only example settings belong in Git.
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+wrangler.local.jsonc
+/services/waitlist/wrangler.jsonc
+
+# Internal notes, local tooling, and data exports.
+.private/
+.agents/
+.codex/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.db-shm
+*.db-wal

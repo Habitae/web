@@ -1,0 +1,32 @@
+.cookie-settings-button {
+  display: inline-block;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cookie-settings-button:hover {
+  color: var(--habitae-brand);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cookie-settings-button:focus-visible {
+  outline: 3px solid var(--habitae-brand);
+  outline-offset: 3px;
+}
+
+.cookie-simple-footer {
+  padding-top: var(--space-8);
+  color: var(--habitae-muted);
+  font: 0.875rem/1.5 var(--habitae-font);
+}
+
+@media print {
+  .cookie-settings-button { display: none; }
+}

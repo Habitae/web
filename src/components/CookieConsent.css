@@ -1,0 +1,377 @@
+/* Cream canvas, flat surfaces, 6px spacing and 500-weight headings. */
+.cookie-consent {
+  color: var(--habitae-ink);
+  font: 1rem/1.5 var(--habitae-font);
+  color-scheme: light;
+}
+
+.cookie-consent *,
+.cookie-consent *::before,
+.cookie-consent *::after {
+  box-sizing: border-box;
+}
+
+.cookie-consent h2,
+.cookie-consent h3,
+.cookie-consent p {
+  margin: 0;
+}
+
+.cookie-consent button,
+.cookie-consent input {
+  font-family: inherit;
+}
+
+.cookie-consent button {
+  cursor: pointer;
+}
+
+.cookie-consent a {
+  color: var(--habitae-brand);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cookie-consent :where(button, input, a):focus-visible {
+  outline: 3px solid var(--habitae-brand);
+  outline-offset: 3px;
+}
+
+.cookie-banner {
+  position: fixed;
+  z-index: 1000;
+  inset: auto 0 0;
+  max-height: 100dvh;
+  overflow-y: auto;
+  padding-block: var(--space-4) max(var(--space-4), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--habitae-line);
+  background: var(--habitae-sand);
+}
+
+.cookie-banner-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-8);
+  width: min(calc(100% - var(--space-8)), var(--page-width));
+  margin-inline: auto;
+}
+
+.cookie-banner h2 {
+  margin-bottom: var(--space-1);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+
+.cookie-banner p {
+  max-width: 72ch;
+  color: var(--habitae-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.cookie-banner .cookie-actions {
+  grid-template-columns: repeat(2, minmax(9.5rem, 1fr)) auto;
+  align-items: center;
+}
+
+.cookie-banner .cookie-choice {
+  padding-inline: var(--space-2);
+}
+
+.cookie-banner .cookie-choice:hover {
+  background: var(--habitae-surface);
+}
+
+.cookie-banner .cookie-customise {
+  grid-column: auto;
+  padding-inline: var(--space-2);
+}
+
+.cookie-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.cookie-choice,
+.cookie-save,
+.cookie-customise {
+  min-height: var(--space-8);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--habitae-ink);
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--habitae-ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.43;
+}
+
+.cookie-choice:hover {
+  background: var(--habitae-sand);
+}
+
+.cookie-customise {
+  grid-column: 1 / -1;
+  justify-self: center;
+  border-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cookie-customise:hover {
+  color: var(--habitae-brand);
+}
+
+.cookie-dialog {
+  width: min(52rem, calc(100% - var(--space-8)));
+  max-height: calc(100dvh - var(--space-8));
+  overflow-y: auto;
+  padding: var(--space-8);
+  border: 1px solid var(--habitae-line);
+  border-radius: var(--radius-panel);
+  background: var(--habitae-canvas);
+  color: var(--habitae-ink);
+  font: inherit;
+}
+
+.cookie-dialog::backdrop {
+  background: rgb(23 37 31 / 35%);
+}
+
+.cookie-dialog-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.cookie-dialog h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.cookie-close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--space-8);
+  height: var(--space-8);
+  border: 1px solid var(--habitae-line);
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--habitae-muted);
+}
+
+.cookie-close:hover {
+  color: var(--habitae-ink);
+  border-color: var(--habitae-ink);
+}
+
+.cookie-dialog > p,
+.cookie-category p {
+  color: var(--habitae-muted);
+}
+
+.cookie-categories {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-block: var(--space-8) var(--space-4);
+}
+
+.cookie-category {
+  padding: var(--space-4);
+  border: 1px solid var(--habitae-line);
+  border-radius: var(--radius-card);
+  background: var(--habitae-surface);
+}
+
+.cookie-category:first-child {
+  border-color: transparent;
+  background: var(--habitae-sand);
+}
+
+.cookie-category:has(input:checked) {
+  border-color: var(--habitae-ink);
+}
+
+.cookie-category-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+.cookie-category h3,
+label.cookie-category-heading {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.cookie-category-heading > span:last-child,
+.cookie-category small {
+  color: var(--habitae-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.cookie-category small {
+  display: block;
+  margin-top: var(--space-1);
+}
+
+.cookie-category label {
+  cursor: pointer;
+}
+
+.cookie-category input {
+  appearance: none;
+  flex-shrink: 0;
+  width: var(--space-8);
+  height: var(--space-4);
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--habitae-muted);
+  border-radius: var(--radius-panel);
+  background: var(--habitae-sand);
+  cursor: pointer;
+}
+
+.cookie-category input::before {
+  content: '';
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--habitae-muted);
+}
+
+.cookie-category input:checked {
+  border-color: var(--habitae-brand);
+  background: var(--habitae-brand);
+}
+
+.cookie-category input:checked::before {
+  transform: translateX(var(--space-4));
+  background: var(--habitae-surface);
+}
+
+.cookie-dialog .cookie-tracking-note {
+  margin-bottom: var(--space-8);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.cookie-dialog .cookie-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--habitae-sand);
+}
+
+.cookie-save {
+  border-color: transparent;
+  background: var(--habitae-brand);
+  color: var(--habitae-surface);
+}
+
+.cookie-save:hover {
+  background: var(--habitae-brand-dark);
+}
+
+.cookie-storage-notice {
+  position: fixed;
+  z-index: 1001;
+  bottom: var(--space-16);
+  left: var(--space-4);
+  max-width: min(25rem, calc(100% - var(--space-8)));
+  padding: var(--space-4);
+  border: 1px solid var(--habitae-line);
+  border-radius: var(--radius-card);
+  background: var(--habitae-surface);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 960px) {
+  .cookie-banner-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .cookie-banner .cookie-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-self: start;
+  }
+
+  .cookie-banner .cookie-customise {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .cookie-dialog {
+    padding: var(--space-4);
+  }
+
+  .cookie-dialog h2 {
+    font-size: 1.625rem;
+    line-height: 1.3;
+  }
+
+  .cookie-categories {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: var(--space-4);
+  }
+
+  .cookie-dialog .cookie-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: var(--space-2);
+  }
+
+  .cookie-save {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .cookie-banner .cookie-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-self: stretch;
+  }
+
+  .cookie-banner .cookie-customise {
+    grid-column: 1 / -1;
+  }
+
+  .cookie-dialog .cookie-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cookie-dialog {
+    width: calc(100% - var(--space-4));
+    max-height: calc(100dvh - var(--space-4));
+  }
+
+  .cookie-categories {
+    gap: var(--space-2);
+  }
+}
+
+@media (forced-colors: active) {
+  .cookie-category input { appearance: auto; }
+  .cookie-category input::before { display: none; }
+}
+
+@media print {
+  .cookie-consent { display: none; }
+}

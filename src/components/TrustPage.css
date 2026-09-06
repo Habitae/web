@@ -1,0 +1,2 @@
+.trust-page .legal-documents { flex-wrap: wrap; column-gap: var(--space-4); row-gap: 0; }
+.trust-page .legal-article a { overflow-wrap: anywhere; }
