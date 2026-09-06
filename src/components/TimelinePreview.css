@@ -1,0 +1,21 @@
+.mk-product-preview {
+  margin: 0;
+  min-width: 0;
+}
+
+.tp-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 825;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius-panel);
+}
+
+.tp-caption {
+  margin-top: var(--space-2);
+  color: var(--mk-muted);
+  font-size: 0.75rem;
+  text-align: right;
+}

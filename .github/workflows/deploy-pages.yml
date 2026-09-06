@@ -1,0 +1,138 @@
+name: Deploy Habitae web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Cache pnpm store
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Test navigation, consent and waitlist
+        run: pnpm test
+
+      - name: Install browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Test browser behavior through the agent Worker
+        run: pnpm test:edge
+
+      - name: Build website
+        env:
+          VITE_WAITLIST_ENDPOINT: ${{ vars.VITE_WAITLIST_ENDPOINT }}
+          VITE_GTM_ID: ${{ vars.VITE_GTM_ID }}
+          VITE_AHREFS_VERIFICATION: ${{ vars.VITE_AHREFS_VERIFICATION }}
+          VITE_GOOGLE_SITE_VERIFICATION: ${{ vars.VITE_GOOGLE_SITE_VERIFICATION }}
+        run: |
+          if [ -z "$VITE_WAITLIST_ENDPOINT" ]; then
+            echo "::error::Set the VITE_WAITLIST_ENDPOINT repository variable before deploying."
+            exit 1
+          fi
+          pnpm build
+
+      - name: Verify rendered pages
+        run: pnpm test:build
+
+      - name: Verify all public Worker endpoints
+        run: pnpm test:edge:http
+
+      - name: Validate Worker bundle
+        run: pnpm edge:check
+
+      - name: Audit Lighthouse
+        run: |
+          export CHROME_PATH="$(node --input-type=module -e "import { chromium } from '@playwright/test'; console.log(chromium.executablePath())")"
+          pnpm audit:lighthouse
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: audit-results/
+          if-no-files-found: ignore
+
+      - name: Upload matching Worker assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: habitae-edge-assets
+          path: dist/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-edge:
+    if: vars.CLOUDFLARE_AGENT_EDGE_ENABLED == 'true'
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: habitae-edge-assets
+          path: dist
+      - name: Deploy verified Worker and assets
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: pnpm edge:deploy
+      - name: Verify public endpoints after deployment
+        run: pnpm verify:agents https://habitae.pt
+      - name: Save endpoint verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-endpoint-verification
+          path: agent-verification/

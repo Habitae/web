@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Habitae: Gestão de condomínios</title>
+  <desc id="description">Gestão de condomínios clara, organizada e no seu controlo.</desc>
+  <rect width="1200" height="630" fill="#f7f5ee"/>
+  <circle cx="1060" cy="72" r="260" fill="#dfeae2" opacity="0.7"/>
+  <circle cx="1130" cy="40" r="140" fill="#89a997" opacity="0.18"/>
+  <path d="M0 540C230 450 390 560 620 510s360-130 580-30v150H0Z" fill="#e5ecdf" opacity="0.7"/>
+  <rect x="72" y="70" width="1056" height="490" rx="12" fill="#fffefa" stroke="#dedfd7"/>
+  <image x="112" y="106" width="292" height="95" preserveAspectRatio="xMinYMid meet" xlink:href="default-condominium-logo-light.png"/>
+  <text x="112" y="316" fill="#17251f" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="700" letter-spacing="-2.5">Gestão de condomínios</text>
+  <text x="112" y="385" fill="#245d46" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" letter-spacing="-1.5">clara e no seu controlo.</text>
+  <rect x="112" y="455" width="176" height="5" rx="2.5" fill="#245d46"/>
+  <text x="112" y="510" fill="#68746e" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" letter-spacing="1">HABITAE.PT</text>
+</svg>
