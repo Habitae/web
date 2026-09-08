@@ -1,9 +1,10 @@
+import { withFrench, locales } from '../../shared/i18n.mjs';
 import { ArrowRight, CalendarCheck2, FileText, Home, ReceiptText, Wrench } from 'lucide-react';
 import type { Language } from '../context/I18nContext';
-import { sitePath } from '../site';
+import { sitePath, helpRoot } from '../site';
 import './ProductExamples.css';
 
-const copy = {
+const copy = withFrench({
   pt: {
     label: 'Funcionalidades', example: 'Exemplo ilustrativo',
     finance: { title: 'Saiba o que entrou e o que falta pagar.', description: 'Registe receitas e despesas, acompanhe quotas por fração e consulte os saldos do condomínio.', details: ['Orçamentos e fundo de reserva', 'Pagamentos e recibos ligados a cada fração'], link: 'Como gerir quotas', slug: 'criar-plano-quotas' },
@@ -22,11 +23,11 @@ const copy = {
     directory: 'Units and contacts', owner: 'Owner', share: 'Share', units: ['1st left', '1st right', '2nd left'],
     agenda: 'Condominium agenda', meeting: 'General meeting', date: '22 July · 18:30', notice: 'Meeting notice', agendaDoc: 'Meeting agenda', maintenance: 'Lift inspection', maintenanceDate: '24 July', scheduled: 'Scheduled',
   },
-} as const;
+} as const);
 
 export default function ProductExamples({ language }: { language: Language }) {
   const c = copy[language];
-  const currency = new Intl.NumberFormat(language === 'pt' ? 'pt-PT' : 'en-IE', { style: 'currency', currency: 'EUR' });
+  const currency = new Intl.NumberFormat(locales[language], { style: 'currency', currency: 'EUR' });
   const examples = [
     {
       id: 'financas', ...c.finance,
@@ -76,7 +77,7 @@ export default function ProductExamples({ language }: { language: Language }) {
               <h2 id={`${id}-title`}>{title}</h2>
               <p>{description}</p>
               {details.length > 0 && <ul>{details.map(detail => <li key={detail}>{detail}</li>)}</ul>}
-              <a className="mk-example-link" href={sitePath(`/${language === 'pt' ? 'ajuda' : 'help'}/${slug}`, language)}>{link}<ArrowRight size={16} aria-hidden="true" /></a>
+              <a className="mk-example-link" href={sitePath(`${helpRoot(language)}/${slug}`, language)}>{link}<ArrowRight size={16} aria-hidden="true" /></a>
             </div>
             <figure className="mk-example-figure">
               <div className="mk-example-panel">{preview}</div>

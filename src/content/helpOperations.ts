@@ -1,7 +1,8 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import type { Guide } from './helpTypes';
 
 export const operationsGuides: Guide[] = [
-  {
+  withFrench({
     id: 'suppliers', category: 'operations', next: ['maintenance', 'transaction'],
     pt: {
       slug: 'gerir-fornecedores', title: 'Adicionar e gerir fornecedores', excerpt: 'Guarde os contactos de quem presta serviços ao condomínio.',
@@ -19,8 +20,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Correct or delete', paragraphs: ['Edit and update the existing contact to correct details.', 'Deleting a supplier removes their association from linked transactions and tasks. Read the confirmation and correct the details instead when the contact is still needed for your records.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'maintenance', category: 'operations', next: ['notices', 'suppliers'],
     pt: {
       slug: 'planear-manutencao', title: 'Criar e acompanhar uma tarefa de manutenção', excerpt: 'Registe um problema, atribua um fornecedor e acompanhe o trabalho até à conclusão.',
@@ -40,8 +41,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Record actual cost', note: 'Estimated cost is a forecast. Completing a task does not automatically record a paid expense; enter the financial transaction when it exists.' },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'cleaning', category: 'operations', next: ['suppliers', 'documents'],
     pt: {
       slug: 'limpeza-folha-presencas', title: 'Planear limpezas e gerar a folha de presenças', excerpt: 'Agende visitas, marque o trabalho realizado e prepare o registo mensal em PDF.',
@@ -61,8 +62,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'The PDF did not open?', paragraphs: ['If prompted, allow this site to open a new window and generate the document again. Also check the PDF archive for saved documents.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'notices', category: 'operations', next: ['maintenance', 'reminders'],
     pt: {
       slug: 'publicar-enviar-avisos', title: 'Publicar, imprimir e enviar avisos', excerpt: 'Avise sobre obras, limpeza ou interrupções de serviço, com datas e público definidos.',
@@ -80,8 +81,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Remove a notice from the active board', paragraphs: ['Expire a notice when it is no longer relevant. It moves to the archive for reference.', 'Filter by status and type to find old notices. Deleting removes the record and is different from expiring it.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'meeting-votes', category: 'assemblies', next: ['minutes', 'signature'],
     pt: {
       slug: 'presencas-votacoes-assembleia', title: 'Registar presenças e votações da assembleia', excerpt: 'Confirme quem participou, quem foi representado e os votos de cada ponto.',
@@ -101,8 +102,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Prepare follow-up', paragraphs: ['Item types can request details such as supplier, maximum amount, responsible person, deadline or extraordinary fee terms. Complete them so minutes and follow-up actions have the required context.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'minutes', category: 'assemblies', next: ['meeting-votes', 'documents'],
     pt: {
       slug: 'atas-anexos-assinaturas-acoes', title: 'Rever atas, anexos, assinaturas e ações', excerpt: 'Do rascunho ao documento final, com histórico e seguimento das decisões.',
@@ -124,8 +125,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Finalise, reopen and recover versions', paragraphs: ['Finalise minutes saves and protects the text against accidental changes. Approved status alone still leaves it editable.', 'To correct finalised minutes, reopen them and read the confirmation: status returns to Reviewed and the finalised version remains in history. Restore under the editable meeting’s version history recovers a previous version.', 'A new meeting can be only a local browser draft. The app offers to recover it when you create a meeting again. For saved meetings, check the autosave indicator and save manually before leaving.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'signature', category: 'assemblies', next: ['meeting-votes', 'proxy'],
     pt: {
       slug: 'lista-assinaturas', title: 'Preparar a lista de assinaturas', excerpt: 'Gere a folha da assembleia com os titulares e as permilagens registados.',
@@ -143,8 +144,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Missing names or units?', paragraphs: ['The PDF is unavailable without units. Correct details and associations under People and Units, then reopen this area to generate an updated list.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'proxy', category: 'assemblies', next: ['people-changes', 'meeting-votes'],
     pt: {
       slug: 'preparar-procuracoes', title: 'Preparar procurações para a assembleia', excerpt: 'Gere os formulários e confira os dados de quem será representado.',
@@ -162,8 +163,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Add to the meeting record', paragraphs: ['For a held meeting, mark Represented, enter the representative and confirm the attached proxy where applicable. Add the file under the Proxy category in the minutes attachments.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'map', category: 'people', next: ['people-changes', 'documents'],
     pt: {
       slug: 'mapa-condominos', title: 'Gerar o Mapa de Condóminos', excerpt: 'Prepare uma ficha por fração, preenchida ou em branco para recolher dados.',
@@ -179,8 +180,8 @@ export const operationsGuides: Guide[] = [
         { heading: 'Use the collected details', paragraphs: ['Enter corrections collected on printed forms under People and Units. Filling in a PDF outside the app does not automatically update the records.', 'Create units first if none exist. For incorrect names, review unit relationships before generating again.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'official', category: 'documents', next: ['documents', 'corrections'],
     pt: {
       slug: 'declaracoes-irs-divida', title: 'Gerar declarações de pagamentos e de dívida', excerpt: 'Escolha o titular e o período e reveja o documento criado pelos registos.',
@@ -200,5 +201,5 @@ export const operationsGuides: Guide[] = [
         { heading: 'Find or correct the declaration', paragraphs: ['Check the PDF archive for saved documents. Correct names, contacts or amounts in their original areas and generate a new version. Earlier exports keep the content they had when generated.'] },
       ],
     },
-  },
+  }),
 ];

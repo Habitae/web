@@ -4,11 +4,21 @@ import { AlertTriangle, ArrowDownLeft, ArrowLeftRight, ArrowUpRight, CalendarDay
 import './TimelineSnapshot.css';
 import { createRoot } from 'react-dom/client';
 
-export function mountSnapshot(root: HTMLElement, language: 'pt' | 'en') {
+export function mountSnapshot(root: HTMLElement, language: 'pt' | 'en' | 'fr') {
   createRoot(root).render(<TimelineSnapshot language={language} />);
 }
 
 const copy = {
+  fr: {
+    condo: 'Copropriété', name: 'Copropriété Aurora', area: 'Section actuelle', timeline: 'Chronologie', admin: 'Administratrice',
+    title: 'Activité de la copropriété', intro: 'Mouvements, charges et engagements récents dans un seul fil.', period: 'Toute la période',
+    available: 'Disponible', after: 'Après les fonds protégés', bank: 'Solde bancaire', statement: 'Relevé de base : 1 juillet 2026', protected: 'Protégé', protectedNote: 'Fonds de réserve + cagnottes',
+    movements: 'Mouvements financiers', income: 'Reçu', incomeNote: 'recettes et charges', expenses: 'Dépenses', expensesNote: 'dépenses enregistrées', result: 'Résultat', resultNote: 'reçu − dépenses',
+    recent: 'Récents', today: 'Aujourd’hui', yesterday: 'Hier', paid: 'Charge payée', overdue: 'Charge en retard', expense: 'Dépense enregistrée', receipt: 'Recette enregistrée',
+    units: ['Lot 3e droite', 'Lot 1er gauche', 'Lot 2e droite'], lift: 'Inspection de l’ascenseur', cleaning: 'Nettoyage de l’immeuble', rental: 'Location d’un espace commun', refund: 'Remboursement d’assurance',
+    next: 'À venir', date: '22 juillet 2026', meeting: 'Assemblée générale', location: 'Salle de la copropriété', fees: 'Charges à suivre', outstanding: 'À régulariser',
+    statuses: ['payées', 'en attente', 'en retard', 'à venir'], maintenance: 'Entretien', tasks: 'tâches en attente', high: '1 à priorité élevée', notices: 'Avis actifs', noticeCount: 'avis au tableau', open: 'Ouvrir les avis', funds: 'Fonds protégés', reserve: 'Fonds de réserve', safes: 'Cagnottes',
+  },
   pt: {
     condo: 'Condomínio', name: 'Condomínio Aurora', area: 'Área atual', timeline: 'Linha cronológica', admin: 'Administrador',
     title: 'Atividade do condomínio', intro: 'Movimentos, quotas e compromissos recentes num único feed.', period: 'Todo o período',
@@ -31,9 +41,9 @@ const copy = {
   },
 };
 
-export default function TimelineSnapshot({ language = 'pt' }: { language?: 'pt' | 'en' }) {
+export default function TimelineSnapshot({ language = 'pt' }: { language?: 'pt' | 'en' | 'fr' }) {
   const c = copy[language];
-  const money = (cents: number) => new Intl.NumberFormat(language === 'pt' ? 'pt-PT' : 'en-GB', { style: 'currency', currency: 'EUR' }).format(cents / 100);
+  const money = (cents: number) => new Intl.NumberFormat(({ pt: 'pt-PT', en: 'en-GB', fr: 'fr-FR' })[language], { style: 'currency', currency: 'EUR' }).format(cents / 100);
   const bank = 2485040, reserve = 217000, safes = 50000, income = 684200, expenses = 124000;
   const payments = [{ count: 40, amount: 346000 }, { count: 12, amount: 103800 }, { count: 2, amount: 20200 }, { count: 20, amount: 173000 }];
   const metrics = [

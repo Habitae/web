@@ -1,3 +1,4 @@
+import { translateText } from '../../shared/i18n.mjs';
 import { useEffect, useState } from 'react';
 import { useConsent } from '../context/ConsentContext';
 import { useI18n } from '../context/I18nContext';
@@ -9,6 +10,6 @@ export default function CookieSettingsButton() {
   const [ready, setReady] = useState(false);
   useEffect(() => { setReady(true); }, []);
   return <button type="button" className="cookie-settings-button" data-cookie-settings disabled={!ready}
-    aria-haspopup="dialog" aria-label={language === 'pt' ? 'Gerir cookies' : 'Manage cookies'}
+    aria-haspopup="dialog" aria-label={language !== 'en' ? translateText('Gerir cookies', language) : 'Manage cookies'}
     onClick={() => setSettingsOpen(true)}>Cookies</button>;
 }

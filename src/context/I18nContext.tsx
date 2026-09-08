@@ -3,13 +3,14 @@ import { LANGUAGE_KEY, readConsent } from '../consent';
 import { useConsent } from './ConsentContext';
 import { appPathname, languageFromUrl, sitePath } from '../site';
 
-export type Language = 'pt' | 'en';
+export type Language = 'pt' | 'en' | 'fr';
 
 function storedLanguage(): Language {
   const routeLanguage = languageFromUrl();
   if (routeLanguage) return routeLanguage;
   try {
-    return readConsent()?.preferences && window.localStorage.getItem(LANGUAGE_KEY) === 'en' ? 'en' : 'pt';
+    const saved = readConsent()?.preferences && window.localStorage.getItem(LANGUAGE_KEY);
+    return saved === 'en' || saved === 'fr' ? saved : 'pt';
   } catch { return 'pt'; }
 }
 
@@ -26,7 +27,7 @@ export function I18nProvider({ children, initialLanguage }: { children: ReactNod
 
   const setLanguage = useCallback((nextLanguage: Language) => {
     // The help centre owns its translated slugs; other surfaces use static language paths.
-    if (!/^\/(?:help|ajuda)(?:\/|$)/.test(appPathname())) {
+    if (!/^\/(?:help|ajuda|aide)(?:\/|$)/.test(appPathname())) {
       const url = new URL(window.location.href);
       url.pathname = sitePath(appPathname(), nextLanguage);
       url.searchParams.delete('lang');
@@ -49,7 +50,7 @@ export function I18nProvider({ children, initialLanguage }: { children: ReactNod
   }, [choice?.preferences, language]);
 
   useEffect(() => {
-    document.documentElement.lang = language === 'pt' ? 'pt-PT' : 'en';
+    document.documentElement.lang = language === 'pt' ? 'pt-PT' : language;
   }, [language]);
 
   const value = useMemo(() => ({ language, setLanguage }), [language, setLanguage]);

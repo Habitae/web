@@ -1,8 +1,13 @@
 # Content maintenance
 
-Keep Portuguese and English translations in sync. Public content belongs in
+Keep Portuguese, English and French translations in sync. Public content belongs in
 `src/content/`; avoid customer records, internal source mappings and operational
 notes. Everything in `public/` is copied to the deployed website.
+
+The standalone translation runtime and catalogs live in `shared/`. Keep catalog
+keys aligned across `pt.json`, `en.json` and `fr.json`. `withFrench` translates
+application-owned Portuguese copy structures while preserving stable IDs and
+URLs; never apply it to customer records.
 
 ## Help and blog
 
@@ -22,7 +27,7 @@ the content. Update route-count assertions when adding or removing pages.
 
 ## Legal and contact content
 
-`src/content/legal.ts` contains the bilingual legal pages and draft settings.
+`src/content/legal.ts` contains the translated legal pages and draft settings.
 Search for `[[` to find remaining placeholders. Keep unfinished documents
 identified as drafts and excluded from indexing until reviewed and completed.
 Public business contact details are shared through `organization.ts`.
@@ -31,5 +36,5 @@ Public business contact details are shared through `organization.ts`.
 
 Run `pnpm typecheck`, `pnpm test`, and `pnpm build`. With a configured waitlist
 endpoint, run `pnpm test:build`. Use `pnpm test:edge` for browser checks,
-including both languages, mobile layouts and JavaScript-disabled navigation.
+including all three languages, mobile layouts and JavaScript-disabled navigation.
 Rebuild with deployment settings after browser tests, which use mocked values.

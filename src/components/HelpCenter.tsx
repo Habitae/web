@@ -1,3 +1,5 @@
+import { helpRoot } from '../site';
+import { withFrench, translateText } from '../../shared/i18n.mjs';
 import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import {
   ArrowLeft,
@@ -74,7 +76,7 @@ const categoryIcons: Record<CategoryId, Icon> = {
   account: Settings2,
 };
 
-const helpContent: Record<Language, HelpContent> = {
+const helpContent: Record<Language, HelpContent> = withFrench<{ pt: HelpContent; en: HelpContent }>({
   pt: {
     metaTitle: 'Ajuda Habitae',
     brandAlt: 'Habitae, Gestão de Condomínios',
@@ -177,7 +179,10 @@ const helpContent: Record<Language, HelpContent> = {
     availability: 'These guides explain the Habitae application. On this site, “Open Habitae” takes you to the launch page.',
     articles: helpArticles.en,
   },
-};
+});
+
+helpContent.fr.articles = helpArticles.fr;
+helpContent.fr.updated = 'Mis à jour';
 
 function routeArticleSlug() {
   const parts = appPathname().split('/').filter(Boolean);
@@ -215,7 +220,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
   const selectedIndex = c.articles.findIndex((article) => article.id === selectedArticle?.id);
   const previousGuide = selectedIndex > 0 ? c.articles[selectedIndex - 1] : null;
   const nextGuide = selectedIndex >= 0 ? c.articles[selectedIndex + 1] : null;
-  const articleRouteBase = language === 'pt' ? '/ajuda' : '/help';
+  const articleRouteBase = helpRoot(language);
   const articlePathBase = sitePath(articleRouteBase, language).replace(/\/$/, '');
   const relatedArticles = selectedArticle
     ? selectedArticle.next.flatMap((id) => c.articles.filter((article) => article.id === id))
@@ -236,7 +241,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
       ? 'en'
       : appPathname().startsWith('/ajuda')
         ? 'pt'
-        : null;
+        : appPathname().startsWith('/aide') ? 'fr' : null;
     if (languageFromPath && languageFromPath !== language) setLanguage(languageFromPath);
     // The public URL establishes the initial language. Subsequent language
     // changes use changeLanguage so they update the URL at the same time.
@@ -244,7 +249,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = language === 'pt' ? 'pt-PT' : 'en';
+    document.documentElement.lang = language === 'pt' ? 'pt-PT' : language;
     document.title = selectedArticle ? `${selectedArticle.title} · ${c.metaTitle}` : c.metaTitle;
   }, [c.metaTitle, language, selectedArticle]);
 
@@ -252,7 +257,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
     const onPopState = () => {
       const slug = routeArticleSlug();
       focusOnNavigation.current = slug !== selectedSlug;
-      setLanguage(appPathname().startsWith('/help') ? 'en' : 'pt');
+      setLanguage(appPathname().startsWith('/help') ? 'en' : appPathname().startsWith('/aide') ? 'fr' : 'pt');
       setSelectedSlug(slug);
     };
     window.addEventListener('popstate', onPopState);
@@ -290,7 +295,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
   const articleLink = (article: Article) => ({ href: `${articlePathBase}/${article.slug}/` });
   const languageLink = (nextLanguage: Language) => {
     const translated = helpArticles[nextLanguage].find((article) => article.id === selectedArticle?.id);
-    return sitePath(`/${nextLanguage === 'pt' ? 'ajuda' : 'help'}${translated ? `/${translated.slug}` : ''}`);
+    return sitePath(`${helpRoot(nextLanguage)}${translated ? `/${translated.slug}` : ''}`);
   };
 
   const guideNavigation = () => (
@@ -320,7 +325,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
 
   return (
     <div ref={helpRootRef} className="help-center">
-      <a className="hc-skip-link" href="#help-content">{language === 'pt' ? 'Saltar para o conteúdo' : 'Skip to content'}</a>
+      <a className="hc-skip-link" href="#help-content">{language !== 'en' ? translateText('Saltar para o conteúdo', language) : 'Skip to content'}</a>
       <SiteHeader active="help" />
 
       <main id="help-content" tabIndex={-1}>
@@ -403,7 +408,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
                           </div>
                         )}
                         {section.note && <aside className="hc-note">
-                          <strong>{language === 'pt' ? 'A ter em conta' : 'Keep in mind'}</strong>
+                          <strong>{language !== 'en' ? translateText('A ter em conta', language) : 'Keep in mind'}</strong>
                           <p>{section.note}</p>
                         </aside>}
                       </section>
@@ -488,7 +493,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
         </div>
       </main>
 
-      <SiteFooter languagePaths={{ pt: languageLink('pt'), en: languageLink('en') }} />
+      <SiteFooter languagePaths={withFrench({ pt: languageLink('pt'), en: languageLink('en'), fr: languageLink('fr') })} />
     </div>
   );
 }

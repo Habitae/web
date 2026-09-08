@@ -24,7 +24,7 @@ test('help paths encode their language; assets never receive a language query', 
 });
 
 test('language comes from translated help paths or a valid query', () => {
-  for (const [path, expected] of [['/?lang=en', 'en'], ['/privacy?lang=pt', 'pt'], ['/app?lang=fr', null], ['/terms', null], ['/help?lang=pt', 'en'], ['/ajuda/guia?lang=en', 'pt']]) {
+  for (const [path, expected] of [['/?lang=en', 'en'], ['/privacy?lang=pt', 'pt'], ['/app?lang=fr', 'fr'], ['/fr/privacy/', 'fr'], ['/aide/guide/', 'fr'], ['/terms', null], ['/help?lang=pt', 'en'], ['/ajuda/guia?lang=en', 'pt']]) {
     location(path);
     assert.equal(languageFromUrl(), expected, path);
   }
@@ -40,4 +40,11 @@ test('project-prefix deployments preserve paths, assets and language', () => {
   assert.equal(sitePath('/privacy#storage', 'en'), '/web/en/privacy/#storage');
   location('/help/guide', '/web');
   assert.equal(languageFromUrl(), 'en');
+});
+
+test('French links preserve deployment prefix, anchors and help routes', () => {
+  location('/fr/', '/web');
+  assert.equal(sitePath('/privacy#storage', 'fr'), '/web/fr/privacy/#storage');
+  assert.equal(sitePath('/ajuda/criar-primeiro-condominio', 'fr'), '/web/aide/criar-primeiro-condominio/');
+  assert.equal(appPathname(), '/');
 });

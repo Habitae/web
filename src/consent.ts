@@ -29,15 +29,15 @@ export function readConsent(): ConsentChoice | null {
   catch { return null; }
 }
 
-export function rememberLanguage(language: 'pt' | 'en') {
+export function rememberLanguage(language: 'pt' | 'en' | 'fr') {
   try { if (readConsent()?.preferences) window.localStorage.setItem(LANGUAGE_KEY, language); }
   catch { /* Native language links still work when storage is unavailable. */ }
 }
 
-export function preferredLanguage(): 'pt' | 'en' | null {
+export function preferredLanguage(): 'pt' | 'en' | 'fr' | null {
   try {
     if (!readConsent()?.preferences) return null;
     const language = window.localStorage.getItem(LANGUAGE_KEY);
-    return language === 'pt' || language === 'en' ? language : null;
+    return language === 'pt' || language === 'en' || language === 'fr' ? language : null;
   } catch { return null; }
 }
