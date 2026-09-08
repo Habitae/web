@@ -3,6 +3,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 
 const base = new URL(process.argv[2] || 'http://127.0.0.1:8787');
 const manifest = JSON.parse(await readFile('dist/agent-manifest.json', 'utf8'));
+const errorDocuments = Object.keys(manifest.files).filter(path => /^\/(?:en\/|fr\/)?404\.html$/.test(path));
 const failures = [];
 let checks = 0;
 async function check(name, fn) { try { await fn(); checks++; } catch (error) { failures.push({ name, error: error.message }); } }
@@ -62,7 +63,7 @@ for (const [path, route] of entries) {
   }
 }
 for (const [path, file] of Object.entries(manifest.files)) {
-  if (manifest.routes[path] || path === '/404.html') continue;
+  if (manifest.routes[path] || errorDocuments.includes(path)) continue;
   await check(`file ${path}`, async () => {
     const response = await get(path);
     assert.equal(response.status, 200);
@@ -75,17 +76,23 @@ for (const [path, file] of Object.entries(manifest.files)) {
     assert.equal(await head.text(), '');
   });
 }
-for (const path of ['/agent-check-does-not-exist', '/help/agent-check-missing/', '/missing.md', '/missing.js', '/404.html']) {
+for (const path of ['/agent-check-does-not-exist', '/help/agent-check-missing/', '/missing.md', '/missing.js', ...errorDocuments]) {
   for (const accept of ['*/*', 'text/markdown', 'text/html']) {
     await check(`404 ${path} ${accept}`, async () => {
       const response = await get(path, accept);
       assert.equal(response.status, 404);
       assertVary(response);
       assert.match(response.headers.get('Link'), /sitemap.xml/);
+      const language = path.startsWith('/fr/') ? 'fr' : /^\/(?:en|help)\//.test(path) ? 'en' : 'pt';
+      const extension = accept === 'text/html' ? 'html' : 'md';
+      const source = `${language === 'pt' ? '' : `/${language}`}/404.${extension}`;
+      assert.equal(response.headers.get('Content-Language'), language);
       const body = await response.text();
       assert.match(body, accept === 'text/html' ? /not-found-page/ : /# 404[\s\S]*llms.txt/);
+      assert.equal(body, await readFile(`dist${source}`, 'utf8'), 'Error response differs from its localized representation');
       const head = await get(path, accept, 'HEAD');
       assert.equal(head.status, 404);
+      assert.equal(head.headers.get('Content-Language'), language);
       assert.equal(await head.text(), '');
     });
   }
