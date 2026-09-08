@@ -15,6 +15,8 @@ const markdown = html => decode(html
 const save = async (file, text) => { await mkdir(dirname(`dist/${file}`), { recursive: true }); await writeFile(`dist/${file}`, text); };
 const server = await createServer({ server: { middlewareMode: true, hmr: false, ws: false }, mode: 'production', appType: 'custom' });
 try {
+  const { loadLanguage } = await server.ssrLoadModule('/shared/i18n.mjs');
+  await Promise.all(['pt', 'en', 'fr'].map(loadLanguage));
   const { pages, render, contentUpdatedAt } = await server.ssrLoadModule('/src/entry-server.tsx');
   const template = await readFile('dist/index.html', 'utf8');
   const manifest = JSON.parse(await readFile('dist/.vite/manifest.json', 'utf8'));

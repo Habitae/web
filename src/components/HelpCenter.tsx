@@ -179,10 +179,7 @@ const helpContent: Record<Language, HelpContent> = withFrench<{ pt: HelpContent;
     availability: 'These guides explain the Habitae application. On this site, “Open Habitae” takes you to the launch page.',
     articles: helpArticles.en,
   },
-});
-
-helpContent.fr.articles = helpArticles.fr;
-helpContent.fr.updated = 'Mis à jour';
+}, copy => ({ ...copy, articles: helpArticles.fr, updated: 'Mis à jour' }));
 
 function routeArticleSlug() {
   const parts = appPathname().split('/').filter(Boolean);

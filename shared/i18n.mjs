@@ -1,10 +1,21 @@
-import portuguese from './locales/pt.json' with { type: 'json' };
-import english from './locales/en.json' with { type: 'json' };
-import french from './locales/fr.json' with { type: 'json' };
-
 export const languages = ['pt', 'en', 'fr'];
 export const locales = { pt: 'pt-PT', en: 'en-GB', fr: 'fr-FR' };
-export const catalogs = { pt: portuguese, en: english, fr: french };
+export const catalogs = {};
+const loaders = {
+  pt: () => import('./locales/pt.json', { with: { type: 'json' } }),
+  en: () => import('./locales/en.json', { with: { type: 'json' } }),
+  fr: () => import('./locales/fr.json', { with: { type: 'json' } }),
+};
+const pending = new Map();
+const indexes = new Map();
+export function loadLanguage(language) {
+  const lang = normaliseLanguage(language);
+  if (!pending.has(lang)) pending.set(lang, loaders[lang]().then(({ default: catalog }) => {
+    catalogs[lang] = catalog;
+    indexes.set(lang, indexCatalog(catalog));
+  }).catch(error => { pending.delete(lang); throw error; }));
+  return pending.get(lang);
+}
 export function normaliseLanguage(value) {
   const code = String(value || '').toLowerCase().split(/[-_;,]/)[0];
   return languages.includes(code) ? code : 'pt';
@@ -15,23 +26,36 @@ export function interpolate(source, values) {
   ));
 }
 const normalise = (value) => value.replace(/\s+/gu, ' ').trim();
-const canonical = new Map(Object.keys(english).map((key) => [normalise(key).toLocaleLowerCase('pt-PT'), key]));
-const aliases = new Map();
-for (const [source, text] of Object.entries(english)) {
-  if (!aliases.has(normalise(text))) aliases.set(normalise(text), source);
+function indexCatalog(catalog) {
+  const canonical = new Map(Object.keys(catalog).map(key => [normalise(key).toLocaleLowerCase('pt-PT'), key]));
+  const aliases = new Map();
+  for (const [source, text] of Object.entries(catalog)) {
+    if (!aliases.has(normalise(text))) aliases.set(normalise(text), source);
+  }
+  const escape = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const templates = Object.keys(catalog).filter(key => key.includes('{{'))
+    .sort((a, b) => b.replace(/\{\{[^}]+\}\}/g, '').length - a.replace(/\{\{[^}]+\}\}/g, '').length)
+    .map(source => {
+      const keys = [];
+      const pattern = normalise(source).split(/(\{\{[^{}]+\}\})/u).map(part => {
+        if (part.startsWith('{{')) { keys.push(part.slice(2, -2).trim()); return '(.*?)'; }
+        return escape(part).replace(/\s+/g, '\\s+');
+      }).join('');
+      return { source, keys, pattern: new RegExp(`^${pattern}$`, 'u') };
+    });
+  return { canonical, aliases, templates };
 }
-const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const templates = Object.keys(english).filter((key) => key.includes('{{')).sort((a, b) => b.replace(/\{\{[^}]+\}\}/g, '').length - a.replace(/\{\{[^}]+\}\}/g, '').length).map((source) => {
-  const keys = [];
-  const pattern = normalise(source).split(/(\{\{[^{}]+\}\})/u).map((part) => { if (part.startsWith('{{')) { keys.push(part.slice(2, -2).trim()); return '(.*?)'; } return escape(part).replace(/\s+/g, '\\s+'); }).join('');
-  return { source, keys, pattern: new RegExp(`^${pattern}$`, 'u') };
-});
 
 export function translateText(value, language = 'pt', values) {
   if (typeof value !== 'string' || !value) return value;
   const lang = normaliseLanguage(language);
+  const catalog = catalogs[lang];
+  // Other-language copy may be inspected for stable routes before it is loaded.
+  // The active language is always loaded before rendering or changing locale.
+  if (!catalog) return interpolate(value, values);
+  const { canonical, aliases, templates } = indexes.get(lang);
   const phrase = normalise(value);
-  const source = Object.hasOwn(english, phrase) ? phrase : aliases.get(phrase);
+  const source = Object.hasOwn(catalog, phrase) ? phrase : aliases.get(phrase);
   let translated = source ? catalogs[lang][source] : undefined;
   if (translated === undefined) {
     const key = canonical.get(phrase.toLocaleLowerCase('pt-PT'));
@@ -72,6 +96,18 @@ export function translateCopy(value, language) {
   const identifiers = new Set(['id', 'slug', 'path', 'href', 'src', 'code', 'category', 'updated', 'locale']);
   return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, identifiers.has(key) ? item : translateCopy(item, language)]));
 }
-export function withFrench(copy) {
-  return { ...copy, fr: copy.fr ?? translateCopy(copy.pt, 'fr') };
+export function withFrench(copy, transform = value => value) {
+  let cached;
+  let catalog;
+  return {
+    ...copy,
+    get fr() {
+      if (copy.fr != null) return copy.fr;
+      if (!cached || catalog !== catalogs.fr) {
+        cached = transform(translateCopy(copy.pt, 'fr'));
+        catalog = catalogs.fr;
+      }
+      return cached;
+    },
+  };
 }

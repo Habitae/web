@@ -18,7 +18,11 @@ for (const javaScriptEnabled of [false, true]) {
       await page.goto(`http://127.0.0.1:4174${route}`);
       await expect(page.locator('html')).toHaveAttribute('lang', /^fr/);
       await expect(page.getByRole('heading', { name: heading, exact: true }).first()).toBeVisible();
-      if (javaScriptEnabled && await page.getByRole('button', { name: 'Refuser les cookies facultatifs', exact: true }).isVisible()) await page.getByRole('button', { name: 'Refuser les cookies facultatifs', exact: true }).click();
+      if (javaScriptEnabled) {
+        await expect(page.locator('[data-cookie-settings="true"]')).toBeEnabled();
+        const rejectCookies = page.getByRole('button', { name: 'Refuser les cookies facultatifs', exact: true });
+        if (await rejectCookies.isVisible()) await rejectCookies.click();
+      }
       await expect(page.locator('footer').getByRole('link', { name: 'Français', exact: true })).toHaveAttribute('aria-current', 'page');
       expect(await page.locator('img').evaluateAll(images => images.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
     }
@@ -50,4 +54,21 @@ test('French consent preferences and help search translate client-only states', 
   await expect(page.locator('main')).toContainText('Enregistrer le paiement');
   await page.getByRole('searchbox').fill('zzzz-inexistant');
   await expect(page.locator('main')).toContainText('Aucun');
+});
+
+
+test('each homepage downloads only its active translation catalog', async ({ browser }) => {
+  for (const language of ['pt', 'en', 'fr']) {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const downloaded = new Set<string>();
+    page.on('request', request => {
+      const match = new URL(request.url()).pathname.match(/\/assets\/(pt|en|fr)-[^/]+\.js$/);
+      if (match) downloaded.add(match[1]);
+    });
+    await page.goto(`http://127.0.0.1:4174/${language === 'pt' ? '' : `${language}/`}`);
+    await expect(page.locator('[data-cookie-settings="true"]')).toBeEnabled();
+    expect([...downloaded]).toEqual([language]);
+    await context.close();
+  }
 });

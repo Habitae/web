@@ -5,9 +5,17 @@ Keep Portuguese, English and French translations in sync. Public content belongs
 notes. Everything in `public/` is copied to the deployed website.
 
 The standalone translation runtime and catalogs live in `shared/`. Keep catalog
-keys aligned across `pt.json`, `en.json` and `fr.json`. `withFrench` translates
-application-owned Portuguese copy structures while preserving stable IDs and
-URLs; never apply it to customer records.
+keys aligned across `pt.json`, `en.json` and `fr.json`. The browser awaits
+`loadLanguage` for the selected locale before hydration; prerendering loads all
+three. Keep catalogs as dynamic imports so other languages stay out of the
+initial download. `withFrench` translates application-owned Portuguese copy
+structures while preserving stable IDs and URLs; never apply it to customer
+records.
+
+Production builds use `scripts/website-catalogs.mjs` to exclude application-only
+copy from the browser catalogs. Website strings and interpolated templates are
+retained, including controls that appear only after interaction. Keep new copy
+as complete source literals or catalog templates so the build can include it.
 
 ## Help and blog
 
