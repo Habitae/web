@@ -1,3 +1,4 @@
+import { loadLanguage } from '../../shared/i18n.mjs';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { LANGUAGE_KEY, readConsent } from '../consent';
 import { useConsent } from './ConsentContext';
@@ -25,7 +26,8 @@ export function I18nProvider({ children, initialLanguage }: { children: ReactNod
   const { choice } = useConsent();
   const [language, setLanguageState] = useState<Language>(() => initialLanguage ?? storedLanguage());
 
-  const setLanguage = useCallback((nextLanguage: Language) => {
+  const setLanguage = useCallback(async (nextLanguage: Language) => {
+    await loadLanguage(nextLanguage);
     // The help centre owns its translated slugs; other surfaces use static language paths.
     if (!/^\/(?:help|ajuda|aide)(?:\/|$)/.test(appPathname())) {
       const url = new URL(window.location.href);
@@ -37,7 +39,7 @@ export function I18nProvider({ children, initialLanguage }: { children: ReactNod
   }, []);
 
   useEffect(() => {
-    const syncLanguage = () => setLanguageState(storedLanguage());
+    const syncLanguage = async () => { const next = storedLanguage(); await loadLanguage(next); setLanguageState(next); };
     window.addEventListener('popstate', syncLanguage);
     return () => window.removeEventListener('popstate', syncLanguage);
   }, []);

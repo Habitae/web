@@ -357,6 +357,4 @@ const allGuides = helpReadingOrder.map((id) => guidesById.get(id)!);
 export const helpArticles: Record<Language, Article[]> = withFrench({
   pt: allGuides.map(({ id, category, next, pt }) => ({ id, category, next, ...pt, updated: '6 set 2026' })),
   en: allGuides.map(({ id, category, next, en }) => ({ id, category, next, ...en, updated: '6 Sep 2026' })),
-});
-
-helpArticles.fr = helpArticles.fr.map(article => ({ ...article, updated: '6 sept. 2026' }));
+}, articles => articles.map(article => ({ ...article, updated: '6 sept. 2026' })));

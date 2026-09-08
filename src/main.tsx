@@ -1,3 +1,4 @@
+import { loadLanguage } from '../shared/i18n.mjs';
 import { preferredLanguage, rememberLanguage } from './consent';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -11,6 +12,7 @@ import { appPathname, languageFromUrl, sitePath } from './site';
 async function start() {
   const pathname = appPathname();
   const language = languageFromUrl() ?? 'pt';
+  await loadLanguage(language);
   // Native links can navigate before React attaches rememberLanguage handlers.
   // An internal visit to the Portuguese homepage is an explicit route choice.
   const internalVisit = Boolean(document.referrer && new URL(document.referrer).origin === window.location.origin);

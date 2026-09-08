@@ -13,7 +13,7 @@
     "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test scripts/site.test.mjs scripts/waitlist.test.mjs scripts/waitlist-email.test.mjs scripts/consent.test.mjs scripts/agent-edge.test.mjs",
+    "test": "node --experimental-strip-types --test scripts/i18n.test.mjs scripts/site.test.mjs scripts/waitlist.test.mjs scripts/waitlist-email.test.mjs scripts/consent.test.mjs scripts/agent-edge.test.mjs",
     "test:build": "node --test scripts/build.test.mjs",
     "test:browser": "playwright test",
     "audit:lighthouse": "node scripts/audit.mjs",

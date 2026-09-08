@@ -1,3 +1,4 @@
+import { websiteCatalogs } from './scripts/website-catalogs.mjs';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -11,7 +12,7 @@ export default defineConfig(({ mode }) => {
   const base = env.HABITAE_BASE_PATH || '/';
   if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(base)) throw new Error('HABITAE_BASE_PATH must be an absolute path with a trailing slash.');
   return {
-    plugins: [react()],
+    plugins: [websiteCatalogs(process.cwd()), react()],
     base,
     // The prerenderer uses the manifest to include each surface’s styles in HTML.
     build: { outDir: 'dist', manifest: true },

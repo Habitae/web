@@ -229,8 +229,7 @@ const publicationDates: Record<string, string> = {
 export const blogPosts: Record<SiteLanguage, BlogPost[]> = withFrench({
   pt: posts.map(post => ({ id: post.id, published: publicationDates[post.id] ?? '2026-09-06', updated: '2026-09-06', legalReviewed: post.legalReviewed, ...post.pt })),
   en: posts.map(post => ({ id: post.id, published: publicationDates[post.id] ?? '2026-09-06', updated: '2026-09-06', legalReviewed: post.legalReviewed, ...post.en })),
-});
-blogPosts.fr = blogPosts.fr.map((post, index) => ({ ...post, category: translateText(blogPosts.pt[index].category, 'fr') }));
+}, articles => articles.map(post => ({ ...post, category: translateText(post.category, 'fr') })));
 export const blogIndex = withFrench({
   pt: { title: 'Blog de gestão de condomínios', description: 'Guias para o dia a dia de quem administra condomínios em Portugal: cobranças, avarias, contas e documentos, com exemplos e referências à legislação.' },
   en: { title: 'Condominium management blog', description: 'Everyday guides for condominium managers in Portugal: collections, repairs, accounts and documents, with practical examples and references to Portuguese law.' },

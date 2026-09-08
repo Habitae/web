@@ -9,7 +9,7 @@ const server = await preview({ preview: { host: '127.0.0.1', port: 4175, strictP
 let failed = false;
 try {
   const cli = fileURLToPath(new URL('../cli/index.js', import.meta.resolve('lighthouse')));
-  for (const [name, route] of [['pt', '/'], ['en', '/en/'], ['guide', '/help/create-first-condominium/'], ['waitlist', '/en/app/']]) {
+  for (const [name, route] of [['pt', '/'], ['en', '/en/'], ['fr', '/fr/'], ['guide', '/help/create-first-condominium/'], ['waitlist', '/en/app/']]) {
     const args = [cli, `http://127.0.0.1:4175${route}`, '--chrome-flags=--headless --no-sandbox', '--output=json', '--output=html', `--output-path=${output}/${name}`, '--quiet'];
     await new Promise((resolve, reject) => {
       const child = spawn(process.execPath, args, { stdio: 'inherit' });
