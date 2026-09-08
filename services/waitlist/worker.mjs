@@ -13,14 +13,15 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...headers, 'Access-Control-Allow-Methods': 'POST', 'Access-Control-Allow-Headers': 'Content-Type' } });
     if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: { ...headers, Allow: 'POST, OPTIONS' } });
     const json = request.headers.get('Accept')?.includes('application/json');
-    let language = 'pt';
+    let language = new URL(request.url).searchParams.get('lang') === 'fr' ? 'fr' : new URL(request.url).searchParams.get('lang') === 'en' ? 'en' : 'pt';
     const reply = (status, code) => {
       if (json) return Response.json({ ok: status === 200, code }, { status, headers });
       const en = language === 'en';
+      const fr = language === 'fr';
       const success = status === 200;
-      const title = success ? (en ? 'You’re on the list.' : 'Está na lista.') : (en ? 'We could not save your signup.' : 'Não foi possível guardar a inscrição.');
-      const message = success ? (en ? 'We’ll email you when Habitae is ready.' : 'Enviaremos um email quando o Habitae estiver disponível.') : (en ? 'Please go back, check your details and try again shortly.' : 'Volte atrás, verifique os dados e tente novamente dentro de momentos.');
-      return new Response(`<!doctype html><html lang="${en ? 'en' : 'pt-PT'}"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="robots" content="noindex"><title>${title}</title><main><h1>${title}</h1><p>${message}</p><a href="${allowedOrigin}${en ? '/en/app/' : '/app/'}">${en ? 'Back to Habitae' : 'Voltar ao Habitae'}</a></main></html>`, { status, headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': "default-src 'none'; base-uri 'none'; frame-ancestors 'none'" } });
+      const title = success ? (fr ? 'Vous êtes sur la liste.' : en ? 'You’re on the list.' : 'Está na lista.') : (fr ? 'Impossible d’enregistrer votre inscription.' : en ? 'We could not save your signup.' : 'Não foi possível guardar a inscrição.');
+      const message = success ? (fr ? 'Nous vous enverrons un e-mail lorsque Habitae sera disponible.' : en ? 'We’ll email you when Habitae is ready.' : 'Enviaremos um email quando o Habitae estiver disponível.') : (fr ? 'Revenez en arrière, vérifiez vos données et réessayez dans quelques instants.' : en ? 'Please go back, check your details and try again shortly.' : 'Volte atrás, verifique os dados e tente novamente dentro de momentos.');
+      return new Response(`<!doctype html><html lang="${language === 'pt' ? 'pt-PT' : language}"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="robots" content="noindex"><title>${title}</title><main><h1>${title}</h1><p>${message}</p><a href="${allowedOrigin}${language === 'pt' ? '/app/' : `/${language}/app/`}">${fr ? 'Retour à Habitae' : en ? 'Back to Habitae' : 'Voltar ao Habitae'}</a></main></html>`, { status, headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': "default-src 'none'; base-uri 'none'; frame-ancestors 'none'" } });
     };
     try {
       if (!env.DB || !env.RATE_LIMITER) return reply(503, 'unavailable');
@@ -42,7 +43,7 @@ export default {
       const contentType = request.headers.get('Content-Type') || '';
       if (!contentType.startsWith('application/x-www-form-urlencoded')) return reply(415, 'invalid');
       const data = new URLSearchParams(await new Blob(chunks).text());
-      language = data.get('language') === 'en' ? 'en' : 'pt';
+      language = ['pt', 'en', 'fr'].includes(data.get('language')) ? data.get('language') : 'pt';
       if (data.get('website')) return reply(200, 'saved');
       const email = (data.get('email') || '').trim().toLowerCase();
       const role = data.get('role');
