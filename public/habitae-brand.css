@@ -1,0 +1,20 @@
+/* Colour the existing artwork without replacing its shapes or image files.
+   SVG definitions in index.html preserve alpha and keep ae at #7A9E87. */
+img[src$="/default-condominium-logo-light.png"],
+img[src$="/default-condominium-logo-light.webp"] {
+  filter: url(#habitae-logo-light);
+}
+
+img[src$="/default-condominium-logo-dark.png"] {
+  filter: url(#habitae-logo-dark);
+}
+
+[data-theme="dark"] img[src$="/default-condominium-logo-light.png"],
+[data-theme="dark"] img[src$="/default-condominium-logo-light.webp"] {
+  filter: url(#habitae-logo-light-on-dark);
+}
+
+/* Public marketing surfaces retain their light palette independently of the app. */
+[data-theme="dark"] :is(.marketing-page, .site-chrome) img[src$="/default-condominium-logo-light.png"] {
+  filter: url(#habitae-logo-light);
+}

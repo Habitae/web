@@ -25,8 +25,34 @@
     <meta name="theme-color" content="#f7f5ee" />
     <link rel="icon" href="./default-condominium-logo-light.png" />
     <title>Software de gestão de condomínios em Portugal | Habitae</title>
+    <link rel="stylesheet" href="/habitae-brand.css" />
   </head>
   <body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none">
+      <defs>
+        <filter id="habitae-logo-light" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+          <feComponentTransfer>
+            <feFuncR type="linear" slope="0.846938775510" intercept="0.075190076030" />
+            <feFuncG type="linear" slope="0.586206896552" intercept="0.258350236646" />
+            <feFuncB type="linear" slope="1.059701492537" intercept="-0.029645888206" />
+          </feComponentTransfer>
+        </filter>
+        <filter id="habitae-logo-dark" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+          <feComponentTransfer>
+            <feFuncR type="linear" slope="0.736842105263" intercept="0.127863777090" />
+            <feFuncG type="linear" slope="0.793814432990" intercept="0.129714978775" />
+            <feFuncB type="linear" slope="0.758333333333" intercept="0.129901960784" />
+          </feComponentTransfer>
+        </filter>
+        <filter id="habitae-logo-light-on-dark" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+          <feComponentTransfer>
+            <feFuncR type="linear" slope="-1.000000000000" intercept="0.958823529412" />
+            <feFuncG type="linear" slope="-0.663793103448" intercept="1.032860040568" />
+            <feFuncB type="linear" slope="-1.358208955224" intercept="1.250424348844" />
+          </feComponentTransfer>
+        </filter>
+      </defs>
+    </svg>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
