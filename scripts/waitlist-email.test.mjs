@@ -167,3 +167,23 @@ test('user-supplied values are escaped in HTML notifications', () => {
   assert(payload.html.includes('a&lt;em&gt;&amp;b@example.com'));
   assert(!payload.html.includes('a<em>&b@example.com'));
 });
+
+test('French migration preserves signup consent and delivery history and accepts French signups', async t => {
+  const { db, env, ctx, flush } = fixture(t, { migrate: true });
+  const sent = captureEmails(t, db);
+  await worker.fetch(request(), env, ctx);
+  await flush();
+  const before = db.prepare('SELECT * FROM waitlist_email_outbox ORDER BY id').all();
+  db.exec(readFileSync(new URL('../services/waitlist/migrations/0004_french_language.sql', import.meta.url), 'utf8'));
+  assert.deepEqual(db.prepare('SELECT * FROM waitlist_email_outbox ORDER BY id').all(), before);
+  assert.equal(db.prepare("SELECT consent_version FROM waitlist WHERE email = 'existing@example.com'").get().consent_version, 'old-consent');
+  assert.equal((await worker.fetch(request({ email: 'french@example.com', language: 'fr' }), env, ctx)).status, 200);
+  await flush();
+  assert.equal(db.prepare("SELECT language FROM waitlist WHERE email = 'french@example.com'").get().language, 'fr');
+  const confirmation = sent.find(item => item.payload.to[0] === 'french@example.com').payload;
+  assert.match(confirmation.subject, /liste d’attente/);
+  assert.match(confirmation.html, /lang="fr"/);
+  assert.match(confirmation.html, /https:\/\/habitae.pt\/fr\/blog\//);
+  assert.match(confirmation.text, /Confidentialité/);
+  assert.equal(db.prepare('PRAGMA foreign_key_check').all().length, 0);
+});
