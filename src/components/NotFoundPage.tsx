@@ -1,6 +1,7 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useI18n, type Language } from '../context/I18nContext';
-import { sitePath } from '../site';
+import { sitePath, helpRoot } from '../site';
 import './NotFoundPage.css';
 import { SiteHeader, SiteFooter } from './SiteChrome';
 
@@ -11,7 +12,7 @@ const copy: Record<Language, {
   help: string;
   language: string;
   brandAlt: string;
-}> = {
+}> = withFrench({
   pt: {
     title: 'Esta página não existe.',
     body: 'O endereço pode estar errado ou a página já não está disponível. Volte ao início ou procure uma resposta no centro de ajuda.',
@@ -28,7 +29,7 @@ const copy: Record<Language, {
     language: 'Choose language',
     brandAlt: 'Habitae, Condominium Management',
   },
-};
+});
 
 export default function NotFoundPage() {
   const { language } = useI18n();
@@ -48,7 +49,7 @@ export default function NotFoundPage() {
               <ArrowLeft size={16} aria-hidden="true" />
               {c.home}
             </a>
-            <a className="not-found-button not-found-button--secondary" href={sitePath(language === 'pt' ? '/ajuda' : '/help', language)}>
+            <a className="not-found-button not-found-button--secondary" href={sitePath(helpRoot(language), language)}>
               {c.help}
               <ArrowRight size={16} aria-hidden="true" />
             </a>

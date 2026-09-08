@@ -1,3 +1,5 @@
+import { translateCopy } from '../../shared/i18n.mjs';
+import { translateText } from '../../shared/i18n.mjs';
 import { analyticsAvailable } from '../tracking';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
@@ -14,7 +16,7 @@ export default function CookieConsent() {
   const dialog = useRef<HTMLDialogElement>(null);
   const settingsTrigger = useRef<HTMLElement | null>(null);
   const bannerSettings = useRef<HTMLButtonElement>(null);
-  const c = language === 'pt' ? {
+  const c = language !== 'en' ? translateCopy({
     title: 'Cookies e privacidade',
     description: analyticsAvailable ? 'Guardamos a sua decisão. Pode aceitar separadamente preferências de idioma e análise de audiência com Google Analytics.' : 'Guardamos a sua decisão e, se aceitar, o idioma escolhido. Não usamos análise de audiência nem publicidade.',
     accept: 'Aceitar todos', reject: 'Rejeitar opcionais', customise: 'Personalizar',
@@ -27,7 +29,7 @@ export default function CookieConsent() {
     tracking: analyticsAvailable ? 'A análise de audiência só é ativada com a sua autorização. Não usamos publicidade.' : 'Sem ferramentas de análise de audiência ou publicidade neste website.',
     save: 'Guardar escolhas', close: 'Fechar preferências',
     unavailable: 'A escolha aplica-se nesta página. O navegador não permitiu guardá-la para as próximas visitas.',
-  } : {
+  }, language) : {
     title: 'Cookies and privacy',
     description: analyticsAvailable ? 'We save your decision. You can separately allow language preferences and audience measurement with Google Analytics.' : 'We save your decision and, if you accept, your chosen language. We do not use analytics or advertising.',
     accept: 'Accept all', reject: 'Reject optional', customise: 'Customise',
@@ -131,8 +133,8 @@ export default function CookieConsent() {
             <p id="cookie-preferences-description">{c.preferencesCopy}</p>
           </div>
           {analyticsAvailable && <div className="cookie-category">
-            <label className="cookie-category-heading" htmlFor="cookie-analytics"><span>{language === 'pt' ? 'Análise de audiência' : 'Audience analytics'}<small>{c.optional}</small></span><input id="cookie-analytics" type="checkbox" role="switch" checked={analytics} onChange={event => setAnalytics(event.target.checked)} aria-describedby="cookie-analytics-description" /></label>
-            <p id="cookie-analytics-description">{language === 'pt' ? 'Permite ao Google Analytics medir visitas e inscrições na lista de espera. O formulário não envia o seu email para estas ferramentas.' : 'Allows Google Analytics to measure visits and waitlist signups. The form does not send your email to these tools.'}</p>
+            <label className="cookie-category-heading" htmlFor="cookie-analytics"><span>{language !== 'en' ? translateText('Análise de audiência', language) : 'Audience analytics'}<small>{c.optional}</small></span><input id="cookie-analytics" type="checkbox" role="switch" checked={analytics} onChange={event => setAnalytics(event.target.checked)} aria-describedby="cookie-analytics-description" /></label>
+            <p id="cookie-analytics-description">{language !== 'en' ? translateText('Permite ao Google Analytics medir visitas e inscrições na lista de espera. O formulário não envia o seu email para estas ferramentas.', language) : 'Allows Google Analytics to measure visits and waitlist signups. The form does not send your email to these tools.'}</p>
           </div>}
         </div>
         <p className="cookie-tracking-note">{c.tracking} <a href={sitePath('/privacy#storage', language)}>{c.privacy}</a>.</p>

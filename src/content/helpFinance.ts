@@ -1,7 +1,8 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import type { Guide } from './helpTypes';
 
 export const financeGuides: Guide[] = [
-  {
+  withFrench({
     id: 'transaction-review', category: 'finance', next: ['bank', 'corrections'],
     pt: {
       slug: 'conferir-corrigir-exportar-movimentos', title: 'Conferir, corrigir e exportar movimentos', excerpt: 'Use os filtros, reveja o FCR e exporte os registos que está a consultar.',
@@ -23,8 +24,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Export CSV', steps: ['Apply your filters and check the visible rows.', 'Select Export CSV.', 'Open the file in a spreadsheet and check dates, amounts and the exported selection.'], note: 'The CSV contains transactions visible with the current filters. Clear or adjust filters first to export a wider selection.' },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'bank', category: 'finance', next: ['bank-import', 'safes'],
     pt: {
       slug: 'saldo-conta-bancaria', title: 'Perceber o saldo da Conta Bancária', excerpt: 'Distinga o saldo do banco, o dinheiro reservado e o valor disponível.',
@@ -42,8 +43,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Prepare the report', paragraphs: ['Select the whole account or a budget and open the PDF. This selector sets the PDF scope; the cards on this page show the global account position.', 'Open Transactions to check entries or Import statement to establish or update the base. This page is not a live connection to your bank.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'bank-import', category: 'finance', next: ['bank', 'payment'],
     pt: {
       slug: 'importar-extrato-bancario', title: 'Importar e conferir um extrato bancário', excerpt: 'Reveja as linhas, evite duplicados e associe recebimentos às quotas corretas.',
@@ -63,8 +64,8 @@ export const financeGuides: Guide[] = [
         { heading: 'After importing', paragraphs: ['Check Transactions, Bank Account and, if fees were settled, Fees and Receipts. Do not manually record the same payments again.', 'You can update only the base balance without selecting movements when the statement has a valid final balance. Cancel if the format is rejected or values look wrong, and obtain a compatible bank export.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'safes', category: 'finance', next: ['standalone', 'bank'],
     pt: {
       slug: 'gerir-cofres-reservas', title: 'Gerir cofres e valores a repor', excerpt: 'Acompanhe dinheiro reservado para uma finalidade, como uma obra.',
@@ -84,8 +85,8 @@ export const financeGuides: Guide[] = [
         { heading: 'A replenishment example', paragraphs: ['If €300 was used and €100 has arrived through linked replenishment fees, €200 remains to replenish. Also check Bank Account to see how earmarked funds affect available money.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'budget-details', category: 'finance', next: ['schedule', 'standalone'],
     pt: {
       slug: 'rubricas-distribuicao-orcamento', title: 'Distribuir rubricas e acompanhar o orçamento', excerpt: 'Escolha que frações participam em cada despesa e compare o previsto com o gasto.',
@@ -105,8 +106,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Correct or delete', paragraphs: ['Edit the budget to correct its period, description or percentage. Categories and budgets have delete actions; check associations and the displayed message before confirming. For an already generated charge, also read the fee-corrections guide.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'standalone', category: 'fees', next: ['safes', 'payment'],
     pt: {
       slug: 'criar-quota-avulsa', title: 'Criar uma quota avulsa ou extraordinária', excerpt: 'Prepare uma cobrança única ou prestações para uma obra ou outra despesa extra.',
@@ -126,8 +127,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Change a standalone fee', paragraphs: ['Edit the saved schedule to review amounts and options. If payments already exist, respect displayed restrictions and check the effect on charges; do not create a second schedule to hide an error in the first.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'corrections', category: 'fees', next: ['credit', 'audit'],
     pt: {
       slug: 'corrigir-dispensar-reabrir-quotas', title: 'Corrigir, dispensar ou reabrir uma quota', excerpt: 'Escolha a ação certa para um valor errado, uma dispensa ou um pagamento mal registado.',
@@ -147,8 +148,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Change a schedule’s due day', paragraphs: ['In Fee Schedule, use the saved schedule’s due-day action, choose a day and save. The change applies to outstanding fees; check the updated dates.', 'Saved schedules also offer viewing, printing, row editing and deletion where available. Deleting schedules with completed payments can be blocked. Delete all affects the selected year and cannot be undone; it is not for correcting one fee.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'credit', category: 'fees', next: ['payment', 'receipts'],
     pt: {
       slug: 'saldo-antecipado-devolucoes', title: 'Registar saldo antecipado e devoluções', excerpt: 'Guarde pagamentos adiantados, use-os em quotas futuras ou registe uma devolução.',
@@ -166,8 +167,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Refund available credit', steps: ['On the person’s page, choose Refund balance when credit is available.', 'Enter the refunded amount, refund date, payment method and bank statement date where applicable.', 'Record the refund and check the reduced balance.'], note: 'Record only an actual refund within the available credit. This button records it; it does not execute a bank transfer.' },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'receipts', category: 'documents', next: ['payment', 'settings'],
     pt: {
       slug: 'recibos-personalizados-email', title: 'Gerar, agrupar e enviar recibos', excerpt: 'Prepare um PDF a partir de recebimentos já registados, sem cobrar duas vezes.',
@@ -185,8 +186,8 @@ export const financeGuides: Guide[] = [
         { heading: 'Missing email or incorrect document?', paragraphs: ['Correct the email under People. Check selected records, budget, dates and original payments before generating another document.', 'Text, payment details, paper size and issue-date settings are under Settings → Notice / receipt settings. A previously downloaded PDF does not change when you edit its source data.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'reminders', category: 'fees', next: ['notices', 'settings'],
     pt: {
       slug: 'avisos-debito-comunicacoes', title: 'Preparar avisos de débito e comunicações', excerpt: 'Escolha o documento e o destinatário certos para cobrar ou informar.',
@@ -206,5 +207,5 @@ export const financeGuides: Guide[] = [
         { heading: 'If sending fails', paragraphs: ['Check the email under People and read the error. Your account needs the relevant permissions and plan features, and the email service must be available. Check records before repeating a send to avoid duplicates.'] },
       ],
     },
-  },
+  }),
 ];

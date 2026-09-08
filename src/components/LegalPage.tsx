@@ -1,3 +1,5 @@
+import { translateCopy } from '../../shared/i18n.mjs';
+import { withFrench } from '../../shared/i18n.mjs';
 import { useEffect } from 'react';
 import { ArrowUp, Printer } from 'lucide-react';
 import { useI18n } from '../context/I18nContext';
@@ -15,13 +17,13 @@ export default function LegalPage({ pathname = appPathname() }: { pathname?: str
   const { language } = useI18n();
   const documentId: LegalDocumentId = /^\/(privacy|privacidade)\/?$/.test(pathname) ? 'privacy' : 'terms';
   const content = legalContent[language][documentId];
-  const c = language === 'pt' ? {
+  const c = language !== 'en' ? translateCopy({
     home: 'Página inicial', help: 'Ajuda', language: 'Escolher idioma', skip: 'Saltar para o conteúdo',
     kicker: 'Informação legal', contents: 'Nesta página', print: 'Imprimir', top: 'Voltar ao início',
     version: 'Versão', effective: 'Entrada em vigor', draft: 'Minuta — por completar',
     draftCopy: 'Esta versão contém campos por preencher, assinalados entre [[…]]. A identificação do prestador e as condições operacionais devem ser completadas e revistas antes da publicação como documento definitivo ou da apresentação para aceitação.',
     footer: 'Gestão de condomínios.', documents: 'Documentos legais',
-  } : {
+  }, language) : {
     home: 'Home', help: 'Help', language: 'Choose language', skip: 'Skip to content',
     kicker: 'Legal information', contents: 'On this page', print: 'Print', top: 'Back to top',
     version: 'Version', effective: 'Effective date', draft: 'Draft — details to complete',
@@ -43,7 +45,7 @@ export default function LegalPage({ pathname = appPathname() }: { pathname?: str
       ['meta[property="og:title"]', document.title],
       ['meta[property="og:description"]', content.description],
       ['meta[property="og:url"]', url],
-      ['meta[property="og:locale"]', language === 'pt' ? 'pt_PT' : 'en_GB'],
+      ['meta[property="og:locale"]', ({pt:'pt_PT',en:'en_GB',fr:'fr_FR'})[language]],
       ['meta[name="twitter:title"]', document.title],
       ['meta[name="twitter:description"]', content.description],
     ]) document.querySelector(selector)?.setAttribute('content', value);
@@ -107,7 +109,7 @@ export default function LegalPage({ pathname = appPathname() }: { pathname?: str
           </article>
         </div>
       </main>
-      <SiteFooter languagePaths={{ pt: sitePath(`/${documentId}/`, 'pt'), en: sitePath(`/${documentId}/`, 'en') }} />
+      <SiteFooter languagePaths={withFrench({ pt: sitePath(`/${documentId}/`, 'pt'), en: sitePath(`/${documentId}/`, 'en'), fr: sitePath(`/${documentId}/`, 'fr') })} />
     </div>
   );
 }

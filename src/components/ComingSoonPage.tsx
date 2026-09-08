@@ -1,3 +1,4 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import WaitlistForm from './WaitlistForm';
 import { ArrowLeft } from 'lucide-react';
 import { useI18n, type Language } from '../context/I18nContext';
@@ -10,7 +11,7 @@ const copy: Record<Language, {
   body: string;
   back: string;
   language: string;
-}> = {
+}> = withFrench({
   pt: {
     title: 'A sua área de gestão está quase a chegar.',
     body: 'A gestão do seu condomínio está prestes a mudar. O Habitae reúne finanças, quotas, documentos e tarefas num só lugar.',
@@ -23,7 +24,7 @@ const copy: Record<Language, {
     back: 'Back to the home page',
     language: 'Choose language',
   },
-};
+});
 
 export default function ComingSoonPage() {
   const { language } = useI18n();
@@ -45,7 +46,7 @@ export default function ComingSoonPage() {
           </a>
         </section>
       </main>
-      <SiteFooter languagePaths={{ pt: sitePath('/app/', 'pt'), en: sitePath('/app/', 'en') }} />
+      <SiteFooter languagePaths={withFrench({ pt: sitePath('/app/', 'pt'), en: sitePath('/app/', 'en') })} />
     </div>
   );
 }

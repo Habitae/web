@@ -1,7 +1,8 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import type { Guide } from './helpTypes';
 
 export const accountGuides: Guide[] = [
-  {
+  withFrench({
     id: 'billing-changes', category: 'account', next: ['billing', 'workspace'],
     pt: {
       slug: 'alterar-plano-limites-subcricao', title: 'Alterar o plano e consultar os limites', excerpt: 'Compare a utilização, a periodicidade e as condições antes de mudar a subscrição.',
@@ -21,8 +22,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Plan restrictions', paragraphs: ['Some features, usage limits and sending actions depend on the plan. Read the message and check the subscription before retrying. If you are not the owner, ask them to handle changes.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'access', category: 'getting-started', next: ['start', 'permissions'],
     pt: {
       slug: 'conta-acesso-palavra-passe', title: 'Criar conta, entrar e alterar a palavra-passe', excerpt: 'Escolha entre criar a sua organização ou aceitar o convite de uma equipa.',
@@ -42,8 +43,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Change a password or recover access', steps: ['While signed in, open the change-password action using the key icon in the top bar.', 'Enter your current password, a new password and its confirmation.', 'Save and check the password-changed message.'], note: 'If you cannot sign in, ask the organisation owner for help. User management can set a new password. The current sign-in screen has no email password-recovery flow; contact support if it is the owner account.' },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'workspace', category: 'account', next: ['permissions', 'billing'],
     pt: {
       slug: 'organizacoes-arquivar-condominios', title: 'Trocar de organização e arquivar condomínios', excerpt: 'Mantenha as áreas de trabalho separadas e retire edifícios da lista sem apagar os dados.',
@@ -63,8 +64,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Administration details', paragraphs: ['On the selection page, open Administration using the gear icon. Enter company and contact details and save the administration form. Inside a building, the gear opens Settings for that context. Available actions depend on your role.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'permissions', category: 'account', next: ['team', 'audit'],
     pt: {
       slug: 'funcoes-permissoes', title: 'Perceber as funções e os acessos', excerpt: 'Saiba quem pode consultar, editar, gerir utilizadores e tratar da subscrição.',
@@ -82,8 +83,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Review someone’s access', steps: ['The owner opens Administration → Users.', 'Find the person, check their role and select the required condominiums.', 'When someone leaves the team, review their active status and access. Each person should use their own account.'], note: 'Organisation owner is an account role. Unit owner is a relationship under People and Units. One does not automatically grant the other.' },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'settings', category: 'account', next: ['reminders', 'privacy'],
     pt: {
       slug: 'configuracoes-documentos-seguros', title: 'Configurar dados, documentos e seguros', excerpt: 'Preencha os dados do edifício e os modelos usados em avisos e recibos.',
@@ -103,8 +104,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Uploads and dates', paragraphs: ['Use legible images for logos and signatures. Upload a supported document for the scanned policy. The limit is 5 MB per file. If an upload is rejected, follow the form’s message.', 'The earliest value date can prevent earlier financial entries. Check it before entering old balances or transactions. Changing the IBAN on notices does not connect the app to your bank.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'privacy', category: 'account', next: ['permissions', 'audit'],
     pt: {
       slug: 'pedidos-privacidade-exportacao', title: 'Registar pedidos de privacidade e exportar dados', excerpt: 'Acompanhe pedidos na aplicação e perceba o alcance da exportação.',
@@ -124,8 +125,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Export is not restore', paragraphs: ['The interface has no button to restore the application from this file. For backups, recovery or an operation the interface does not offer, contact the service administrator.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'audit', category: 'account', next: ['permissions', 'corrections'],
     pt: {
       slug: 'consultar-auditoria', title: 'Consultar o registo de auditoria', excerpt: 'Procure quem realizou uma ação e em que condomínio.',
@@ -143,8 +144,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Correct an operation', paragraphs: ['The audit log is a read-only view with no undo button. Go to the original area, such as Fees and Receipts, and use the appropriate action. Note the event date and reference if you need help.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'people-changes', category: 'people', next: ['map', 'proxy'],
     pt: {
       slug: 'alterar-proprietarios-pagadores', title: 'Alterar proprietários, pagadores e contactos', excerpt: 'Atualize uma mudança de pessoa sem confundir a fração, o contacto e o acesso à aplicação.',
@@ -164,8 +165,8 @@ export const accountGuides: Guide[] = [
         { heading: 'Documents and app access', paragraphs: ['After changing people and relationships, regenerate the resident map, lists and proxy forms that need the updated details.', 'Changing a relationship or archiving a person does not change a team account’s role. Access is managed in Administration → Users.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'timeline', category: 'getting-started', next: ['bank', 'payment'],
     pt: {
       slug: 'ler-linha-cronologica', title: 'Ler a Linha cronológica', excerpt: 'Perceba o resumo financeiro, a atividade recente e o que precisa de acompanhamento.',
@@ -183,5 +184,5 @@ export const accountGuides: Guide[] = [
         { heading: 'If something seems missing', paragraphs: ['Check the condominium and period. Open the source record in its own area for full details. The Timeline is a summary; to investigate team actions, use the Audit log if you have access.'] },
       ],
     },
-  },
+  }),
 ];

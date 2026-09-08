@@ -1,3 +1,4 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import { useEffect, useState } from 'react';
 import { SiteHeader, SiteFooter } from './SiteChrome';
 import {
@@ -28,7 +29,7 @@ type PricingPlan = {
   featured?: boolean;
 };
 
-const pricingPlans: Record<Language, PricingPlan[]> = {
+const pricingPlans: Record<Language, PricingPlan[]> = withFrench({
   pt: [
     { code: 's', name: 'Habitae S', description: 'A experiência Habitae completa para um condomínio autogerido.', price: '19,99 €', interval: '/ mês', annualPrice: '227,90 €', annualInterval: '/ ano', annualSaving: 'Poupa 11,98 € por ano', features: ['Gestão completa de um condomínio', 'Emails enviados pelo Habitae', 'Convites e equipa de gestão'], action: 'Entrar na lista de espera', featured: true },
     { code: 'm', name: 'Habitae M', description: 'Para administrações profissionais em crescimento.', price: '69,99 €', interval: '/ mês', annualPrice: '797,90 €', annualInterval: '/ ano', annualSaving: 'Poupa 41,98 € por ano', features: ['Gestão de múltiplos condomínios', 'Ferramentas para equipas', 'Apoio ao crescimento'], action: 'Entrar na lista de espera' },
@@ -39,7 +40,7 @@ const pricingPlans: Record<Language, PricingPlan[]> = {
     { code: 'm', name: 'Habitae M', description: 'For growing professional administrators.', price: '€69.99', interval: '/ month', annualPrice: '€797.90', annualInterval: '/ year', annualSaving: 'Save €41.98 per year', features: ['Multiple condominium management', 'Tools for teams', 'Support for growth'], action: 'Join the waitlist' },
     { code: 'l', name: 'Habitae L', description: 'For condominium operations at greater scale.', price: '€169.99', interval: '/ month', annualPrice: '€1,937.90', annualInterval: '/ year', annualSaving: 'Save €101.98 per year', features: ['Everything in Habitae M', 'Greater-scale operations', 'Priority support'], action: 'Join the waitlist' },
   ],
-};
+});
 
 type FaqItem = {
   question: string;
@@ -47,7 +48,7 @@ type FaqItem = {
   link?: { label: string; path: string };
 };
 
-const faqItems: Record<Language, FaqItem[]> = {
+const faqItems: Record<Language, FaqItem[]> = withFrench({
   pt: [
     { question: 'O que é o Habitae?', answer: 'É uma aplicação de gestão de condomínios que reúne finanças, quotas, frações, pessoas, documentos e manutenção.' },
     { question: 'Quanto custa?', answer: `O Habitae S custa ${pricingPlans.pt[0].price} por mês ou ${pricingPlans.pt[0].annualPrice} por ano, acrescidos de IVA. Inclui 15 dias gratuitos na modalidade mensal ou 30 dias na anual.`, link: { label: 'Ver planos', path: '/#planos' } },
@@ -62,9 +63,9 @@ const faqItems: Record<Language, FaqItem[]> = {
     { question: 'Can I manage multiple condominiums?', answer: 'Yes. Habitae M and L let you manage multiple condominiums with your team. For a single self-managed condominium, choose Habitae S.' },
     { question: 'Where can I find help?', answer: 'The help centre has guides for setting up your condominium, recording payments, preparing meetings and managing your team.', link: { label: 'Open help centre', path: '/help' } },
   ],
-};
+});
 
-const pageCopy = {
+const pageCopy = withFrench({
   pt: {
     faqTitle: 'Perguntas frequentes',
     meta: { title: 'Software de gestão de condomínios em Portugal | Habitae', description: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', socialDescription: 'Finanças, quotas, documentos, pessoas e tarefas do condomínio, num só lugar.', locale: 'pt_PT' },
@@ -81,7 +82,7 @@ const pageCopy = {
     pricing: { kicker: 'Plans', title: 'Start with your condominium.', intro: 'Habitae S for a self-managed condominium. Habitae M and L for professional administrators.', monthly: 'Monthly', annual: 'Yearly', monthlyTrial: '15 free days on monthly plans.', annualTrial: '30 free days on yearly plans.', vat: 'Prices shown exclude VAT at the applicable legal rate.' },
     trust: { title: 'Your team, with the right access.', intro: 'Habitae hosts and maintains the application.', permissions: 'Permissions by role', permissionsCopy: 'Decide who can view and manage the condominium.', activity: 'Change history', activityCopy: 'See what changed and who made each change.' },
   },
-} as const;
+} as const);
 
 export default function MarketingPage() {
   const [pricingInterval, setPricingInterval] = useState<'month' | 'year'>('month');
@@ -100,7 +101,7 @@ export default function MarketingPage() {
 
 
   useEffect(() => {
-    document.documentElement.lang = language === 'pt' ? 'pt-PT' : 'en';
+    document.documentElement.lang = language === 'pt' ? 'pt-PT' : language;
     document.title = c.meta.title;
 
     const updateMeta = (selector: string, content: string) => {

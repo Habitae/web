@@ -1,3 +1,4 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import type { Language } from '../context/I18nContext';
 
 import type { Article, Guide } from './helpTypes';
@@ -9,7 +10,7 @@ export type { Article, CategoryId } from './helpTypes';
 // Checked against the application screens in the parent Habitae project.
 // Keep IDs stable: they connect translations, the starting path and related guides.
 const guides: Guide[] = [
-  {
+  withFrench({
     id: 'start', category: 'getting-started', next: ['condominium', 'glossary'],
     pt: {
       slug: 'comecar-aqui', title: 'É a sua primeira vez? Comece aqui.',
@@ -33,8 +34,8 @@ const guides: Guide[] = [
         { heading: 'After setup', paragraphs: ['Record expenses in Transactions and fee payments in Fees and Receipts. Use the Timeline to follow activity. Prepare meetings under Assemblies and find saved PDFs under Documentation → Documents.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'condominium', category: 'getting-started', next: ['units', 'people'],
     pt: {
       slug: 'criar-primeiro-condominio', title: 'Criar o primeiro condomínio',
@@ -56,8 +57,8 @@ const guides: Guide[] = [
         { heading: 'Cannot see the create button?', paragraphs: ['Check the selected organisation. If the option is still missing, ask your organisation administrator to check your permissions.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'units', category: 'people', next: ['people', 'glossary'],
     pt: {
       slug: 'adicionar-fracoes', title: 'Adicionar as frações do edifício',
@@ -79,8 +80,8 @@ const guides: Guide[] = [
         { heading: 'No owner linked yet?', paragraphs: ['You can create the unit first. Next, add the person under People and link them to the unit. Choosing who pays the fee does not create that link.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'people', category: 'people', next: ['people-changes', 'map'],
     pt: {
       slug: 'associar-pessoas-fracoes', title: 'Associar pessoas às frações',
@@ -100,8 +101,8 @@ const guides: Guide[] = [
         { heading: 'A person record is not a login account', paragraphs: ['Adding an owner under People stores their details in the condominium. To give a team member access to the app, use invitations in Administration → Users.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'budget', category: 'finance', next: ['budget-details', 'schedule'],
     pt: {
       slug: 'criar-orcamento', title: 'Criar o orçamento do condomínio',
@@ -121,8 +122,8 @@ const guides: Guide[] = [
         { heading: 'An example', paragraphs: ['If you expect to spend €1,200 a year on cleaning, enter €1,200 in that annual budget category. When you pay a €100 invoice, record the expense in Transactions and link it to Cleaning. You can then compare planned and actual spending.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'transaction', category: 'finance', next: ['transaction-review', 'bank-import'],
     pt: {
       slug: 'registar-movimento', title: 'Registar uma receita ou despesa',
@@ -142,8 +143,8 @@ const guides: Guide[] = [
         { heading: 'Avoid counting the same money twice', note: 'Search the list before adding a transaction. Do not add a separate income record for a fee payment you already recorded in Fees and Receipts.' },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'schedule', category: 'fees', next: ['standalone', 'payment'],
     pt: {
       slug: 'criar-plano-quotas', title: 'Criar um plano de quotas',
@@ -165,8 +166,8 @@ const guides: Guide[] = [
         { heading: 'No budget appears?', paragraphs: ['Create a budget under Finance → Budget first. Then return to the schedule and refresh the budgets if needed.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'payment', category: 'fees', next: ['credit', 'receipts'],
     pt: {
       slug: 'registar-pagamento-quota', title: 'Registar o pagamento de uma quota',
@@ -190,8 +191,8 @@ const guides: Guide[] = [
         { heading: 'More money than the selected debt?', paragraphs: ['Check whether you missed a fee when selecting rows. For money paid in advance, use the advance-balance option on the main page to keep credit for later use. Do not increase a fee just to match the transfer.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'meeting', category: 'assemblies', next: ['meeting-votes', 'minutes'],
     pt: {
       slug: 'preparar-reuniao', title: 'Preparar uma reunião e a respetiva ata',
@@ -211,8 +212,8 @@ const guides: Guide[] = [
         { heading: 'After the meeting takes place', paragraphs: ['Confirm in the app that the meeting was held to open Attendance, Voting and Minutes. Record attendance, votes and decisions for each topic.', 'Review the minutes text and save it. Finalise after reviewing; finalisation locks against accidental changes. Signature lists and proxy forms have their own areas under Assemblies.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'documents', category: 'documents', next: ['official', 'receipts'],
     pt: {
       slug: 'encontrar-documentos', title: 'Encontrar recibos e documentos PDF',
@@ -234,8 +235,8 @@ const guides: Guide[] = [
         { heading: 'Missing or incorrect details?', paragraphs: ['Check the source records: contacts in People, associations in Units, and the building name, tax number and address in Settings. Return to the document’s original area to generate a version with the corrected details.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'team', category: 'account', next: ['troubleshooting', 'people'],
     pt: {
       slug: 'convidar-equipa', title: 'Convidar a equipa de gestão',
@@ -257,8 +258,8 @@ const guides: Guide[] = [
         { heading: 'Change existing access', paragraphs: ['In the same area, review the user’s role, assigned condominiums and active status. Each person should use their own account. Owner records under People are separate from these login accounts.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'billing', category: 'account', next: ['billing-changes', 'permissions'],
     pt: {
       slug: 'subscricao-e-faturacao', title: 'Consultar a subscrição e a faturação',
@@ -278,8 +279,8 @@ const guides: Guide[] = [
         { heading: 'Manage payments and invoices', paragraphs: ['If the organisation has a Stripe subscription and the portal is available, its owner can use the manage-billing-in-Stripe action to see billing options.', 'If the page says billing is managed through support or the portal is unavailable, follow that instruction. If you are not the organisation owner, ask them to make the change.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'glossary', category: 'getting-started', next: ['start', 'schedule'],
     pt: {
       slug: 'glossario', title: 'Palavras do condomínio, sem complicar',
@@ -305,8 +306,8 @@ const guides: Guide[] = [
         { heading: 'Notice, agenda and minutes', paragraphs: ['Notice: the announcement of a meeting. Agenda: the topics to discuss. Minutes: the record of what happened and what was decided.'] },
       ],
     },
-  },
-  {
+  }),
+  withFrench({
     id: 'troubleshooting', category: 'account', next: ['start', 'team'],
     pt: {
       slug: 'resolver-duvidas', title: 'Não encontra uma opção ou um registo?',
@@ -330,7 +331,7 @@ const guides: Guide[] = [
         { heading: 'Still need help?', paragraphs: ['Note the screen name, what you tried to do and the message displayed. Share these details with your organisation administrator so they can reproduce the problem.'] },
       ],
     },
-  },
+  }),
 ];
 
 // A shared reading order keeps Previous/Next, both translations and the index
@@ -353,7 +354,9 @@ if (new Set(helpReadingOrder).size !== helpReadingOrder.length ||
 }
 const allGuides = helpReadingOrder.map((id) => guidesById.get(id)!);
 
-export const helpArticles: Record<Language, Article[]> = {
+export const helpArticles: Record<Language, Article[]> = withFrench({
   pt: allGuides.map(({ id, category, next, pt }) => ({ id, category, next, ...pt, updated: '6 set 2026' })),
   en: allGuides.map(({ id, category, next, en }) => ({ id, category, next, ...en, updated: '6 Sep 2026' })),
-};
+});
+
+helpArticles.fr = helpArticles.fr.map(article => ({ ...article, updated: '6 sept. 2026' }));

@@ -8,7 +8,7 @@ export async function writeAgentManifest(entries, render, origin, base = '/') {
   const files = {};
   for (const page of entries) {
     const result = render(page);
-    const route = { html: `${page.path}index.html`, markdown: `${page.path}index.md`, canonical: `${origin}${page.path}`, noindex: result.noindex, kind: page.kind, alternates: { pt: result.alternate('pt'), en: result.alternate('en') } };
+    const route = { html: `${page.path}index.html`, markdown: `${page.path}index.md`, canonical: `${origin}${page.path}`, noindex: result.noindex, kind: page.kind, alternates: { pt: result.alternate('pt'), en: result.alternate('en'), fr: result.alternate('fr') } };
     for (const path of [page.path, page.path === '/' ? '' : page.path.slice(0, -1), route.html].filter(Boolean)) routes[path] = route;
     files[route.markdown] = { type: 'text/markdown', canonical: route.canonical, noindex: route.noindex };
   }
@@ -24,7 +24,7 @@ export async function writeAgentManifest(entries, render, origin, base = '/') {
     }
   }
   await walk();
-  files['/404.md'].noindex = true;
+  for (const prefix of ['', '/en', '/fr']) files[`${prefix}/404.md`].noindex = true;
   files['/agent-manifest.json'] = { type: 'application/json', noindex: true };
   const manifest = { origin, base, routes, files };
   await writeFile('dist/agent-manifest.json', `${JSON.stringify(manifest, null, 2)}\n`);

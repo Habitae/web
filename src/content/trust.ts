@@ -1,10 +1,11 @@
+import { withFrench } from '../../shared/i18n.mjs';
 import type { Language } from '../context/I18nContext';
 
 export type TrustPageId = 'about' | 'contact';
 type Section = { id: string; title: string; paragraphs: string[]; contacts?: boolean; links?: { label: string; href: string }[] };
 type TrustContent = { title: string; description: string; sections: Section[] };
 
-export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> = {
+export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> = withFrench({
   pt: {
     about: {
       title: 'Sobre o Habitae',
@@ -12,7 +13,7 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
       sections: [
         { id: 'habitae', title: 'Gestão de condomínios em Portugal', paragraphs: [
           'O Habitae é um projeto de software de gestão de condomínios em Portugal. Reúne finanças, quotas, documentos, pessoas e tarefas do condomínio num só lugar, para que a administração possa acompanhar o trabalho e encontrar a informação de que precisa.',
-          'Este é o site oficial do Habitae em habitae.pt. Aqui pode conhecer as funcionalidades e os planos apresentados, consultar guias em português e inglês e entrar em contacto para esclarecer dúvidas sobre o produto.',
+          'Este é o site oficial do Habitae em habitae.pt. Aqui pode conhecer as funcionalidades e os planos apresentados, consultar guias em português, inglês e francês e entrar em contacto para esclarecer dúvidas sobre o produto.',
         ] },
         { id: 'para-quem', title: 'Para condóminos e administradores', paragraphs: [
           'O produto destina-se a quem participa na administração do seu condomínio e a administradores profissionais que organizam o trabalho de vários condomínios. Os guias abordam a criação de frações, os planos de quotas, o registo de pagamentos, a preparação de assembleias e o acesso da equipa.',
@@ -50,7 +51,7 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
       sections: [
         { id: 'habitae', title: 'Condominium management in Portugal', paragraphs: [
           'Habitae is a condominium management software project for Portugal. It brings condominium finances, fees, documents, people and tasks into one place so administrators can follow their work and find the information they need.',
-          'This is the official Habitae website at habitae.pt. Here you can explore the published features and plans, read guides in Portuguese and English, and contact the project with questions about the product.',
+          'This is the official Habitae website at habitae.pt. Here you can explore the published features and plans, read guides in Portuguese, English and French, and contact the project with questions about the product.',
         ] },
         { id: 'para-quem', title: 'For owners and administrators', paragraphs: [
           'The product is intended for people who help administer their own condominium and for professional administrators organising work across several condominiums. The guides cover creating units, fee schedules, recording payments, preparing meetings and team access.',
@@ -81,4 +82,4 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
       ],
     },
   },
-};
+});

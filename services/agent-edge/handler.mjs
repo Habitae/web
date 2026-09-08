@@ -58,7 +58,11 @@ export function createHandler(manifest) {
       const selected = representation(accept, [MARKDOWN, HTML]);
       const headers = documentHeaders({ 'X-Robots-Tag': 'noindex, follow', Link: recoveryLinks });
       if (!selected) return reply(request, 404, null, headers);
-      const source = await getAsset(selected === MARKDOWN ? '/404.md' : '/404.html');
+      const routeLanguage = /^\/(en|fr)(?:\/|$)/.exec(url.pathname)?.[1] || (url.pathname.startsWith('/aide/') ? 'fr' : url.pathname.startsWith('/help/') ? 'en' : 'pt');
+      const prefix = routeLanguage === 'pt' ? '' : `/${routeLanguage}`;
+      const source = await getAsset(`${prefix}/404.${selected === MARKDOWN ? 'md' : 'html'}`);
+      headers.set('Content-Language', routeLanguage);
+      headers.set('Link', recoveryLinks.replace('/404.md', `${prefix}/404.md`));
       if (source.status !== 200) return unavailable();
       headers.set('Content-Type', `${selected}; charset=utf-8`);
       return reply(request, 404, source.body, headers);
@@ -68,17 +72,17 @@ export function createHandler(manifest) {
       return reply(request, 405, null, documentHeaders({ Allow: 'GET, HEAD' }));
     }
     // These are error documents, not successful product pages even if the files exist.
-    if (url.pathname === '/404.html') return missing();
+    if (/^\/(?:en\/|fr\/)?404\.html$/.test(url.pathname)) return missing();
 
     const route = Object.hasOwn(manifest.routes, url.pathname) ? manifest.routes[url.pathname] : null;
     if (route) {
       const selected = representation(accept);
       if (!selected) return notAcceptable(route.canonical);
       const language = url.searchParams.get('lang');
-      const destination = route.kind !== 'help' && ['pt', 'en'].includes(language)
+      const destination = route.kind !== 'help' && ['pt', 'en', 'fr'].includes(language)
         ? route.alternates[language] : new URL(route.canonical).pathname;
       // Canonicalise legacy query-language links in one hop, including without JS.
-      if (destination !== url.pathname || (route.kind !== 'help' && ['pt', 'en'].includes(language))) {
+      if (destination !== url.pathname || (route.kind !== 'help' && ['pt', 'en', 'fr'].includes(language))) {
         url.pathname = destination;
         if (route.kind !== 'help') url.searchParams.delete('lang');
         return reply(request, 308, null, documentHeaders({ Location: `${url.pathname}${url.search}` }));

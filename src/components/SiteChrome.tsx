@@ -1,12 +1,13 @@
+import { withFrench, translateText } from '../../shared/i18n.mjs';
 import { useEffect, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { rememberLanguage } from '../consent';
 import { useI18n, type Language } from '../context/I18nContext';
-import { siteAsset, sitePath } from '../site';
+import { siteAsset, sitePath, helpRoot } from '../site';
 import CookieSettingsButton from './CookieSettingsButton';
 import './SiteChrome.css';
 
-const chromeCopy = {
+const chromeCopy = withFrench({
   pt: {
     brandAlt: 'Habitae, Gestão de Condomínios', homeLabel: 'Habitae, página inicial', menuOpen: 'Abrir menu', menuClose: 'Fechar menu', navigationLabel: 'Navegação principal',
     nav: { features: 'Funcionalidades', pricing: 'Planos', help: 'Ajuda', login: 'Entrar', open: 'Acesso antecipado' },
@@ -17,9 +18,9 @@ const chromeCopy = {
     nav: { features: 'Features', pricing: 'Plans', help: 'Help', login: 'Log in', open: 'Early access' },
     footer: { tagline: 'Condominium finances, people and tasks, in one place.', navigation: 'Footer links', copyright: 'Habitae, Condominium Management', languageLabel: 'Choose language', legal: 'Legal information', terms: 'Terms and conditions', privacy: 'Privacy' },
   },
-};
+});
 
-const footerGroups: Record<Language, Array<{ title: string; links: Array<{ label: string; path: string }> }>> = {
+const footerGroups: Record<Language, Array<{ title: string; links: Array<{ label: string; path: string }> }>> = withFrench({
   pt: [
     { title: 'Produto', links: [
       { label: 'Finanças e quotas', path: '/#financas' },
@@ -68,7 +69,7 @@ const footerGroups: Record<Language, Array<{ title: string; links: Array<{ label
       { label: 'Open application', path: '/app' },
     ] },
   ],
-};
+});
 
 function Brand({ inverse = false, alt }: { inverse?: boolean; alt: string }) {
   return (
@@ -130,7 +131,7 @@ export function SiteHeader({ home = false, active }: { home?: boolean; active?: 
               <a href={home ? "#funcionalidades" : sitePath("/#funcionalidades", language)} onClick={closeMenu}>{c.nav.features}</a>
               <a href={home ? "#planos" : sitePath("/#planos", language)} onClick={closeMenu}>{c.nav.pricing}</a>
               <a href={sitePath("/blog/", language)} onClick={closeMenu} aria-current={active === 'blog' ? 'page' : undefined}>Blog</a>
-              <a href={sitePath(language === 'pt' ? '/ajuda' : '/help', language)} onClick={closeMenu} aria-current={active === 'help' ? 'page' : undefined}>{c.nav.help}</a>
+              <a href={sitePath(helpRoot(language), language)} onClick={closeMenu} aria-current={active === 'help' ? 'page' : undefined}>{c.nav.help}</a>
             </div>
             <div className="mk-nav-actions">
               <a className="mk-button mk-button--ghost" href={sitePath('/app', language)}>{c.nav.login}</a>
@@ -172,12 +173,13 @@ export function SiteFooter({ languagePaths }: { languagePaths?: Record<Language,
             <nav className="mk-footer-legal" aria-label={c.footer.legal}>
               <a href={sitePath('/terms', language)}>{c.footer.terms}</a>
               <a href={sitePath('/privacy', language)}>{c.footer.privacy}</a>
-              <a href={sitePath('/glossary.md')}>{language === 'pt' ? 'Glossário' : 'Glossary'}</a>
+              <a href={sitePath('/glossary.md')}>{language !== 'en' ? translateText('Glossário', language) : 'Glossary'}</a>
               <CookieSettingsButton />
             </nav>
             <div className="mk-language-toggle" role="group" aria-label={c.footer.languageLabel}>
               <a href={languagePaths?.pt ?? sitePath('/', 'pt')} onClick={() => rememberLanguage('pt')} lang="pt" className={language === 'pt' ? 'is-active' : ''} aria-current={language === 'pt' ? 'page' : undefined}>Português</a>
               <a href={languagePaths?.en ?? sitePath('/', 'en')} onClick={() => rememberLanguage('en')} lang="en" className={language === 'en' ? 'is-active' : ''} aria-current={language === 'en' ? 'page' : undefined}>English</a>
+              <a href={languagePaths?.fr ?? sitePath('/', 'fr')} onClick={() => rememberLanguage('fr')} lang="fr" className={language === 'fr' ? 'is-active' : ''} aria-current={language === 'fr' ? 'page' : undefined}>Français</a>
             </div>
           </div>
         </div>

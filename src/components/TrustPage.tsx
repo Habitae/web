@@ -1,3 +1,5 @@
+import { translateCopy } from '../../shared/i18n.mjs';
+import { withFrench } from '../../shared/i18n.mjs';
 import { useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { useI18n } from '../context/I18nContext';
@@ -12,8 +14,8 @@ export default function TrustPage({ pathname = appPathname() }: { pathname?: str
   const { language } = useI18n();
   const id: TrustPageId = /^\/contact\/?$/.test(pathname) ? 'contact' : 'about';
   const content = trustContent[language][id];
-  const c = language === 'pt'
-    ? { home: 'Página inicial', language: 'Escolher idioma', skip: 'Saltar para o conteúdo', contents: 'Nesta página', navigation: 'Sobre e contactos', privacy: 'Privacidade', top: 'Voltar ao início', address: 'Morada', phone: 'Telefone', footer: 'Gestão de condomínios em Portugal.' }
+  const c = language !== 'en'
+    ? translateCopy({ home: 'Página inicial', language: 'Escolher idioma', skip: 'Saltar para o conteúdo', contents: 'Nesta página', navigation: 'Sobre e contactos', privacy: 'Privacidade', top: 'Voltar ao início', address: 'Morada', phone: 'Telefone', footer: 'Gestão de condomínios em Portugal.' }, language)
     : { home: 'Home', language: 'Choose language', skip: 'Skip to content', contents: 'On this page', navigation: 'About and contact', privacy: 'Privacy', top: 'Back to top', address: 'Address', phone: 'Phone', footer: 'Condominium management in Portugal.' };
   const { address, email, telephone } = organizationDetails;
 
@@ -57,7 +59,7 @@ export default function TrustPage({ pathname = appPathname() }: { pathname?: str
           </article>
         </div>
       </main>
-      <SiteFooter languagePaths={{ pt: sitePath(`/${id}/`, 'pt'), en: sitePath(`/${id}/`, 'en') }} />
+      <SiteFooter languagePaths={withFrench({ pt: sitePath(`/${id}/`, 'pt'), en: sitePath(`/${id}/`, 'en'), fr: sitePath(`/${id}/`, 'fr') })} />
     </div>
   );
 }

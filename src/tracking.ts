@@ -35,6 +35,6 @@ export function setAnalyticsConsent(allowed: boolean) {
   document.head.appendChild(script);
 }
 
-export function trackWaitlistSignup(language: 'pt' | 'en') {
+export function trackWaitlistSignup(language: 'pt' | 'en' | 'fr') {
   if (granted) window.dataLayer?.push({ event: 'waitlist_signup', language });
 }
