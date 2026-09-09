@@ -1,0 +1,30 @@
+/* Match the app marketing wordmark, using the site's bundled Manrope font. */
+.habitae-wordmark {
+  display: inline-block;
+  color: #275a40;
+  font-family: 'Manrope Variable', sans-serif;
+  font-size: inherit;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.habitae-wordmark > b {
+  color: #55735e;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.habitae-wordmark.habitae-wordmark-inverse { color: #dcebe2; }
+.habitae-wordmark.habitae-wordmark-inverse > b { color: #96b79f; }
+
+.habitae-wordmark.mk-brand-logo {
+  width: auto;
+  height: auto;
+  font-size: 2.25rem;
+}
+
+@media (max-width: 600px) {
+  .habitae-wordmark.mk-brand-logo { font-size: 1.875rem; }
+}

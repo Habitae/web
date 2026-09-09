@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { rememberLanguage } from '../consent';
 import { useI18n, type Language } from '../context/I18nContext';
-import { siteAsset, sitePath, helpRoot } from '../site';
+import { sitePath, helpRoot } from '../site';
+import HabitaeWordmark from './HabitaeWordmark';
 import CookieSettingsButton from './CookieSettingsButton';
 import './SiteChrome.css';
 
@@ -73,13 +74,7 @@ const footerGroups: Record<Language, Array<{ title: string; links: Array<{ label
 
 function Brand({ inverse = false, alt }: { inverse?: boolean; alt: string }) {
   return (
-    <img
-      className="mk-brand-logo"
-      src={siteAsset(inverse ? 'default-condominium-logo-dark.png' : 'default-condominium-logo-light.png')}
-      alt={alt}
-      width={466}
-      height={152}
-    />
+    <HabitaeWordmark className="mk-brand-logo" inverse={inverse} label={alt} />
   );
 }
 

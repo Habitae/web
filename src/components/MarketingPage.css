@@ -198,7 +198,7 @@ body.marketing-site {
   border: 0;
   border-radius: 99px;
   background: transparent;
-  color: #718078;
+  color: var(--mk-muted);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -275,7 +275,7 @@ body.marketing-site {
 }
 
 .mk-pricing-price span {
-  color: #76817b;
+  color: var(--mk-muted);
   font-size: 0.75rem;
   font-weight: 500;
 }
