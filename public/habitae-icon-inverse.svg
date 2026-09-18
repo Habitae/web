@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 280" role="img" aria-labelledby="title desc">
+  <title id="title">Habitae icon</title>
+  <desc id="desc">A two-tone geometric H formed by two building shapes and a central doorway.</desc>
+
+  <!-- Dark-surface treatment uses the exact two colours of the inverse wordmark. -->
+  <path fill="#DCEBE2" d="M38 0h45c16 0 26 11 26 27v91c0 6-2 10-7 14l-37 33c-7 6-10 13-10 22v93H28C11 280 0 269 0 252V38C0 17 17 0 38 0Z"/>
+  <path fill="#96B79F" d="M130 98c0-10 5-19 13-25l43-30c10-7 20-10 32-10h27c16 0 27 11 27 27v192c0 17-11 28-28 28h-46v-93c0-9-3-16-10-22l-47-40c-7-6-11-15-11-27Z"/>
+  <path fill="#DCEBE2" d="M100 280v-63c0-15 12-27 27-27s27 12 27 27v63h-54Z"/>
+</svg>

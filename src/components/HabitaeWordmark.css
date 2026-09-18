@@ -1,6 +1,8 @@
 /* Match the app marketing wordmark, using the site's bundled Manrope font. */
 .habitae-wordmark {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
   color: #275a40;
   font-family: 'Manrope Variable', sans-serif;
   font-size: inherit;
@@ -8,6 +10,16 @@
   letter-spacing: -0.055em;
   line-height: 1.1;
   white-space: nowrap;
+}
+
+.habitae-wordmark::before {
+  content: '';
+  display: inline-block;
+  width: 0.972em;
+  height: 1em;
+  margin-right: 0.3em;
+  vertical-align: -0.12em;
+  background: url('/habitae-icon.svg') center / contain no-repeat;
 }
 
 .habitae-wordmark > b {
@@ -18,6 +30,7 @@
 
 .habitae-wordmark.habitae-wordmark-inverse { color: #dcebe2; }
 .habitae-wordmark.habitae-wordmark-inverse > b { color: #96b79f; }
+.habitae-wordmark.habitae-wordmark-inverse::before { background-image: url('/habitae-icon-inverse.svg'); }
 
 .habitae-wordmark.mk-brand-logo {
   width: auto;
