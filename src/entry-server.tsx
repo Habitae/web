@@ -72,5 +72,33 @@ export function render(page: Page) {
     { '@type': post ? 'BlogPosting' : kind === 'blog' ? 'CollectionPage' : kind === 'about' ? 'AboutPage' : kind === 'contact' ? 'ContactPage' : article ? 'TechArticle' : 'WebPage', '@id': `${url}#page`, name: title, headline: post?.title ?? title, description, url, dateModified: post?.updated ?? contentUpdatedAt,
       ...(post ? { datePublished: post.published, author: { '@type': 'Organization', '@id': organizationSchema['@id'], name: 'Habitae', url: 'https://habitae.pt/about/' }, publisher: { '@id': organizationSchema['@id'] }, image: ['https://habitae.pt/social-preview-v2.png'], mainEntityOfPage: url, articleSection: post.category } : {}), inLanguage: language === 'pt' ? 'pt-PT' : language, ...(trust ? { about: { '@id': organizationSchema['@id'] } } : {}), isPartOf: { '@id': 'https://habitae.pt/#website' }, breadcrumb },
   ] };
-  return { html, title, description, alternate, structuredData, noindex: Boolean(legal && legalDraft), bodyClass: kind === 'home' ? 'marketing-site' : kind === 'help' ? 'help-center-site' : legal || trust || kind === 'blog' ? 'legal-site' : '' };
+  const embedCopy = {
+    pt: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ajuda', summary: 'Gestão de condomínios, sem ruído.' },
+    en: { open: 'Open page', waitlist: 'Join the waitlist', help: 'Help centre', summary: 'Condominium management without the noise.' },
+    fr: { open: 'Ouvrir la page', waitlist: "S'inscrire", help: "Centre d'aide", summary: 'La gestion de copropriété, sans bruit.' },
+  }[language];
+  const componentEmbed = {
+    component: {
+      type: 17,
+      accent_color: 2383174,
+      components: [
+        {
+          type: 9,
+          components: [{ type: 10, content: `# [${title}](${url})\n${description}` }],
+          accessory: { type: 11, media: { url: 'https://habitae.pt/social-preview-v2.png' } },
+        },
+        { type: 10, content: `**Habitae**\n${embedCopy.summary}` },
+        { type: 14, spacing: 1 },
+        {
+          type: 1,
+          components: [
+            { type: 2, style: 5, url, label: embedCopy.open },
+            { type: 2, style: 5, url: `https://habitae.pt${language === 'pt' ? '/app/' : `/${language}/app/`}`, label: embedCopy.waitlist },
+            { type: 2, style: 5, url: `https://habitae.pt${helpRoot(language)}/`, label: embedCopy.help },
+          ],
+        },
+      ],
+    },
+  };
+  return { html, title, description, alternate, structuredData, componentEmbed, noindex: Boolean(legal && legalDraft), bodyClass: kind === 'home' ? 'marketing-site' : kind === 'help' ? 'help-center-site' : legal || trust || kind === 'blog' ? 'legal-site' : '' };
 }

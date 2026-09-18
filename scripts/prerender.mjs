@@ -32,7 +32,7 @@ try {
   const mirrors = [];
   for (const page of entries) {
     const result = render(page);
-    const { title, description, structuredData } = result;
+    const { title, description, structuredData, componentEmbed } = result;
     const url = `${origin}${page.path}`;
     const file = `${page.path.slice(1)}index.html`;
     const mirrorPath = `${page.path}index.md`;
@@ -57,6 +57,7 @@ try {
       ...['pt', 'en', 'fr', 'x-default'].map(lang => `<link rel="alternate" hreflang="${lang === 'pt' ? 'pt-PT' : lang}" href="${origin}${result.alternate(lang === 'x-default' ? 'pt' : lang)}" />`),
       `<link rel="alternate" type="text/markdown" href="${origin}${mirrorPath}" />`,
       `<link rel="describedby" href="${origin}/llms.txt" />`,
+      `<script id="discord:component-embed" type="application/json">${JSON.stringify(componentEmbed).replaceAll('<', '\\u003c')}</script>`,
       `<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll('<', '\\u003c')}</script>`,
       ...(result.noindex ? ['<meta name="robots" content="noindex, follow" />'] : []),
     ];

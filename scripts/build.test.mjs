@@ -19,6 +19,11 @@ test('all static surfaces have real content, metadata, schema, and styles before
     assert.match(html, /<link rel="stylesheet"[^>]*href="\/assets\//, file);
     assert.equal((html.match(/<link rel="canonical"/g) || []).length, 1, file);
     for (const name of ['description', 'og:title', 'og:description', 'og:url', 'twitter:title']) assert.match(html, new RegExp(`(?:name|property)="${name}" content="[^\"]+"`), file);
+    const componentEmbed = JSON.parse(html.match(/<script id="discord:component-embed" type="application\/json">(.*?)<\/script>/s)[1]);
+    assert.equal(componentEmbed.component.type, 17, file);
+    assert.equal(componentEmbed.component.accent_color, 2383174, file);
+    assert(componentEmbed.component.components.some(component => component.type === 9), file);
+    assert(componentEmbed.component.components.some(component => component.type === 1), file);
     const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
     assert(schema['@graph'].some(item => item.breadcrumb?.['@type'] === 'BreadcrumbList'), file);
     assert.match(html, /hreflang="pt-PT"/, file);
