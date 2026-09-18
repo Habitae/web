@@ -68,7 +68,7 @@ const faqItems: Record<Language, FaqItem[]> = withFrench({
 const pageCopy = withFrench({
   pt: {
     faqTitle: 'Perguntas frequentes',
-    meta: { title: 'Software de gestão de condomínios em Portugal | Habitae', description: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', socialDescription: 'Finanças, quotas, documentos, pessoas e tarefas do condomínio, num só lugar.', locale: 'pt_PT' },
+    meta: { title: 'Habitae | Software de gestão de condomínios em Portugal', description: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', socialDescription: 'Finanças, quotas, documentos, pessoas e tarefas do condomínio, num só lugar.', locale: 'pt_PT' },
     skip: 'Saltar para o conteúdo',
     hero: { eyebrow: 'Gestão de condomínios', line1: 'O condomínio', line2: 'inteiro.', accent: 'Num só lugar.', lead: 'Gira quotas, contas, pessoas e manutenção do condomínio numa só aplicação.', primary: 'Entrar na lista de espera', secondary: 'Conhecer a plataforma' },
     pricing: { kicker: 'Planos', title: 'Comece com o seu condomínio.', intro: 'Habitae S para um condomínio autogerido. Habitae M e L para administrações profissionais.', monthly: 'Mensal', annual: 'Anual', monthlyTrial: '15 dias gratuitos nos planos mensais.', annualTrial: '30 dias gratuitos nos planos anuais.', vat: 'Aos valores apresentados acresce IVA à taxa legal em vigor.' },
@@ -76,7 +76,7 @@ const pageCopy = withFrench({
   },
   en: {
     faqTitle: 'Frequently asked questions',
-    meta: { title: 'Condominium management software in Portugal | Habitae', description: 'Habitae brings finances, fees, documents, people and tasks together in one clear condominium management platform.', socialDescription: 'Your condominium finances, fees, documents, people and tasks in one place.', locale: 'en_GB' },
+    meta: { title: 'Habitae | Condominium management software in Portugal', description: 'Habitae brings finances, fees, documents, people and tasks together in one clear condominium management platform.', socialDescription: 'Your condominium finances, fees, documents, people and tasks in one place.', locale: 'en_GB' },
     skip: 'Skip to content',
     hero: { eyebrow: 'Condominium management', line1: 'Your whole', line2: 'condominium.', accent: 'In one place.', lead: 'Manage condominium fees, accounts, people and maintenance in one application.', primary: 'Join the waitlist', secondary: 'Explore the platform' },
     pricing: { kicker: 'Plans', title: 'Start with your condominium.', intro: 'Habitae S for a self-managed condominium. Habitae M and L for professional administrators.', monthly: 'Monthly', annual: 'Yearly', monthlyTrial: '15 free days on monthly plans.', annualTrial: '30 free days on yearly plans.', vat: 'Prices shown exclude VAT at the applicable legal rate.' },

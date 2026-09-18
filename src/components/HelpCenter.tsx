@@ -101,7 +101,7 @@ const helpContent: Record<Language, HelpContent> = withFrench<{ pt: HelpContent;
     updated: 'Atualizado',
     onThisPage: 'Neste artigo',
     openApp: 'Abrir Habitae',
-    footer: 'Ajuda Habitae · Gestão de condomínios, sem ruído.',
+    footer: 'Ajuda Habitae',
     categories: {
       'getting-started': 'Primeiros passos',
       people: 'Pessoas e frações',
@@ -152,7 +152,7 @@ const helpContent: Record<Language, HelpContent> = withFrench<{ pt: HelpContent;
     updated: 'Updated',
     onThisPage: 'In this article',
     openApp: 'Open Habitae',
-    footer: 'Habitae Help · Condominium management without the noise.',
+    footer: 'Habitae Help Centre',
     categories: {
       'getting-started': 'Getting started',
       people: 'People and units',

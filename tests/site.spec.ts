@@ -16,6 +16,9 @@ for (const javaScriptEnabled of [false, true]) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     }
     await page.goto('http://127.0.0.1:4174/');
+    const wordmark = page.locator('.mk-header .habitae-wordmark').first();
+    await expect(wordmark).toBeVisible();
+    expect(await wordmark.evaluate((element) => getComputedStyle(element, '::before').backgroundImage)).toContain('habitae-icon.svg');
     if (javaScriptEnabled) await page.getByRole('button', { name: 'Rejeitar opcionais', exact: true }).first().click();
     await page.getByRole('link', { name: 'English', exact: true }).click();
     await expect(page).toHaveURL(/\/en\/$/);

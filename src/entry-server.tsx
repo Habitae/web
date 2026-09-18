@@ -42,7 +42,7 @@ export function render(page: Page) {
   const article = 'article' in page ? page.article : undefined;
   const post = 'post' in page ? page.post : undefined;
   const en = language === 'en';
-  const homeTitle = en ? 'Condominium management software in Portugal | Habitae' : translateText('Software de gestão de condomínios em Portugal | Habitae', language);
+  const homeTitle = en ? 'Habitae | Condominium management software in Portugal' : translateText('Habitae | Software de gestão de condomínios em Portugal', language);
   const homeDescription = en ? 'Habitae brings finances, fees, documents, people and tasks together in one clear condominium management platform.' : translateText('O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', language);
   const appDescription = en ? 'Join the Habitae waitlist to hear when our condominium management software launches in Portugal. Sign up as an administrator or resident.' : translateText('Entre na lista de espera do Habitae para saber quando o software de gestão de condomínios fica disponível em Portugal. Para administradores e moradores.', language);
   const legal = kind === 'terms' || kind === 'privacy' ? legalContent[language][kind] : null;
@@ -73,9 +73,9 @@ export function render(page: Page) {
       ...(post ? { datePublished: post.published, author: { '@type': 'Organization', '@id': organizationSchema['@id'], name: 'Habitae', url: 'https://habitae.pt/about/' }, publisher: { '@id': organizationSchema['@id'] }, image: ['https://habitae.pt/social-preview-v2.png'], mainEntityOfPage: url, articleSection: post.category } : {}), inLanguage: language === 'pt' ? 'pt-PT' : language, ...(trust ? { about: { '@id': organizationSchema['@id'] } } : {}), isPartOf: { '@id': 'https://habitae.pt/#website' }, breadcrumb },
   ] };
   const embedCopy = {
-    pt: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ajuda', summary: 'Gestão de condomínios, sem ruído.' },
-    en: { open: 'Open page', waitlist: 'Join the waitlist', help: 'Help centre', summary: 'Condominium management without the noise.' },
-    fr: { open: 'Ouvrir la page', waitlist: "S'inscrire", help: "Centre d'aide", summary: 'La gestion de copropriété, sans bruit.' },
+    pt: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ajuda' },
+    en: { open: 'Open page', waitlist: 'Join the waitlist', help: 'Help centre' },
+    fr: { open: 'Ouvrir la page', waitlist: "S'inscrire", help: "Centre d'aide" },
   }[language];
   const componentEmbed = {
     component: {
@@ -85,9 +85,9 @@ export function render(page: Page) {
         {
           type: 9,
           components: [{ type: 10, content: `# [${title}](${url})\n${description}` }],
-          accessory: { type: 11, media: { url: 'https://habitae.pt/social-preview-v2.png' } },
+          accessory: { type: 11, media: { url: 'https://habitae.pt/habitae-icon.svg' } },
         },
-        { type: 10, content: `**Habitae**\n${embedCopy.summary}` },
+        { type: 10, content: '**Habitae**' },
         { type: 14, spacing: 1 },
         {
           type: 1,
