@@ -85,7 +85,7 @@ export function render(page: Page) {
         {
           type: 9,
           components: [{ type: 10, content: `# [${title}](${url})\n${description}` }],
-          accessory: { type: 11, media: { url: 'https://habitae.pt/habitae-icon.svg' } },
+          accessory: { type: 11, media: { url: 'https://habitae.pt/resident/icon-512.png' } },
         },
         { type: 10, content: '**Habitae**' },
         { type: 14, spacing: 1 },
