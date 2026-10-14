@@ -196,7 +196,7 @@ export default function MarketingPage() {
                         <li key={feature}><Check size={15} aria-hidden="true" />{feature}</li>
                       ))}
                     </ul>
-                    <a className="mk-button mk-button--primary mk-pricing-action" href={sitePath('/app', language)}>
+                    <a className={`mk-button ${plan.featured ? 'mk-button--primary' : 'mk-button--ghost'} mk-pricing-action`} href={sitePath('/app', language)}>
                       {plan.action} <ArrowRight size={15} aria-hidden="true" />
                     </a>
                   </article>
