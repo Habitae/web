@@ -470,3 +470,28 @@
 @media (max-width: 900px) and (scripting: none) { .site-chrome.mk-header { position: static; } }
 .legal-skip { z-index: 200; }
 .site-chrome .mk-brand, .site-chrome .mk-footer-brand > a { color: var(--mk-ink); }
+
+/* Dark brand footer. Scoped to the footer so it outranks the shared chrome colours above. */
+.site-chrome.mk-footer {
+  --mk-footer-text: #e4efe8;
+  --mk-footer-muted: #a9c2b3;
+  --mk-footer-line: rgba(228, 239, 232, 0.14);
+  border-top: 0;
+  background: var(--habitae-brand-dark);
+  color: var(--mk-footer-text);
+}
+.site-chrome.mk-footer .mk-footer-brand > a,
+.site-chrome.mk-footer .mk-footer-links h2 { color: var(--mk-footer-text); }
+.site-chrome.mk-footer .mk-footer-brand p,
+.site-chrome.mk-footer .mk-footer-copyright,
+.site-chrome.mk-footer .mk-footer-legal,
+.site-chrome.mk-footer .mk-footer-links a,
+.site-chrome.mk-footer .mk-footer-legal a,
+.site-chrome.mk-footer .mk-language-toggle a { color: var(--mk-footer-muted); }
+.site-chrome.mk-footer .mk-footer-links a:hover,
+.site-chrome.mk-footer .mk-footer-legal a:hover,
+.site-chrome.mk-footer .cookie-settings-button:hover,
+.site-chrome.mk-footer .mk-language-toggle a:hover,
+.site-chrome.mk-footer .mk-language-toggle a.is-active { color: #fff; }
+.site-chrome.mk-footer .mk-footer-bottom { border-top-color: var(--mk-footer-line); }
+.site-chrome.mk-footer :where(a, button):focus-visible { outline-color: #96b79f; }

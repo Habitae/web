@@ -149,7 +149,7 @@ export function SiteFooter({ languagePaths }: { languagePaths?: Record<Language,
         <div className="mk-container">
           <div className="mk-footer-main">
             <div className="mk-footer-brand">
-              <a href={sitePath('/', language)} aria-label={c.homeLabel}><Brand alt={c.brandAlt} /></a>
+              <a href={sitePath('/', language)} aria-label={c.homeLabel}><Brand inverse alt={c.brandAlt} /></a>
               <p>{c.footer.tagline}</p>
             </div>
             <nav className="mk-footer-links" aria-label={c.footer.navigation}>
