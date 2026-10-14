@@ -39,6 +39,7 @@ async function start() {
   }
   const { default: Surface } = await (pathname === '/'
     ? import('./components/MarketingPage')
+    : /^\/redesign\/?$/.test(pathname) ? import('./components/MarketingPageRedesign')
     : /^\/app\/?$/.test(pathname) ? import('./components/ComingSoonPage')
     : /^\/blog(?:\/|$)/.test(pathname) ? import('./components/BlogPage')
     : /^\/(?:ajuda|help|aide)(?:\/|$)/.test(pathname) ? import('./components/HelpCenter')

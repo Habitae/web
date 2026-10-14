@@ -26,7 +26,7 @@ try {
     return [...new Set([...(chunk.css ?? []), ...(chunk.imports ?? []).flatMap(stylesFor)])];
   };
   const font = Object.values(manifest).find(asset => asset.file?.includes('manrope-latin-wght-normal'))?.file;
-  const surfaceNames = { home: 'MarketingPage', app: 'ComingSoonPage', help: 'HelpCenter', terms: 'LegalPage', privacy: 'LegalPage', about: 'TrustPage', contact: 'TrustPage', blog: 'BlogPage' };
+  const surfaceNames = { home: 'MarketingPage', redesign: 'MarketingPageRedesign', app: 'ComingSoonPage', help: 'HelpCenter', terms: 'LegalPage', privacy: 'LegalPage', about: 'TrustPage', contact: 'TrustPage', blog: 'BlogPage' };
   const entries = pages();
   const indexed = [];
   const mirrors = [];

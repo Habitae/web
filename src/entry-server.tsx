@@ -5,6 +5,7 @@ import { renderToString } from 'react-dom/server';
 import { I18nProvider, type Language } from './context/I18nContext';
 import { ConsentProvider } from './context/ConsentContext';
 import MarketingPage from './components/MarketingPage';
+import MarketingPageRedesign from './components/MarketingPageRedesign';
 import HelpCenter from './components/HelpCenter';
 import LegalPage from './components/LegalPage';
 import ComingSoonPage from './components/ComingSoonPage';
@@ -25,6 +26,8 @@ export function pages() {
     const root = helpRoot(language);
     return [
       { path: `${prefix}/`, language, kind: 'home' },
+      // Homepage redesign under test with visitors; kept out of search results.
+      { path: `${prefix}/redesign/`, language, kind: 'redesign' },
       { path: `${prefix}/app/`, language, kind: 'app' },
       { path: blogPath(language), language, kind: 'blog' },
       ...blogPosts[language].map(post => ({ path: blogPath(language, post), language, kind: 'blog', post })),
@@ -50,7 +53,7 @@ export function render(page: Page) {
   const title = kind === 'blog' ? `${post?.title ?? blogIndex[language].title} | Habitae` : trust ? `${trust.title} | Habitae` : legal ? `${legal.title} | Habitae` : article ? `${article.title} · ${en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)}` : kind === 'help' ? (en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)) : kind === 'app' ? (en ? 'Join the Habitae waitlist' : translateText('Lista de espera Habitae', language)) : homeTitle;
   const description = post?.description ?? (kind === 'blog' ? blogIndex[language].description : undefined) ?? trust?.description ?? legal?.description ?? article?.excerpt ?? (kind === 'app' ? appDescription : kind === 'help' ? (en ? 'Step-by-step guides to get started and manage your condominium in Habitae.' : translateText('Guias passo a passo para começar e gerir o seu condomínio no Habitae.', language)) : homeDescription);
   const pathname = page.path.replace(/^\/(?:en|fr)\//, '/');
-  const surface = kind === 'blog' ? <BlogPage pathname={pathname} /> : kind === 'home' ? <MarketingPage /> : kind === 'help' ? <HelpCenter pathname={pathname} /> : trust ? <TrustPage pathname={pathname} /> : legal ? <LegalPage pathname={pathname} /> : kind === 'app' ? <ComingSoonPage /> : <NotFoundPage />;
+  const surface = kind === 'blog' ? <BlogPage pathname={pathname} /> : kind === 'home' ? <MarketingPage /> : kind === 'redesign' ? <MarketingPageRedesign /> : kind === 'help' ? <HelpCenter pathname={pathname} /> : trust ? <TrustPage pathname={pathname} /> : legal ? <LegalPage pathname={pathname} /> : kind === 'app' ? <ComingSoonPage /> : <NotFoundPage />;
   const html = renderToString(<ConsentProvider><I18nProvider initialLanguage={language}>{surface}</I18nProvider></ConsentProvider>);
   const alternate = (lang: Language) => {
     if (kind === 'blog') return blogPath(lang, post ? translatedBlogPost(lang, post.slug) : undefined);
@@ -100,5 +103,5 @@ export function render(page: Page) {
       ],
     },
   };
-  return { html, title, description, alternate, structuredData, componentEmbed, noindex: Boolean(legal && legalDraft), bodyClass: kind === 'home' ? 'marketing-site' : kind === 'help' ? 'help-center-site' : legal || trust || kind === 'blog' ? 'legal-site' : '' };
+  return { html, title, description, alternate, structuredData, componentEmbed, noindex: Boolean(legal && legalDraft) || kind === 'redesign', bodyClass: kind === 'home' || kind === 'redesign' ? 'marketing-site' : kind === 'help' ? 'help-center-site' : legal || trust || kind === 'blog' ? 'legal-site' : '' };
 }
