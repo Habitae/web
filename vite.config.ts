@@ -12,7 +12,12 @@ export default defineConfig(({ mode }) => {
   const base = env.HABITAE_BASE_PATH || '/';
   if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(base)) throw new Error('HABITAE_BASE_PATH must be an absolute path with a trailing slash.');
   return {
-    plugins: [websiteCatalogs(process.cwd()), react()],
+    plugins: [
+      websiteCatalogs(process.cwd()),
+      // Vite serves JSON as JS in dev, so a JSON import attribute makes the browser reject it.
+      { name: 'dev-json-imports', apply: 'serve', transform: (code, id) => id.endsWith('/shared/i18n.mjs') ? code.replaceAll(", { with: { type: 'json' } }", '') : undefined },
+      react(),
+    ],
     base,
     // The prerenderer uses the manifest to include each surface’s styles in HTML.
     build: { outDir: 'dist', manifest: true },
