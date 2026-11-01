@@ -331,36 +331,108 @@
 .rd-avatar--a { background: #dcebe1; color: var(--mk-forest-dark); }
 .rd-avatar--b { background: #f3e6cf; color: #7a4a12; }
 
-/* Meetings: a small pile of paper, only the top sheet has words. */
-.rd-art--papers { position: relative; min-height: 11.5rem; margin-left: 0.25rem; }
+/* Meetings: one notice of meeting printed as one letter per owner. Each letter
+   carries its owner's address where a DL envelope's window falls (right side,
+   upper third) and fold ticks at a third and two thirds on its left edge. The
+   front letter is the only one with words besides the second owner's name. */
+.rd-art--letters { position: relative; min-height: 11.5rem; container-type: inline-size; }
 
-.rd-paper {
+.rd-letter {
   position: absolute;
-  top: 0.75rem;
+  top: 0.35rem;
   left: 0;
-  width: min(15.5rem, 82%);
-  height: 13rem;
+  display: flex;
+  /* Each copy lies 0.6 of a letter further right, clear of the window in front
+     of it; the third keeps about 2.25rem in view before the tile cuts it. */
+  width: min(13rem, calc((100% - 2.25rem) / 1.6));
+  aspect-ratio: 210 / 297;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.75rem 0.5rem 0 0.85rem;
   border: 1px solid var(--mk-line);
-  border-radius: 0.6rem;
+  border-radius: 0.45rem;
   background: var(--mk-white);
   box-shadow: 0 10px 24px -20px rgba(23, 42, 33, 0.45);
 }
 
-.rd-paper--back { transform: rotate(-5deg) translate(0.4rem, 0.6rem); background: var(--mk-cream); }
-.rd-paper--mid { transform: rotate(3deg) translate(1.1rem, 0.2rem); }
+/* Dealt to the right, so each copy's window shows beside the letter above it. */
+.rd-letter--front { z-index: 3; transform: translate(0, 0) rotate(-1deg); }
+.rd-letter--second { z-index: 2; transform: translate(60%, 0.4rem) rotate(1.5deg); }
+.rd-letter--third { z-index: 1; transform: translate(120%, 0.1rem) rotate(-1.5deg); }
 
-.rd-paper--top {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  padding: 1rem 1.1rem;
-  transform: rotate(-1deg);
+.rd-letter-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56%;
+  align-items: start;
+  gap: 0.6rem;
 }
 
-.rd-paper-kicker { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--mk-forest); font-size: 0.75rem; font-weight: 600; }
-.rd-paper--top strong { color: var(--mk-ink); font-size: 0.9375rem; font-weight: 600; }
-.rd-paper-date { margin-bottom: 0.35rem; color: var(--mk-muted); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
-.rd-paper--top i { height: 0.35rem; }
+.rd-letter-sender { display: grid; gap: 0.35rem; padding-top: 0.15rem; }
+
+.rd-letter-window {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  padding: 0.45rem 0.45rem 0.55rem;
+  border-radius: 0.35rem;
+  background: var(--mk-cream);
+}
+
+.rd-letter-window strong {
+  overflow: hidden;
+  color: var(--mk-ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rd-letter-body { display: flex; flex-direction: column; gap: 0.4rem; }
+.rd-letter-body strong { color: var(--mk-ink); font-size: 0.9375rem; font-weight: 600; line-height: 1.3; }
+.rd-letter i { height: 0.35rem; }
+.rd-letter-sender i, .rd-letter--second .rd-letter-body i, .rd-letter--third .rd-letter-body i { height: 0.3rem; }
+.rd-letter-body > i:first-of-type { margin-top: 0.15rem; }
+
+.rd-letter-fold {
+  position: absolute;
+  top: 33.333%;
+  left: 0;
+  width: 0.35rem;
+  height: 1px;
+  background: var(--mk-muted);
+  opacity: 0.55;
+}
+
+.rd-letter-fold--low { top: 66.667%; }
+
+.rd-letter-kicker { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--mk-forest); font-size: 0.75rem; font-weight: 600; }
+.rd-letter-date { margin-bottom: 0.2rem; color: var(--mk-muted); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+
+/* A narrow tile (three columns on a small laptop) can't fit a third letter with
+   whole windows: two letters, both whole, with a little more room for the name. */
+@container (max-width: 18rem) {
+  .rd-letter { width: calc((100% - 1rem) / 1.6); }
+  .rd-letter--third { display: none; }
+  .rd-letter-head { grid-template-columns: minmax(0, 1fr) 64%; }
+  .rd-letter-window { padding-inline: 0.4rem; }
+}
+
+/* Before it plays: the copies lie in a pile under the notice and its window is
+   empty. No transitions here, so the reset (made before the tile is on screen)
+   snaps; once dealt, the address settles first and the copies travel out. */
+.rd-art--letters:not([data-dealt]) .rd-letter--second { transform: translate(0.9rem, 0.2rem) rotate(3deg); }
+.rd-art--letters:not([data-dealt]) .rd-letter--third { transform: translate(0.4rem, 0.6rem) rotate(-5deg); }
+.rd-art--letters:not([data-dealt]) .rd-letter--front .rd-letter-window > * { opacity: 0; transform: translateY(0.3rem); }
+
+.rd-art--letters[data-dealt] .rd-letter--front .rd-letter-window > * {
+  transition: opacity 420ms ease, transform 640ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.rd-art--letters[data-dealt] .rd-letter-window > :nth-child(2) { transition-delay: 60ms; }
+.rd-art--letters[data-dealt] .rd-letter-window > :nth-child(3) { transition-delay: 120ms; }
+.rd-art--letters[data-dealt] .rd-letter--second { transition: transform 1000ms cubic-bezier(0.45, 0, 0.1, 1) 420ms; }
+.rd-art--letters[data-dealt] .rd-letter--third { transition: transform 1000ms cubic-bezier(0.45, 0, 0.1, 1) 540ms; }
 
 /* Permissions: the one statement tile, in type on the brand colour. */
 .rd-card--statement {
@@ -788,6 +860,8 @@
   .rd-card--hero .rd-card-copy { max-width: none; flex: none; gap: 0.75rem; }
   .rd-art--quotas { position: static; margin: 1.5rem 0 calc(var(--rd-tile-pad) * -1); }
   .rd-quotas-row--filler { padding-bottom: 0.9rem; }
+  /* Room for a meeting title that wraps (French) above the cut. */
+  .rd-art--letters { min-height: 13rem; }
   .rd-bento { --rd-tile-pad: 1.4rem; }
   .rd-card { min-height: 0; }
   .rd-card--statement { min-height: 15rem; }

@@ -171,6 +171,48 @@ function QuotaPanel({ language }: { language: Language }) {
   );
 }
 
+// The meetings tile's picture: one notice of meeting becomes one letter per owner.
+// The front letter's address settles into the envelope window, then the copies
+// beneath it are dealt out to the right, each already addressed to someone else
+// (they move out from under it; nothing is swapped). Only the front letter and the
+// second owner's name have words; the third letter bleeds off the tile as filler.
+function NoticeLetters({ language }: { language: Language }) {
+  const p = productCopy[language];
+  const [ref, dealt] = usePlayOnce<HTMLDivElement>();
+  return (
+    <div ref={ref} className="rd-art rd-art--letters" data-dealt={dealt || undefined} aria-hidden="true">
+      <div className="rd-letter rd-letter--third">
+        <div className="rd-letter-head">
+          <span className="rd-letter-sender"><i style={{ width: '70%' }} /><i style={{ width: '48%' }} /></span>
+          <span className="rd-letter-window"><i style={{ width: '62%' }} /><i style={{ width: '78%' }} /><i style={{ width: '50%' }} /></span>
+        </div>
+        <div className="rd-letter-body"><i style={{ width: '40%' }} /><i style={{ width: '66%' }} /><i style={{ width: '86%' }} /><i style={{ width: '74%' }} /></div>
+      </div>
+      <div className="rd-letter rd-letter--second">
+        <div className="rd-letter-head">
+          <span className="rd-letter-sender"><i style={{ width: '70%' }} /><i style={{ width: '48%' }} /></span>
+          <span className="rd-letter-window"><strong>Luís Melo</strong><i style={{ width: '84%' }} /><i style={{ width: '56%' }} /></span>
+        </div>
+        <div className="rd-letter-body"><i style={{ width: '40%' }} /><i style={{ width: '66%' }} /><i style={{ width: '86%' }} /><i style={{ width: '74%' }} /></div>
+      </div>
+      <div className="rd-letter rd-letter--front">
+        <span className="rd-letter-fold" />
+        <span className="rd-letter-fold rd-letter-fold--low" />
+        <div className="rd-letter-head">
+          <span className="rd-letter-sender"><i style={{ width: '70%' }} /><i style={{ width: '48%' }} /></span>
+          <span className="rd-letter-window"><strong>Marta Reis</strong><i style={{ width: '88%' }} /><i style={{ width: '60%' }} /></span>
+        </div>
+        <div className="rd-letter-body">
+          <span className="rd-letter-kicker"><FileText size={14} />{p.notice}</span>
+          <strong>{p.meeting}</strong>
+          <span className="rd-letter-date">{p.date}</span>
+          <i style={{ width: '86%' }} /><i style={{ width: '72%' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const SNAPSHOT_WIDTH = 1280;
 const SNAPSHOT_HEIGHT = 800;
 const SIDEBAR_WIDTH = 252;
@@ -294,16 +336,7 @@ export default function MarketingPage() {
                 <div className="rd-card-copy">
                   <p className="rd-runin"><strong>{p.operations.title}</strong> {p.operations.description}</p>
                 </div>
-                <div className="rd-art rd-art--papers" aria-hidden="true">
-                  <div className="rd-paper rd-paper--back" />
-                  <div className="rd-paper rd-paper--mid" />
-                  <div className="rd-paper rd-paper--top">
-                    <span className="rd-paper-kicker"><FileText size={14} />{p.notice}</span>
-                    <strong>{p.meeting}</strong>
-                    <span className="rd-paper-date">{p.date}</span>
-                    <i style={{ width: '88%' }} /><i style={{ width: '72%' }} /><i style={{ width: '80%' }} />
-                  </div>
-                </div>
+                <NoticeLetters language={language} />
               </article>
 
               <article className="rd-card rd-card--statement">
