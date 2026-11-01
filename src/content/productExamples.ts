@@ -1,4 +1,4 @@
-// Feature copy shared by the homepage examples and the redesign's feature cards.
+// Feature copy for the homepage's feature cards.
 import { withFrench } from '../../shared/i18n.mjs';
 
 export const productCopy = withFrench({

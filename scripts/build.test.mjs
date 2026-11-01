@@ -4,7 +4,7 @@ import { test } from 'node:test';
 
 const read = path => readFile(`dist/${path}`, 'utf8');
 const textContent = html => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-// app-preview/ holds the static app snapshot embedded in the redesign hero, not site pages.
+// app-preview/ holds the static app snapshot embedded in the homepage hero, not site pages.
 async function htmlFiles(dir = '') {
   const entries = await readdir(`dist/${dir}`, { withFileTypes: true });
   const nested = await Promise.all(entries.filter(entry => entry.isDirectory() && entry.name !== 'assets' && entry.name !== 'app-preview').map(entry => htmlFiles(`${dir}${entry.name}/`)));
@@ -13,7 +13,7 @@ async function htmlFiles(dir = '') {
 
 test('all static surfaces have real content, metadata, schema, and styles before JS', async () => {
   const files = (await htmlFiles()).filter(file => !file.endsWith('404.html'));
-  assert.equal(files.length, 176);
+  assert.equal(files.length, 173);
   for (const file of files) {
     const html = await read(file);
     assert.match(html, /<h1[ >]/, file);

@@ -1,4 +1,4 @@
-// Homepage copy shared by the current homepage and the redesign under test.
+// Homepage copy.
 import { withFrench } from '../../shared/i18n.mjs';
 import type { Language } from '../context/I18nContext';
 
