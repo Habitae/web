@@ -225,6 +225,18 @@ const previewLabel = withTranslations({
 function AppPreview({ language }: { language: Language }) {
   const frameRef = useRef<HTMLDivElement>(null);
   const [view, setView] = useState({ scale: 0.85, offset: 0, height: SNAPSHOT_HEIGHT });
+  // The snapshot is a full page of its own (about 150 KB and a thousand elements),
+  // so it loads once the homepage has finished loading instead of competing with
+  // the page's own CSS and first paint. The frame keeps its size meanwhile.
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let timer = 0;
+    const load = () => { timer = window.setTimeout(() => setLoaded(true), 0); };
+    if (document.readyState === 'complete') load();
+    else window.addEventListener('load', load, { once: true });
+    return () => { window.removeEventListener('load', load); window.clearTimeout(timer); };
+  }, []);
 
   useLayoutEffect(() => {
     const frame = frameRef.current;
@@ -244,7 +256,7 @@ function AppPreview({ language }: { language: Language }) {
 
   return (
     <div ref={frameRef} className="rd-app-frame" style={{ height: view.height * view.scale }} role="img" aria-label={previewLabel[language].label}>
-      <iframe
+      {loaded && <iframe
         src={siteAsset(`app-preview/timeline-${language === 'en' ? 'en' : 'pt'}.html`)}
         title={previewLabel[language].label}
         width={SNAPSHOT_WIDTH}
@@ -253,7 +265,8 @@ function AppPreview({ language }: { language: Language }) {
         aria-hidden="true"
         scrolling="no"
         style={{ transform: `translateX(${-view.offset * view.scale}px) scale(${view.scale})` }}
-      />
+        onLoad={event => event.currentTarget.setAttribute('data-ready', '')}
+      />}
     </div>
   );
 }

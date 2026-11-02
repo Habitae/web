@@ -139,6 +139,14 @@
   border: 0;
   transform-origin: 0 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.rd-app-frame iframe[data-ready] { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-app-frame iframe { transition: none; }
 }
 
 /* Features bento: one hero picture, then an object, a statement and a diagram.
