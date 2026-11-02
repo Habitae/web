@@ -1,5 +1,5 @@
 import { withTranslations, locales } from '../../shared/i18n.mjs';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Building2,
@@ -215,58 +215,30 @@ function NoticeLetters({ language }: { language: Language }) {
 
 const SNAPSHOT_WIDTH = 1280;
 const SNAPSHOT_HEIGHT = 800;
-const SIDEBAR_WIDTH = 252;
 
 const previewLabel = withTranslations({
   pt: { label: 'Linha cronológica do Habitae com dados de exemplo' },
   en: { label: 'The Habitae timeline with example data' },
 } as const);
 
+// A picture of the snapshot rather than the snapshot page itself: laying that page
+// out took a quarter of a second of the homepage's main thread on a throttled
+// phone, where decoding an image takes none. CSS scales it to the frame and, on
+// narrow frames, crops the app's sidebar (MarketingHome.css), so the server
+// render already has its final size.
 function AppPreview({ language }: { language: Language }) {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [view, setView] = useState({ scale: 0.85, offset: 0, height: SNAPSHOT_HEIGHT });
-  // The snapshot is a full page of its own (about 150 KB and a thousand elements),
-  // so it loads once the homepage has finished loading instead of competing with
-  // the page's own CSS and first paint. The frame keeps its size meanwhile.
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    let timer = 0;
-    const load = () => { timer = window.setTimeout(() => setLoaded(true), 0); };
-    if (document.readyState === 'complete') load();
-    else window.addEventListener('load', load, { once: true });
-    return () => { window.removeEventListener('load', load); window.clearTimeout(timer); };
-  }, []);
-
-  useLayoutEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-    const update = () => {
-      const width = frame.clientWidth;
-      // Narrow screens: skip the sidebar and keep the text legible.
-      const compact = width < 700;
-      const scale = compact ? Math.max(width / (SNAPSHOT_WIDTH - SIDEBAR_WIDTH), 0.42) : width / SNAPSHOT_WIDTH;
-      setView({ scale, offset: compact ? SIDEBAR_WIDTH : 0, height: compact ? 560 : SNAPSHOT_HEIGHT });
-    };
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(frame);
-    return () => observer.disconnect();
-  }, []);
-
+  const image = `app-preview/timeline-${language === 'en' ? 'en' : 'pt'}`;
   return (
-    <div ref={frameRef} className="rd-app-frame" style={{ height: view.height * view.scale }} role="img" aria-label={previewLabel[language].label}>
-      {loaded && <iframe
-        src={siteAsset(`app-preview/timeline-${language === 'en' ? 'en' : 'pt'}.html`)}
-        title={previewLabel[language].label}
+    <div className="rd-app-frame">
+      <img
+        src={siteAsset(`${image}.webp`)}
+        srcSet={`${siteAsset(`${image}.webp`)} ${SNAPSHOT_WIDTH}w, ${siteAsset(`${image}@2x.webp`)} ${SNAPSHOT_WIDTH * 2}w`}
+        sizes="(max-width: 760px) max(125vw, 538px), min(100vw, 68rem)"
+        alt={previewLabel[language].label}
         width={SNAPSHOT_WIDTH}
         height={SNAPSHOT_HEIGHT}
-        tabIndex={-1}
-        aria-hidden="true"
-        scrolling="no"
-        style={{ transform: `translateX(${-view.offset * view.scale}px) scale(${view.scale})` }}
-        onLoad={event => event.currentTarget.setAttribute('data-ready', '')}
-      />}
+        decoding="async"
+      />
     </div>
   );
 }

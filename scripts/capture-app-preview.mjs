@@ -3,12 +3,14 @@
 //
 // Run the app locally first (../app: `pnpm dev`), then:
 //   node scripts/capture-app-preview.mjs [appUrl]
-// Writes public/app-preview/timeline-pt.html and timeline-en.html.
+// Writes public/app-preview/timeline-pt.html and timeline-en.html, and the
+// pictures of them the homepage shows: timeline-pt.webp (1280×800) and
+// timeline-pt@2x.webp, and the same for en. The HTML stays as their source.
 //
 // `--refresh` reprocesses the existing snapshots with the steps below the example
 // data (trimming and CSS selection) without the app, after those steps change.
 import { chromium } from '@playwright/test';
-import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -68,6 +70,30 @@ for (const language of ['pt', 'en']) {
   writeFileSync(join(outDir, `timeline-${language}.html`), html);
   console.log(`timeline-${language}.html: ${(html.length / 1024).toFixed(0)} KB`);
   await context.close();
+
+  for (const [scale, suffix] of [[1, ''], [2, '@2x']]) {
+    const shot = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: scale });
+    const page = await shot.newPage();
+    await page.goto(pathToFileURL(join(outDir, `timeline-${language}.html`)).href);
+    await page.evaluate(() => document.fonts.ready);
+    const png = await page.screenshot();
+    // Chromium's own WebP encoder, so the script needs nothing else installed.
+    const webp = await page.evaluate(async (src) => {
+      const image = new Image();
+      image.src = src;
+      await image.decode();
+      const canvas = new OffscreenCanvas(image.width, image.height);
+      canvas.getContext('2d').drawImage(image, 0, 0);
+      const bytes = new Uint8Array(await (await canvas.convertToBlob({ type: 'image/webp', quality: 0.9 })).arrayBuffer());
+      let binary = '';
+      for (const byte of bytes) binary += String.fromCharCode(byte);
+      return btoa(binary);
+    }, `data:image/png;base64,${png.toString('base64')}`);
+    const file = join(outDir, `timeline-${language}${suffix}.webp`);
+    writeFileSync(file, Buffer.from(webp, 'base64'));
+    console.log(`timeline-${language}${suffix}.webp: ${(statSync(file).size / 1024).toFixed(0)} KB`);
+    await shot.close();
+  }
 }
 await browser.close();
 

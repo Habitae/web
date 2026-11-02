@@ -130,23 +130,25 @@
   position: relative;
   overflow: hidden;
   background: var(--habitae-canvas);
+  container-type: inline-size;
 }
 
-.rd-app-frame iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 0;
-  transform-origin: 0 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 300ms ease;
+.rd-app-frame img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
 }
 
-.rd-app-frame iframe[data-ready] { opacity: 1; }
-
-@media (prefers-reduced-motion: reduce) {
-  .rd-app-frame iframe { transition: none; }
+/* Narrow frames: skip the app's 252px sidebar and keep the text legible (at least
+   0.42 of the 1280x800 snapshot), showing its top 560px. */
+@container (max-width: 699.98px) {
+  .rd-app-frame img {
+    --rd-snapshot-width: max(100cqw * 1280 / 1028, 537.6px);
+    width: var(--rd-snapshot-width);
+    margin-bottom: calc(var(--rd-snapshot-width) * -240 / 1280);
+    margin-left: calc(var(--rd-snapshot-width) * -252 / 1280);
+  }
 }
 
 /* Features bento: one hero picture, then an object, a statement and a diagram.
