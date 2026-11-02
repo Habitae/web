@@ -18,7 +18,7 @@ export const organizationSchema = {
   name: organizationDetails.name,
   url: organizationDetails.url,
   description: 'Habitae: gestão de condomínios em Portugal. Finanças, quotas, documentos, pessoas e tarefas num só lugar.',
-  logo: `${organizationDetails.url}default-condominium-logo-light.png`,
+  logo: `${organizationDetails.url}habitae-logo.png`,
   email: organizationDetails.email,
   telephone: organizationDetails.telephone,
   contactPoint: {
