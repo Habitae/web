@@ -13,7 +13,7 @@ async function htmlFiles(dir = '') {
 
 test('all static surfaces have real content, metadata, schema, and styles before JS', async () => {
   const files = (await htmlFiles()).filter(file => !file.endsWith('404.html'));
-  assert.equal(files.length, 230);
+  assert.equal(files.length, 274);
   for (const file of files) {
     const html = await read(file);
     assert.match(html, /<h1[ >]/, file);
@@ -160,7 +160,7 @@ test('English, legal drafts, missing pages, and discovery files are accurate', a
   assert.match(await read('404.html'), /noindex, follow/);
   assert.match(await read('robots.txt'), /Sitemap: https:\/\/habitae.pt\/sitemap.xml/);
   const sitemap = await read('sitemap.xml');
-  assert.equal((sitemap.match(/<loc>/g) || []).length, 220);
+  assert.equal((sitemap.match(/<loc>/g) || []).length, 264);
   assert(!sitemap.includes('/privacy/'));
   assert(!sitemap.includes('/terms/'));
   assert.match(await read('help/create-first-condominium/index.md'), /## Sitemap/);
