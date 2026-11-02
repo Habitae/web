@@ -44,10 +44,10 @@ export function render(page: Page) {
   const en = language === 'en';
   const homeTitle = en ? 'Habitae | Condominium management software in Portugal' : translateText('Habitae | Software de gestão de condomínios em Portugal', language);
   const homeDescription = en ? 'Habitae brings finances, fees, documents, people and tasks together in one clear condominium management platform.' : translateText('O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', language);
-  const appDescription = en ? 'Join the Habitae waitlist to hear when our condominium management software launches in Portugal. Sign up as an administrator or resident.' : translateText('Entre na lista de espera do Habitae para saber quando o software de gestão de condomínios fica disponível em Portugal. Para administradores e moradores.', language);
+  const appDescription = en ? 'Sign in to Habitae, the condominium management software for Portugal: administrators sign in or create an account, residents sign in with their invitation.' : translateText('Entre no Habitae, o software de gestão de condomínios em Portugal: as administrações entram ou criam conta, os condóminos entram com o seu convite.', language);
   const legal = kind === 'terms' || kind === 'privacy' ? legalContent[language][kind] : null;
   const trust = kind === 'about' || kind === 'contact' ? trustContent[language][kind] : null;
-  const title = kind === 'blog' ? `${post?.title ?? blogIndex[language].title} | Habitae` : trust ? `${trust.title} | Habitae` : legal ? `${legal.title} | Habitae` : article ? `${article.title} · ${en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)}` : kind === 'help' ? (en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)) : kind === 'app' ? (en ? 'Join the Habitae waitlist' : translateText('Lista de espera Habitae', language)) : homeTitle;
+  const title = kind === 'blog' ? `${post?.title ?? blogIndex[language].title} | Habitae` : trust ? `${trust.title} | Habitae` : legal ? `${legal.title} | Habitae` : article ? `${article.title} · ${en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)}` : kind === 'help' ? (en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)) : kind === 'app' ? (en ? 'Sign in to Habitae' : translateText('Entrar no Habitae', language)) : homeTitle;
   const description = post?.description ?? (kind === 'blog' ? blogIndex[language].description : undefined) ?? trust?.description ?? legal?.description ?? article?.excerpt ?? (kind === 'app' ? appDescription : kind === 'help' ? (en ? 'Step-by-step guides to get started and manage your condominium in Habitae.' : translateText('Guias passo a passo para começar e gerir o seu condomínio no Habitae.', language)) : homeDescription);
   const pathname = page.path.replace(/^\/(?:en|fr|es)\//, '/');
   const surface = kind === 'blog' ? <BlogPage pathname={pathname} /> : kind === 'home' ? <MarketingPage /> : kind === 'help' ? <HelpCenter pathname={pathname} /> : trust ? <TrustPage pathname={pathname} /> : legal ? <LegalPage pathname={pathname} /> : kind === 'app' ? <ComingSoonPage /> : <NotFoundPage />;
@@ -73,10 +73,10 @@ export function render(page: Page) {
       ...(post ? { datePublished: post.published, author: { '@type': 'Organization', '@id': organizationSchema['@id'], name: 'Habitae', url: 'https://habitae.pt/about/' }, publisher: { '@id': organizationSchema['@id'] }, image: ['https://habitae.pt/social-preview-v2.png'], mainEntityOfPage: url, articleSection: post.category } : {}), inLanguage: htmlLanguages[language], ...(trust ? { about: { '@id': organizationSchema['@id'] } } : {}), isPartOf: { '@id': 'https://habitae.pt/#website' }, breadcrumb },
   ] };
   const embedCopy = {
-    pt: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ajuda' },
-    en: { open: 'Open page', waitlist: 'Join the waitlist', help: 'Help centre' },
-    fr: { open: 'Ouvrir la page', waitlist: "S'inscrire", help: "Centre d'aide" },
-    es: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ayuda' },
+    pt: { open: 'Abrir página', waitlist: 'Entrar no Habitae', help: 'Centro de ajuda' },
+    en: { open: 'Open page', waitlist: 'Sign in to Habitae', help: 'Help centre' },
+    fr: { open: 'Ouvrir la page', waitlist: 'Se connecter à Habitae', help: "Centre d'aide" },
+    es: { open: 'Abrir página', waitlist: 'Entrar en Habitae', help: 'Centro de ayuda' },
   }[language];
   const componentEmbed = {
     component: {

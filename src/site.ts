@@ -55,4 +55,9 @@ export function appPathname() {
   return pathname.replace(/^\/(?:en|fr|es)(?:\/|$)/, '/');
 }
 
+// The application itself runs on its own host, away from the marketing site.
+export const appOrigin = 'https://app.habitae.pt';
+export const managerAppUrl = `${appOrigin}/app/`;
+export const residentAppUrl = `${appOrigin}/resident/`;
+
 export const helpRoot = (language: SiteLanguage) => ({ pt: '/ajuda', en: '/help', fr: '/aide', es: '/ayuda' })[language];

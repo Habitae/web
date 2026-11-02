@@ -11,12 +11,12 @@ import './SiteChrome.css';
 const chromeCopy = withTranslations({
   pt: {
     brandAlt: 'Habitae, Gestão de Condomínios', homeLabel: 'Habitae, página inicial', menuOpen: 'Abrir menu', menuClose: 'Fechar menu', navigationLabel: 'Navegação principal',
-    nav: { features: 'Funcionalidades', pricing: 'Planos', help: 'Ajuda', login: 'Entrar', open: 'Acesso antecipado' },
+    nav: { features: 'Funcionalidades', pricing: 'Planos', help: 'Ajuda', login: 'Entrar', open: 'Começar' },
     footer: { tagline: 'Finanças, pessoas e tarefas do condomínio, num só lugar.', navigation: 'Ligações do rodapé', copyright: 'Habitae, Gestão de Condomínios', languageLabel: 'Escolher idioma', legal: 'Informação legal', terms: 'Termos e condições', privacy: 'Privacidade' },
   },
   en: {
     brandAlt: 'Habitae, Condominium Management', homeLabel: 'Habitae, home page', menuOpen: 'Open menu', menuClose: 'Close menu', navigationLabel: 'Main navigation',
-    nav: { features: 'Features', pricing: 'Plans', help: 'Help', login: 'Log in', open: 'Early access' },
+    nav: { features: 'Features', pricing: 'Plans', help: 'Help', login: 'Log in', open: 'Get started' },
     footer: { tagline: 'Condominium finances, people and tasks, in one place.', navigation: 'Footer links', copyright: 'Habitae, Condominium Management', languageLabel: 'Choose language', legal: 'Legal information', terms: 'Terms and conditions', privacy: 'Privacy' },
   },
 });

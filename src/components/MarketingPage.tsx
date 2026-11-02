@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { SiteHeader, SiteFooter } from './SiteChrome';
 import { useI18n, type Language } from '../context/I18nContext';
-import { sitePath, siteAsset, helpRoot } from '../site';
+import { sitePath, siteAsset, helpRoot, managerAppUrl } from '../site';
 import { faqItems, pageCopy, pricingPlans } from '../content/homepage';
 import { productCopy } from '../content/productExamples';
 import './MarketingPage.css';
@@ -38,7 +38,7 @@ const extraCopy = withTranslations({
       budget: 'Orçamento 2026', budgetPerUnit: 'Quota mensal 1.º Esq.', invite: 'Convite enviado', inviteTo: 'Rui Teixeira',
     },
     ctaTitle: 'Organize o seu condomínio com o Habitae.',
-    ctaCopy: 'Entre na lista de espera e seja dos primeiros a experimentar.',
+    ctaCopy: 'Crie a conta da sua administração e experimente grátis durante 15 dias.',
     popular: 'Recomendado',
     legalTitle: 'Feito para a gestão de condomínios em Portugal.',
     legalIntro: 'Os documentos e as verificações que a administração de um condomínio precisa, gerados a partir dos dados que já registou.',
@@ -65,7 +65,7 @@ const extraCopy = withTranslations({
       budget: '2026 budget', budgetPerUnit: 'Monthly fee, 1st left', invite: 'Invitation sent', inviteTo: 'Rui Teixeira',
     },
     ctaTitle: 'Organise your condominium with Habitae.',
-    ctaCopy: 'Join the waitlist and be among the first to try it.',
+    ctaCopy: 'Create your administration’s account and try it free for 15 days.',
     popular: 'Recommended',
     legalTitle: 'Built for condominium management in Portugal.',
     legalIntro: 'The documents and checks a condominium administration needs, generated from the data you have already recorded.',
@@ -424,7 +424,7 @@ export default function MarketingPage() {
                   <ul>
                     {plan.features.map((feature) => <li key={feature}><Check size={15} aria-hidden="true" />{feature}</li>)}
                   </ul>
-                  <a className={`rd-button ${plan.featured ? 'rd-button--light' : 'rd-button--outline'}`} href={appPath}>{plan.action}<ArrowRight size={15} aria-hidden="true" /></a>
+                  <a className={`rd-button ${plan.featured ? 'rd-button--light' : 'rd-button--outline'}`} href={managerAppUrl}>{plan.action}<ArrowRight size={15} aria-hidden="true" /></a>
                 </article>
               ))}
             </div>

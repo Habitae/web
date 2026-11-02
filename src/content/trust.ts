@@ -20,9 +20,9 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
           'A informação pública ajuda a avaliar se os fluxos de trabalho do Habitae correspondem às necessidades do seu edifício ou da sua equipa. Os guias não dão acesso a dados privados de condomínios.',
         ], links: [{ label: 'Consultar o centro de ajuda', href: '/ajuda/' }] },
         { id: 'disponibilidade', title: 'Disponibilidade e próximos passos', paragraphs: [
-          'A aplicação está em preparação para disponibilização pública. A página de acesso antecipado apresenta a disponibilidade da lista de espera. A existência de um guia não significa que o registo público na aplicação já esteja aberto.',
+          'A aplicação está disponível em app.habitae.pt. As administrações criam a conta na página de entrada; os condóminos entram com o convite enviado pela administração do condomínio.',
           'Para falar sobre o seu condomínio, esclarecer questões sobre os planos ou partilhar necessidades da administração, utilize os contactos publicados. Pode também consultar os documentos de privacidade e condições, que identificam os pontos ainda em revisão.',
-        ], links: [{ label: 'Acesso antecipado', href: '/app/' }, { label: 'Contactar o Habitae', href: '/contact/' }, { label: 'Privacidade', href: '/privacy/' }] },
+        ], links: [{ label: 'Entrar no Habitae', href: '/app/' }, { label: 'Contactar o Habitae', href: '/contact/' }, { label: 'Privacidade', href: '/privacy/' }] },
       ],
     },
     contact: {
@@ -37,10 +37,10 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
           'Se está a avaliar o Habitae, indique se gere o seu próprio condomínio ou se trabalha numa administração profissional, quantos condomínios pretende organizar e quais as tarefas que gostaria de simplificar. Este contexto ajuda a tornar a conversa útil para o seu caso.',
           'Se a dúvida diz respeito a um guia, inclua o endereço da página e a etapa que precisa de esclarecer. Uma descrição geral da questão é suficiente para iniciar a conversa.',
         ], links: [{ label: 'Guias de utilização', href: '/ajuda/' }] },
-        { id: 'acesso', title: 'Acesso antecipado e privacidade', paragraphs: [
-          'A aplicação está em preparação para disponibilização pública. Consulte a página de acesso antecipado para saber se a lista de espera está aberta. Entrar em contacto não cria automaticamente uma conta nem uma inscrição na lista de espera.',
+        { id: 'acesso', title: 'Acesso e privacidade', paragraphs: [
+          'A aplicação está disponível em app.habitae.pt. Entrar em contacto não cria automaticamente uma conta.',
           'A página de privacidade descreve o tratamento de dados apresentado pelo site e assinala os detalhes operacionais ainda por completar. Para esclarecer uma questão sobre esses documentos, indique na mensagem a página ou o ponto a que se refere.',
-        ], links: [{ label: 'Acesso antecipado', href: '/app/' }, { label: 'Privacidade', href: '/privacy/' }, { label: 'Sobre o Habitae', href: '/about/' }] },
+        ], links: [{ label: 'Entrar no Habitae', href: '/app/' }, { label: 'Privacidade', href: '/privacy/' }, { label: 'Sobre o Habitae', href: '/about/' }] },
       ],
     },
   },
@@ -58,9 +58,9 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
           'The public information helps you assess whether Habitae workflows fit your building or team. Reading a guide does not provide access to private condominium records.',
         ], links: [{ label: 'Read the help centre', href: '/help/' }] },
         { id: 'disponibilidade', title: 'Availability and next steps', paragraphs: [
-          'The application is being prepared for public availability. The early access page shows whether waitlist signup is available. A published guide does not mean that public application registration is already open.',
+          'The application is available at app.habitae.pt. Administrators create their account from the sign-in page; residents sign in with the invitation sent by their condominium’s administration.',
           'Use the published contact details to discuss your condominium, ask about plans or share the needs of your administration team. You can also read the privacy and terms documents, which identify the details still under review.',
-        ], links: [{ label: 'Early access', href: '/app/' }, { label: 'Contact Habitae', href: '/contact/' }, { label: 'Privacy', href: '/privacy/' }] },
+        ], links: [{ label: 'Sign in to Habitae', href: '/app/' }, { label: 'Contact Habitae', href: '/contact/' }, { label: 'Privacy', href: '/privacy/' }] },
       ],
     },
     contact: {
@@ -75,10 +75,10 @@ export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> =
           'If you are evaluating Habitae, tell us whether you manage your own condominium or work for a professional administrator, how many condominiums you need to organise and which tasks you would like to simplify. This context helps make the conversation useful for your situation.',
           'For questions about a guide, include its page address and the step you need help understanding. A general description of the question is enough to start the conversation.',
         ], links: [{ label: 'Usage guides', href: '/help/' }] },
-        { id: 'acesso', title: 'Early access and privacy', paragraphs: [
-          'The application is being prepared for public availability. Check the early access page to see whether the waitlist is open. Contacting Habitae does not automatically create an account or subscribe you to the waitlist.',
+        { id: 'acesso', title: 'Access and privacy', paragraphs: [
+          'The application is available at app.habitae.pt. Contacting Habitae does not automatically create an account.',
           'The privacy page describes the data handling presented by the website and marks operational details that still need completing. If you have a question about those documents, include the relevant page or section in your message.',
-        ], links: [{ label: 'Early access', href: '/app/' }, { label: 'Privacy', href: '/privacy/' }, { label: 'About Habitae', href: '/about/' }] },
+        ], links: [{ label: 'Sign in to Habitae', href: '/app/' }, { label: 'Privacy', href: '/privacy/' }, { label: 'About Habitae', href: '/about/' }] },
       ],
     },
   },

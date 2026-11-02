@@ -175,3 +175,78 @@ body:has(.coming-soon-page) {
 
 .coming-soon-page { padding: 0; }
 .coming-soon-shell { width: min(calc(100% - 3rem), var(--page-width)); min-height: 65dvh; grid-template-rows: 1fr; padding-block: 3rem; }
+
+/* Sign-in chooser: one card for administrators, one for residents. */
+.access-card {
+  width: min(100%, 56rem);
+}
+
+.access-choices {
+  /* The site's button classes read these; SiteChrome only sets them inside the header. */
+  --mk-forest: var(--habitae-brand);
+  --mk-forest-dark: var(--habitae-brand-dark);
+  --mk-line: var(--habitae-line);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.access-choice {
+  display: flex;
+  min-width: 0;
+  padding: var(--space-8);
+  flex-direction: column;
+  border: 1px solid var(--habitae-line);
+  border-radius: var(--radius-card);
+  background: var(--habitae-canvas);
+}
+
+.access-choice-icon {
+  color: var(--habitae-brand);
+}
+
+.coming-soon-card .access-choice h2 {
+  margin: var(--space-2) 0 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.coming-soon-card .access-choice p {
+  margin-top: var(--space-2);
+  font-size: 0.9375rem;
+}
+
+.access-choice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
+.access-choice-actions a {
+  text-decoration: none;
+}
+
+.access-choice-secondary {
+  color: var(--habitae-ink);
+  border-color: var(--habitae-line);
+  background: var(--habitae-surface);
+}
+
+.coming-soon-card .access-choice .access-choice-note {
+  margin-top: var(--space-2);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 720px) {
+  .access-choices {
+    grid-template-columns: 1fr;
+  }
+
+  .access-choice {
+    padding: var(--space-4);
+  }
+}

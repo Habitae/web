@@ -304,21 +304,12 @@ test('approved identity, date and refund policy render while unfinished legal do
   }
 });
 
-test('production waitlist exposes a real native form with explicit consent and privacy links', async () => {
+test('sign-in page sends administrators and residents to the application', async () => {
   for (const prefix of ['', 'en/', 'fr/', 'es/']) {
     const html = await read(`${prefix}app/index.html`);
-    const form = html.match(/<form\b([^>]*)>(.*?)<\/form>/s);
-    assert(form, 'Production waitlist must be available');
-    assert.match(form[1], /action="https:\/\/[^\"]+\/waitlist"/);
-    assert.match(form[1], /method="post"/);
-    assert.match(form[2], /type="email"/);
-    assert(form[2].includes(`<option value="resident">${{ '': 'Morador', 'en/': 'Resident', 'fr/': 'Résident', 'es/': 'Residente' }[prefix]}</option>`));
-    const consent = form[2].match(/<input\b[^>]*name="consent"[^>]*>/)?.[0];
-    assert(consent);
-    assert.match(consent, /type="checkbox"/);
-    assert.match(consent, /required(?:[\s=>])/);
-    assert(form[2].includes(`href="/${prefix}privacy/#waitlist"`));
-    assert(!html.includes('waitlist.example'));
+    assert(html.includes('href="https://app.habitae.pt/app/"'), 'Administrators sign in at app.habitae.pt/app/');
+    assert(html.includes('href="https://app.habitae.pt/resident/"'), 'Residents sign in at app.habitae.pt/resident/');
+    assert(!/<form\b/.test(html), 'The waitlist form is gone');
   }
 });
 
