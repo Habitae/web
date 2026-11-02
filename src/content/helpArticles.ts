@@ -6,6 +6,7 @@ import { accountGuides } from './helpAccount';
 import { financeGuides } from './helpFinance';
 import { newGuides } from './helpGuides';
 import { operationsGuides } from './helpOperations';
+import { withScreenshots } from './helpScreenshots';
 export type { Article, CategoryId } from './helpTypes';
 
 // Checked against the application screens in the parent Habitae project.
@@ -374,6 +375,6 @@ if (new Set(helpReadingOrder).size !== helpReadingOrder.length ||
 const allGuides = helpReadingOrder.map((id) => guidesById.get(id)!);
 
 export const helpArticles: Record<Language, Article[]> = withTranslations({
-  pt: allGuides.map(({ id, category, next, pt }) => ({ id, category, next, ...pt, updated: '2 nov 2026' })),
-  en: allGuides.map(({ id, category, next, en }) => ({ id, category, next, ...en, updated: '2 Nov 2026' })),
-}, (articles, language) => articles.map(article => ({ ...article, updated: language === 'es' ? '2 nov 2026' : '2 nov. 2026' })));
+  pt: withScreenshots(allGuides.map(({ id, category, next, pt }) => ({ id, category, next, ...pt, updated: '2 nov 2026' })), 'pt'),
+  en: withScreenshots(allGuides.map(({ id, category, next, en }) => ({ id, category, next, ...en, updated: '2 Nov 2026' })), 'en'),
+}, (articles, language) => withScreenshots(articles.map(article => ({ ...article, updated: language === 'es' ? '2 nov 2026' : '2 nov. 2026' })), language));

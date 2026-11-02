@@ -18,7 +18,7 @@ import {
 import './HelpCenter.css';
 import { SiteHeader, SiteFooter } from './SiteChrome';
 import { useI18n, type Language } from '../context/I18nContext';
-import { appPathname, sitePath } from '../site';
+import { appPathname, siteAsset, sitePath } from '../site';
 import { helpArticles, type Article, type CategoryId } from '../content/helpArticles';
 
 type Icon = ComponentType<{ size?: number; strokeWidth?: number; 'aria-hidden'?: boolean | 'true' | 'false' }>;
@@ -405,6 +405,11 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
                             </table>
                           </div>
                         )}
+                        {section.figures?.map((figure) => (
+                          <figure key={figure.src} className={`hc-figure${figure.height > figure.width ? ' hc-figure-phone' : ''}`}>
+                            <img src={siteAsset(figure.src)} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" decoding="async" />
+                          </figure>
+                        ))}
                         {section.note && <aside className="hc-note">
                           <strong>{language !== 'en' ? translateText('A ter em conta', language) : 'Keep in mind'}</strong>
                           <p>{section.note}</p>

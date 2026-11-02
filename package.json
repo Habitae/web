@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test scripts/i18n.test.mjs scripts/site.test.mjs scripts/waitlist.test.mjs scripts/waitlist-email.test.mjs scripts/consent.test.mjs scripts/agent-edge.test.mjs",
     "test:build": "node --test scripts/build.test.mjs",
+    "help:screenshots": "node scripts/capture-help-screenshots.mjs",
     "test:browser": "playwright test",
     "audit:lighthouse": "node scripts/audit.mjs",
     "edge:dev": "wrangler dev --config services/agent-edge/wrangler.jsonc --local",
