@@ -3,19 +3,23 @@
 //
 // Run the app locally first (../app: `pnpm dev`), then:
 //   node scripts/capture-app-preview.mjs [appUrl]
-// Writes public/app-preview/timeline-pt.html and timeline-en.html, and the
-// pictures of them the homepage shows: timeline-pt.webp (1280×800) and
-// timeline-pt@2x.webp, and the same for en. The HTML stays as their source.
+// Writes public/app-preview/timeline-pt.html (and en, fr, es), and the pictures
+// of them the homepage shows: timeline-pt.webp (1280×800) and timeline-pt@2x.webp.
+// The HTML stays as their source.
 //
 // `--refresh` reprocesses the existing snapshots with the steps below the example
 // data (trimming and CSS selection) without the app, after those steps change.
+// `--translate` builds the fr and es snapshots from the pt one with the app's
+// catalogues (../app/shared/locales) and the examples below, and lists any visible
+// text it couldn't translate.
 import { chromium } from '@playwright/test';
-import { copyFileSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { copyFileSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { createServer } from 'node:http';
+import { extname, join } from 'node:path';
 
 const refresh = process.argv[2] === '--refresh';
-const appUrl = (!refresh && process.argv[2]) || 'http://localhost:5173/demo';
+const translate = process.argv[2] === '--translate';
+const appUrl = (!refresh && !translate && process.argv[2]) || 'http://localhost:5173/demo';
 const outDir = join(process.cwd(), 'public/app-preview');
 const fontSource = join(process.cwd(), '../app/node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2');
 const width = 1280;
@@ -43,22 +47,71 @@ const examples = {
     ],
     meeting: 'Annual general meeting', room: 'Common room', tasks: '4', urgent: '1 high priority',
   },
+  fr: {
+    user: 'Maria Silva', role: 'Administratrice', actions: '4 actions en attente',
+    events: [
+      { tone: 'positive', tag: 'Charge payée', title: 'Lot 3D · 2026-10', time: '10:32', amount: '+86,50 €' },
+      { tone: 'negative', tag: 'Dépense', title: 'Révision de l’ascenseur · Ascensores Norte', time: '09:14', amount: '-124,00 €' },
+      { tone: 'positive', tag: 'Recette', title: 'Location de la salle commune', time: '09:02', amount: '+350,00 €' },
+      { tone: 'neutral', tag: 'Charge en attente', title: 'Lot 1A · 2026-10', time: '08:00', amount: '86,50 €' },
+    ],
+    meeting: 'Assemblée générale ordinaire', room: 'Salle commune', tasks: '4', urgent: '1 avec une priorité élevée',
+  },
+  es: {
+    user: 'Maria Silva', role: 'Administradora', actions: '4 acciones pendientes',
+    events: [
+      { tone: 'positive', tag: 'Cuota pagada', title: 'Unidad 3.º D · 2026-10', time: '10:32', amount: '+86,50 €' },
+      { tone: 'negative', tag: 'Gasto', title: 'Revisión del ascensor · Ascensores Norte', time: '09:14', amount: '-124,00 €' },
+      { tone: 'positive', tag: 'Ingreso', title: 'Alquiler de la sala común', time: '09:02', amount: '+350,00 €' },
+      { tone: 'neutral', tag: 'Cuota pendiente', title: 'Unidad 1.º A · 2026-10', time: '08:00', amount: '86,50 €' },
+    ],
+    meeting: 'Junta ordinaria de propietarios', room: 'Sala de la comunidad', tasks: '4', urgent: '1 con prioridad alta',
+  },
 };
 
+// Words in the pt snapshot that the app's catalogues don't have as a whole, for --translate.
+const snapshotWords = {
+  fr: { 'Condomínio Aurora': 'Copropriété Aurora', 'Conteúdo de Linha cronológica': 'Contenu de Chronologie' },
+  es: { 'Condomínio Aurora': 'Comunidad Aurora', 'Conteúdo de Linha cronológica': 'Contenido de Cronología' },
+};
+const htmlLanguages = { pt: 'pt-PT', en: 'en', fr: 'fr', es: 'es-ES' };
+
 mkdirSync(outDir, { recursive: true });
-if (!refresh) copyFileSync(fontSource, join(outDir, 'manrope.woff2'));
+if (!refresh && !translate) copyFileSync(fontSource, join(outDir, 'manrope.woff2'));
+
+// Snapshots open from public/ over HTTP, as on the site, so root-relative assets
+// such as the condominium logo (/habitae-icon.svg) load in them.
+const types = { '.html': 'text/html; charset=utf-8', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.webp': 'image/webp', '.png': 'image/png' };
+const server = createServer((request, response) => {
+  try {
+    const file = join(process.cwd(), 'public', decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname));
+    response.setHeader('Content-Type', types[extname(file)] ?? 'application/octet-stream');
+    response.end(readFileSync(file));
+  } catch {
+    response.statusCode = 404;
+    response.end();
+  }
+});
+await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+const snapshotUrl = (language) => `http://127.0.0.1:${server.address().port}/app-preview/timeline-${language}.html`;
 
 // Set CHROMIUM_PATH to use an already-installed Chromium instead of Playwright's pinned build.
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
-for (const language of ['pt', 'en']) {
+for (const language of translate ? ['fr', 'es'] : Object.keys(examples)) {
   const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
   await context.addInitScript((lang) => {
     localStorage.setItem('habitae-language', lang);
     localStorage.setItem('darkMode', 'false');
   }, language);
   const page = await context.newPage();
-  if (refresh) await page.goto(pathToFileURL(join(outDir, `timeline-${language}.html`)).href);
-  else {
+  if (refresh) await page.goto(snapshotUrl(language));
+  else if (translate) {
+    await page.goto(snapshotUrl('pt'));
+    const catalog = JSON.parse(readFileSync(join(process.cwd(), `../app/shared/locales/${language}.json`), 'utf8'));
+    const examplePairs = pairs(examples.pt, examples[language]);
+    const missed = await page.evaluate(translateSnapshot, { catalog, words: { ...Object.fromEntries(examplePairs), ...snapshotWords[language] }, locale: htmlLanguages[language], width, height });
+    if (missed.length) console.log(`timeline-${language}: untranslated ${JSON.stringify(missed)}`);
+  } else {
     await page.goto(appUrl);
     await page.waitForSelector('.tl-event', { timeout: 30_000 });
     await page.waitForTimeout(1000);
@@ -74,7 +127,7 @@ for (const language of ['pt', 'en']) {
   for (const [scale, suffix] of [[1, ''], [2, '@2x']]) {
     const shot = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: scale });
     const page = await shot.newPage();
-    await page.goto(pathToFileURL(join(outDir, `timeline-${language}.html`)).href);
+    await page.goto(snapshotUrl(language));
     await page.evaluate(() => document.fonts.ready);
     const png = await page.screenshot();
     // Chromium's own WebP encoder, so the script needs nothing else installed.
@@ -96,6 +149,64 @@ for (const language of ['pt', 'en']) {
   }
 }
 await browser.close();
+server.close();
+
+// Matching strings of two examples, as [pt, other] pairs.
+function pairs(from, to) {
+  if (typeof from === 'string') return from === to ? [] : [[from, to]];
+  return Object.keys(from).flatMap((key) => pairs(from[key], to[key]));
+}
+
+// Runs in the pt snapshot: puts every text node and label into another language.
+// Whole strings come from the examples and the catalogue; counts, money and dates
+// are rebuilt for the locale. Returns the visible text it left alone.
+function translateSnapshot({ catalog, words, locale, width, height }) {
+  const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  const money = new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' });
+  const date = (day, month, year, style) => new Intl.DateTimeFormat(locale, { day: 'numeric', month: style, year: 'numeric' }).format(new Date(year, month, day));
+  const word = (text) => words[text] ?? catalog[text];
+  const convert = (text) => {
+    const trimmed = text.trim();
+    if (!trimmed || /^[\d\s:+−-]+$/.test(trimmed) || /^\d{4}-\d{2}$/.test(trimmed)) return text;
+    const whole = word(trimmed);
+    if (whole != null) return text.replace(trimmed, whole);
+    let match;
+    if ((match = /^([+-]?)([\d\s\u00a0\u202f]+),(\d{2})\s?€$/.exec(trimmed))) {
+      return text.replace(trimmed, match[1] + money.format(Number(`${match[2].replace(/\D/g, '')}.${match[3]}`)));
+    }
+    if ((match = /^(\d{1,2}) de (\p{L}+)(\.?) de (\d{4})$/u.exec(trimmed))) {
+      const short = match[3] === '.';
+      const month = months.findIndex((name) => short ? name.startsWith(match[2]) : name === match[2]);
+      if (month >= 0) return text.replace(trimmed, date(Number(match[1]), month, Number(match[4]), short ? 'short' : 'long'));
+    }
+    if ((match = /^(\d+)(\s+)(.+)$/s.exec(trimmed)) && word(match[3]) != null) return text.replace(trimmed, `${match[1]}${match[2]}${word(match[3])}`);
+    if ((match = /^(.+?): (.+)$/.exec(trimmed)) && word(match[1]) != null) {
+      const rest = convert(match[2]);
+      if (rest !== match[2]) return text.replace(trimmed, `${word(match[1])}: ${rest}`);
+    }
+    return null;
+  };
+  const missed = new Set();
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const result = convert(node.textContent);
+    if (result != null) { node.textContent = result; continue; }
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const box = range.getBoundingClientRect();
+    if (box.width && box.height && box.top < height && box.left < width) missed.add(node.textContent.trim());
+  }
+  for (const element of document.body.querySelectorAll('[aria-label], [title], [alt], [placeholder]')) {
+    for (const name of ['aria-label', 'title', 'alt', 'placeholder']) {
+      const value = element.getAttribute(name);
+      const result = value && convert(value);
+      if (result != null && value) element.setAttribute(name, result);
+    }
+  }
+  document.documentElement.lang = locale;
+  return [...missed];
+}
 
 // Runs in the app: replaces whatever the local demo database contains with the examples.
 function exampleData(data) {

@@ -227,7 +227,7 @@ const previewLabel = withTranslations({
 // narrow frames, crops the app's sidebar (MarketingHome.css), so the server
 // render already has its final size.
 function AppPreview({ language }: { language: Language }) {
-  const image = `app-preview/timeline-${language === 'en' ? 'en' : 'pt'}`;
+  const image = `app-preview/timeline-${language}`;
   return (
     <div className="rd-app-frame">
       <img
