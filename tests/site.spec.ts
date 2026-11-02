@@ -11,7 +11,7 @@ for (const javaScriptEnabled of [false, true]) {
       await page.goto(`http://127.0.0.1:4174${route}`);
       await expect(page.locator('h1')).toBeVisible();
       if (route === '/app/' || route === '/en/app/') {
-        await expect(page.locator('#waitlist-role option[value="resident"]')).toHaveText(route === '/app/' ? 'Morador' : 'Resident');
+        await expect(page.getByRole('link', { name: route === '/app/' ? 'Entrar como condómino' : 'Log in as a resident', exact: true })).toHaveAttribute('href', 'https://app.habitae.pt/resident/');
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     }
@@ -42,42 +42,19 @@ for (const javaScriptEnabled of [false, true]) {
   });
 }
 
-test('signup handles failures, tracks only consented success, and stops tracking on withdrawal', async ({ page, context }) => {
+test('analytics loads only after consent and stops on withdrawal', async ({ page, context }) => {
   let tags = 0;
-  let fail = true;
   await context.route('https://www.googletagmanager.com/**', async route => { tags++; await route.fulfill({ contentType: 'application/javascript', body: '' }); });
-  await context.route('https://waitlist.example/waitlist', route => {
-    expect(new URLSearchParams(route.request().postData()!).get('role')).toBe('resident');
-    return route.fulfill({ status: fail ? 503 : 200, contentType: 'application/json', body: JSON.stringify({ ok: !fail }) });
-  });
   await page.goto('/en/app/');
   await page.getByRole('button', { name: 'Customise', exact: true }).click();
   await page.locator('#cookie-preferences').check();
   await page.getByRole('button', { name: 'Save choices', exact: true }).click();
   expect(tags).toBe(0);
-  await page.locator('#waitlist-email').fill('test@example.com');
-  await page.locator('#waitlist-role').selectOption('resident');
-  await page.locator('[name="consent"]').check();
-  await page.getByRole('button', { name: 'Join the waitlist', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('couldn’t save');
-  await expect(page.locator('#waitlist-email')).toHaveValue('test@example.com');
-  fail = false;
-  await page.getByRole('button', { name: 'Join the waitlist', exact: true }).click();
-  await expect(page.getByRole('status')).toContainText('You’re on the list');
-  expect(await page.evaluate(() => window.dataLayer?.length || 0)).toBe(0);
-  await page.reload();
+  await expect(page.getByRole('link', { name: 'Log in', exact: true }).last()).toHaveAttribute('href', 'https://app.habitae.pt/app/');
   await page.getByRole('button', { name: 'Manage cookies', exact: true }).click();
   await page.locator('#cookie-analytics').check();
   await page.getByRole('button', { name: 'Save choices', exact: true }).click();
   await expect.poll(() => tags).toBe(1);
-  await page.locator('#waitlist-email').fill('second@example.com');
-  await page.locator('#waitlist-role').selectOption('resident');
-  await page.locator('[name="consent"]').check();
-  await page.getByRole('button', { name: 'Join the waitlist', exact: true }).click();
-  await expect(page.getByRole('status')).toBeVisible();
-  const data = await page.evaluate(() => JSON.stringify(window.dataLayer));
-  expect(data).toContain('waitlist_signup');
-  expect(data).not.toContain('example.com');
   await page.reload();
   await expect.poll(() => tags).toBe(2);
   await page.getByRole('button', { name: 'Manage cookies', exact: true }).click();
@@ -86,22 +63,4 @@ test('signup handles failures, tracks only consented success, and stops tracking
   await Promise.all([page.waitForEvent('load'), page.getByRole('button', { name: 'Save choices', exact: true }).click()]);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('habitae-cookie-consent')!).analytics)).toBe(false);
   expect(tags).toBe(2);
-});
-
-test('waitlist submits a native POST without JavaScript', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
-  await context.route('https://waitlist.example/waitlist', async route => {
-    expect(route.request().method()).toBe('POST');
-    expect(route.request().postData()).toContain('email=native%40example.com');
-    expect(new URLSearchParams(route.request().postData()!).get('role')).toBe('resident');
-    await route.fulfill({ contentType: 'text/html', body: '<h1>Saved without JavaScript</h1>' });
-  });
-  const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4174/en/app/');
-  await page.locator('#waitlist-email').fill('native@example.com');
-  await page.locator('#waitlist-role').selectOption('resident');
-  await page.locator('[name="consent"]').check();
-  await page.getByRole('button', { name: 'Join the waitlist', exact: true }).click();
-  await expect(page.getByRole('heading')).toHaveText('Saved without JavaScript');
-  await context.close();
 });
