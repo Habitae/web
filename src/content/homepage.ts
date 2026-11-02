@@ -40,14 +40,14 @@ export const faqItems: Record<Language, FaqItem[]> = withTranslations({
     { question: 'O que é o Habitae?', answer: 'É uma aplicação de gestão de condomínios que reúne finanças, quotas, frações, pessoas, documentos e manutenção.' },
     { question: 'Quanto custa?', answer: `O Habitae S custa ${pricingPlans.pt[0].price} por mês ou ${pricingPlans.pt[0].annualPrice} por ano, isentos de IVA. Inclui 15 dias gratuitos na modalidade mensal ou 30 dias na anual.`, link: { label: 'Ver planos', path: '/#planos' } },
     { question: 'Como começo a usar?', answer: 'Crie o condomínio com os dados do edifício e da administração. Depois, adicione frações e pessoas, configure o orçamento e convide a equipa.', link: { label: 'Guia dos primeiros passos', path: '/ajuda/criar-primeiro-condominio' } },
-    { question: 'Posso gerir vários condomínios?', answer: 'Sim. Os planos Habitae M e L permitem gerir vários condomínios com a sua equipa. Para um único condomínio autogerido, escolha o Habitae S.' },
+    { question: 'Posso gerir vários condomínios?', answer: 'Sim. O plano Habitae M permite gerir até 15 condomínios com a sua equipa, e o Habitae L, para carteiras maiores, chega em breve. Para um único condomínio autogerido, escolha o Habitae S.' },
     { question: 'Onde encontro ajuda?', answer: 'O centro de ajuda tem guias para configurar o condomínio, registar pagamentos, preparar reuniões e gerir a equipa.', link: { label: 'Abrir centro de ajuda', path: '/ajuda' } },
   ],
   en: [
     { question: 'What is Habitae?', answer: 'A condominium management application that brings together finances, fees, units, people, documents and maintenance.' },
     { question: 'How much does it cost?', answer: `Habitae S costs ${pricingPlans.en[0].price} per month or ${pricingPlans.en[0].annualPrice} per year, VAT exempt. Monthly billing includes a 15-day free trial; annual billing includes 30 days.`, link: { label: 'View plans', path: '/#planos' } },
     { question: 'How do I get started?', answer: 'Create your condominium with the building and administration details. Then add units and people, set up the budget and invite your team.', link: { label: 'Getting started guide', path: '/help/create-first-condominium' } },
-    { question: 'Can I manage multiple condominiums?', answer: 'Yes. Habitae M and L let you manage multiple condominiums with your team. For a single self-managed condominium, choose Habitae S.' },
+    { question: 'Can I manage multiple condominiums?', answer: 'Yes. Habitae M lets you manage up to 15 condominiums with your team, and Habitae L, for larger portfolios, is coming soon. For a single self-managed condominium, choose Habitae S.' },
     { question: 'Where can I find help?', answer: 'The help centre has guides for setting up your condominium, recording payments, preparing meetings and managing your team.', link: { label: 'Open help centre', path: '/help' } },
   ],
 });
