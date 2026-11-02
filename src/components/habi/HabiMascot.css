@@ -2548,3 +2548,20 @@
 
 /* Reduced motion is handled with the rest of the onboarding in App.css, and
    HabiMascot.tsx doesn't schedule antics then. */
+
+/* hang: both hands up, holding on to something above the roof */
+@keyframes habi-hang-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes habi-hang-grip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.4px); }
+}
+.habi-antic--hang .habi-hop {
+  transform-origin: 16px 3.6px;
+  animation: habi-hang-sway var(--habi-antic) ease-in-out infinite;
+}
+.habi-antic--hang .habi-hand {
+  animation: habi-hang-grip calc(var(--habi-antic) / 4) ease-in-out infinite;
+}

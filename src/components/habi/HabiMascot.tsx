@@ -58,6 +58,7 @@ export const HABI_ANTICS = {
   hearts: 2600,
   arrive: 3200,
   depart: 4200,
+  hang: 2000,
 } as const;
 
 export type HabiAntic = keyof typeof HABI_ANTICS;
@@ -112,6 +113,8 @@ function useAntic(mood: HabiMood, pinned?: HabiAntic, sequence?: 'arrive' | 'dep
       last = next;
       setAntic(next);
       // After departing there is nothing left to animate: Habi has gone.
+      // A held pose such as hang loops in CSS, so Habi never lets go.
+      if (next === 'hang') return;
       if (next !== 'depart' || pinned) timer = window.setTimeout(rest, HABI_ANTICS[next]);
     };
     const rest = () => {
@@ -124,7 +127,7 @@ function useAntic(mood: HabiMood, pinned?: HabiAntic, sequence?: 'arrive' | 'dep
     };
 
     if (sequence === 'arrive' && !pinned) timer = window.setTimeout(rest, HABI_ANTICS.arrive);
-    else timer = window.setTimeout(() => play(pinned ?? (sequence === 'depart' ? 'depart' : OPENERS[mood])), 350);
+    else timer = window.setTimeout(() => play(pinned ?? (sequence === 'depart' ? 'depart' : OPENERS[mood])), pinned ? 0 : 350);
     return () => window.clearTimeout(timer);
   }, [mood, pinned, sequence]);
 
@@ -170,6 +173,13 @@ function Held({ antic }: { antic: HabiAntic | null }) {
       );
     case 'highFive':
       return <Hand x={26} y={18} side="right" />;
+    case 'hang':
+      return (
+        <>
+          <Hand x={13.4} y={3.6} side="left" />
+          <Hand x={18.6} y={3.6} side="right" />
+        </>
+      );
     case 'sunglasses':
       return (
         <>
