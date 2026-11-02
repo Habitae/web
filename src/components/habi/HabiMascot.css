@@ -2373,6 +2373,11 @@
 
 /* Arrive and depart: Habi travels by balloon. These aren't random antics:
    HabiMascot.tsx plays them for sequence="arrive" and sequence="depart". */
+.habi-bunch {
+  transform-origin: 22px 6.5px;
+  transform: scale(0.8);
+}
+
 .habi-bunch-strings {
   fill: none;
   stroke: color-mix(in srgb, var(--text) 45%, var(--card-bg));
@@ -2433,10 +2438,10 @@
 .habi-antic--arrive .habi-bunch-balloons circle:nth-child(10) { animation-delay: 1000ms; }
 
 @keyframes habi-arrive {
-  0% { transform: translate(-3px, -36px) rotate(-4deg); }
-  25% { transform: translate(2px, -28px) rotate(4deg); }
-  45% { transform: translate(-1px, -19px) rotate(-3deg); }
-  62% { transform: translate(0.5px, -10px) rotate(2deg); }
+  0% { transform: translate(-3px, -14px) rotate(-4deg); }
+  25% { transform: translate(2px, -11px) rotate(4deg); }
+  45% { transform: translate(-1px, -7.5px) rotate(-3deg); }
+  62% { transform: translate(0.5px, -4px) rotate(2deg); }
   76% { transform: translate(0, 0) rotate(0deg) scale(1, 1); }
   82% { transform: scale(1.12, 0.86); }
   90% { transform: translateY(-1.5px) scale(0.96, 1.05); }
