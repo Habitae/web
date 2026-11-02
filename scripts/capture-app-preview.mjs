@@ -1,16 +1,21 @@
 // Captures the administration app's timeline screen as a static HTML snapshot
 // (markup plus only the CSS rules it uses) for the homepage hero.
 //
-// Run the app locally first (Condominio-plus: `pnpm dev`), then:
+// Run the app locally first (../app: `pnpm dev`), then:
 //   node scripts/capture-app-preview.mjs [appUrl]
 // Writes public/app-preview/timeline-pt.html and timeline-en.html.
+//
+// `--refresh` reprocesses the existing snapshots with the steps below the example
+// data (trimming and CSS selection) without the app, after those steps change.
 import { chromium } from '@playwright/test';
 import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
-const appUrl = process.argv[2] ?? 'http://localhost:5173/demo';
+const refresh = process.argv[2] === '--refresh';
+const appUrl = (!refresh && process.argv[2]) || 'http://localhost:5173/demo';
 const outDir = join(process.cwd(), 'public/app-preview');
-const fontSource = join(process.cwd(), '../Condominio-plus/node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2');
+const fontSource = join(process.cwd(), '../app/node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2');
 const width = 1280;
 const height = 800;
 
@@ -39,7 +44,7 @@ const examples = {
 };
 
 mkdirSync(outDir, { recursive: true });
-copyFileSync(fontSource, join(outDir, 'manrope.woff2'));
+if (!refresh) copyFileSync(fontSource, join(outDir, 'manrope.woff2'));
 
 // Set CHROMIUM_PATH to use an already-installed Chromium instead of Playwright's pinned build.
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
@@ -50,69 +55,109 @@ for (const language of ['pt', 'en']) {
     localStorage.setItem('darkMode', 'false');
   }, language);
   const page = await context.newPage();
-  await page.goto(appUrl);
-  await page.waitForSelector('.tl-event', { timeout: 30_000 });
-  await page.waitForTimeout(1000);
+  if (refresh) await page.goto(pathToFileURL(join(outDir, `timeline-${language}.html`)).href);
+  else {
+    await page.goto(appUrl);
+    await page.waitForSelector('.tl-event', { timeout: 30_000 });
+    await page.waitForTimeout(1000);
+    await page.evaluate(exampleData, examples[language]);
+  }
+  await page.evaluate(() => document.fonts.ready);
+  const html = await page.evaluate(snapshot, { width, height });
 
-  const html = await page.evaluate(({ data, width, height }) => {
-    const set = (selector, text, root = document) => { const el = root.querySelector(selector); if (el) el.textContent = text; };
+  writeFileSync(join(outDir, `timeline-${language}.html`), html);
+  console.log(`timeline-${language}.html: ${(html.length / 1024).toFixed(0)} KB`);
+  await context.close();
+}
+await browser.close();
 
-    // Example data.
-    set('.app-command-account-avatar', 'MS');
-    set('.app-command-account-copy strong', data.user);
-    set('.app-command-account-copy span', data.role);
-    const actions = document.querySelector('.condominium-tasks-heading p');
-    if (actions?.firstChild) actions.firstChild.textContent = data.actions;
-    const days = [...document.querySelectorAll('.tl-day')];
-    days.slice(1).forEach((day) => day.remove());
-    document.querySelector('.tl-more-activity')?.remove();
-    const templates = Object.fromEntries(['positive', 'negative', 'neutral'].map((tone) => [tone, document.querySelector(`.tl-event-${tone}`)]));
-    const list = days[0].querySelector('.tl-events') ?? days[0];
-    const fresh = data.events.map((event) => {
-      const node = templates[event.tone].cloneNode(true);
-      set('.tl-event-copy span', event.tag, node);
-      set('.tl-event-copy strong', event.title, node);
-      set('.tl-event-time', event.time, node);
-      set('.tl-event-amount', event.amount, node);
-      return node;
-    });
-    list.querySelectorAll('.tl-event').forEach((node) => node.remove());
-    fresh.forEach((node) => list.append(node));
-    set('.tl-next-meeting strong', data.meeting);
-    set('.tl-next-meeting span:last-child', data.room);
-    set('.tl-maintenance-summary strong', data.tasks);
-    const alert = document.querySelector('.tl-maintenance-alert');
-    if (alert?.lastChild) alert.lastChild.textContent = data.urgent;
-    const badge = document.querySelector('.notification-bell-badge, .notification-badge, [class*="bell"] [class*="badge"]');
-    if (badge) badge.textContent = '4';
+// Runs in the app: replaces whatever the local demo database contains with the examples.
+function exampleData(data) {
+  const set = (selector, text, root = document) => { const el = root.querySelector(selector); if (el) el.textContent = text; };
 
-    // Static snapshot: no scripts, links or focus targets.
-    const root = document.getElementById('root');
-    root.querySelectorAll('[tabindex], a, button, input, select, summary').forEach((el) => el.setAttribute('tabindex', '-1'));
-    root.querySelectorAll('a[href]').forEach((el) => el.removeAttribute('href'));
+  // Example data.
+  set('.app-command-account-avatar', 'MS');
+  set('.app-command-account-copy strong', data.user);
+  set('.app-command-account-copy span', data.role);
+  const actions = document.querySelector('.condominium-tasks-heading p');
+  if (actions?.firstChild) actions.firstChild.textContent = data.actions;
+  const days = [...document.querySelectorAll('.tl-day')];
+  days.slice(1).forEach((day) => day.remove());
+  document.querySelector('.tl-more-activity')?.remove();
+  const templates = Object.fromEntries(['positive', 'negative', 'neutral'].map((tone) => [tone, document.querySelector(`.tl-event-${tone}`)]));
+  const list = days[0].querySelector('.tl-events') ?? days[0];
+  const fresh = data.events.map((event) => {
+    const node = templates[event.tone].cloneNode(true);
+    set('.tl-event-copy span', event.tag, node);
+    set('.tl-event-copy strong', event.title, node);
+    set('.tl-event-time', event.time, node);
+    set('.tl-event-amount', event.amount, node);
+    return node;
+  });
+  list.querySelectorAll('.tl-event').forEach((node) => node.remove());
+  fresh.forEach((node) => list.append(node));
+  set('.tl-next-meeting strong', data.meeting);
+  set('.tl-next-meeting span:last-child', data.room);
+  set('.tl-maintenance-summary strong', data.tasks);
+  const alert = document.querySelector('.tl-maintenance-alert');
+  if (alert?.lastChild) alert.lastChild.textContent = data.urgent;
+  const badge = document.querySelector('.notification-bell-badge, .notification-badge, [class*="bell"] [class*="badge"]');
+  if (badge) badge.textContent = '4';
+}
 
-    // Keep only CSS rules that match something in the snapshot.
-    const all = [root, ...root.querySelectorAll('*')];
-    const matches = (selectorText) => selectorText.split(',').some((part) => {
-      const base = part.replace(/::?(before|after|placeholder|marker|selection|backdrop|-webkit-[\w-]+|picker\([^)]*\)|picker-icon|checkmark)/g, '')
-        .replace(/:(hover|focus|focus-visible|focus-within|active|visited|checked|disabled|open|popover-open)/g, '').trim() || '*';
-      try { return base.startsWith(':root') || base === 'html' || base === 'body' || base === '*' || all.some((el) => el.matches(base)); } catch { return false; }
-    });
-    const keep = (rules) => {
-      let out = '';
-      for (const rule of rules) {
-        if (rule instanceof CSSStyleRule) { if (matches(rule.selectorText)) out += rule.cssText + '\n'; }
-        else if (rule instanceof CSSMediaRule || rule instanceof CSSSupportsRule || rule instanceof CSSContainerRule || rule instanceof CSSLayerBlockRule) {
-          const inner = keep(rule.cssRules);
-          if (inner) out += rule.cssText.slice(0, rule.cssText.indexOf('{')) + '{\n' + inner + '}\n';
-        } else if (rule instanceof CSSKeyframesRule || rule instanceof CSSPropertyRule) out += rule.cssText + '\n';
-      }
-      return out;
-    };
-    let css = '';
-    for (const sheet of document.styleSheets) { try { css += keep(sheet.cssRules); } catch { /* cross-origin */ } }
+// Runs in the app or in an existing snapshot and returns the snapshot's HTML.
+function snapshot({ width, height }) {
+  const root = document.getElementById('root');
 
-    return `<!doctype html>
+  // Drop everything the frame never shows: the mobile header, panels below the
+  // fold and anything else without a box inside it. The homepage lays the
+  // snapshot out while it loads, so every element here costs it time. Decided
+  // before removing anything, so one removal can't move another element in or out.
+  const inFrame = (el) => {
+    const r = el.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && r.right > 0 && r.bottom > 0 && r.left < width && r.top < height;
+  };
+  // An <svg> counts as a whole (its <defs> have no box), and an <option> shows in its <select>.
+  const shows = (el) => el.tagName === 'OPTION' || inFrame(el) || (!(el instanceof SVGElement) && [...el.children].some(shows));
+  const hidden = [];
+  const collect = (el) => {
+    for (const child of el.children) {
+      if (!shows(child)) hidden.push(child);
+      else if (!(child instanceof SVGElement)) collect(child);
+    }
+  };
+  collect(root);
+  hidden.forEach((el) => el.remove());
+
+  // Static snapshot: no scripts, links or focus targets.
+  root.querySelectorAll('[tabindex], a, button, input, select, summary').forEach((el) => el.setAttribute('tabindex', '-1'));
+  root.querySelectorAll('a[href]').forEach((el) => el.removeAttribute('href'));
+
+  // Keep only CSS rules that match something in the snapshot.
+  const all = [root, ...root.querySelectorAll('*')];
+  const matches = (selectorText) => selectorText.split(',').some((part) => {
+    const base = part.replace(/::?(before|after|placeholder|marker|selection|backdrop|-webkit-[\w-]+|picker\([^)]*\)|picker-icon|checkmark)/g, '')
+      .replace(/:(hover|focus|focus-visible|focus-within|active|visited|checked|disabled|open|popover-open)/g, '').trim() || '*';
+    try { return base.startsWith(':root') || base === 'html' || base === 'body' || base === '*' || all.some((el) => el.matches(base)); } catch { return false; }
+  });
+  const keep = (rules) => {
+    let out = '';
+    for (const rule of rules) {
+      if (rule instanceof CSSStyleRule) { if (matches(rule.selectorText)) out += rule.cssText + '\n'; }
+      else if (rule instanceof CSSMediaRule || rule instanceof CSSSupportsRule || rule instanceof CSSContainerRule || rule instanceof CSSLayerBlockRule) {
+        const inner = keep(rule.cssRules);
+        if (inner) out += rule.cssText.slice(0, rule.cssText.indexOf('{')) + '{\n' + inner + '}\n';
+      } else if (rule instanceof CSSKeyframesRule || rule instanceof CSSPropertyRule) out += rule.cssText + '\n';
+    }
+    return out;
+  };
+  let css = '';
+  for (const sheet of document.styleSheets) {
+    if (sheet.ownerNode?.hasAttribute?.('data-frame')) continue;
+    try { css += keep(sheet.cssRules); } catch { /* cross-origin */ }
+  }
+
+  return `<!doctype html>
 <html lang="${document.documentElement.lang}" data-theme="light">
 <head>
 <meta charset="utf-8">
@@ -120,18 +165,13 @@ for (const language of ['pt', 'en']) {
 <meta name="robots" content="noindex">
 <title>Habitae</title>
 <style>
+${css}</style>
+<style data-frame>
 @font-face { font-family: 'Manrope Variable'; font-style: normal; font-display: swap; font-weight: 200 800; src: url(manrope.woff2) format('woff2-variations'); }
-${css}
 html, body { width: ${width}px; height: ${height}px; overflow: hidden; }
 body * { pointer-events: none !important; animation: none !important; transition: none !important; }
 </style>
 </head>
 <body class="${document.body.className}">${root.outerHTML}</body>
 </html>`;
-  }, { data: examples[language], width, height });
-
-  writeFileSync(join(outDir, `timeline-${language}.html`), html);
-  console.log(`timeline-${language}.html: ${(html.length / 1024).toFixed(0)} KB`);
-  await context.close();
 }
-await browser.close();
