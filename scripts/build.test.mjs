@@ -4,10 +4,11 @@ import { test } from 'node:test';
 
 const read = path => readFile(`dist/${path}`, 'utf8');
 const textContent = html => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-// app-preview/ holds the static app snapshot embedded in the homepage hero, not site pages.
+// app-preview/ holds the static app snapshot embedded in the homepage hero, and
+// habilab/ is the unlisted mascot page; neither is a site page.
 async function htmlFiles(dir = '') {
   const entries = await readdir(`dist/${dir}`, { withFileTypes: true });
-  const nested = await Promise.all(entries.filter(entry => entry.isDirectory() && entry.name !== 'assets' && entry.name !== 'app-preview').map(entry => htmlFiles(`${dir}${entry.name}/`)));
+  const nested = await Promise.all(entries.filter(entry => entry.isDirectory() && entry.name !== 'assets' && entry.name !== 'app-preview' && entry.name !== 'habilab').map(entry => htmlFiles(`${dir}${entry.name}/`)));
   return [...entries.filter(entry => entry.name.endsWith('.html')).map(entry => `${dir}${entry.name}`), ...nested.flat()];
 }
 

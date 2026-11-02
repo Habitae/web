@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { websiteCatalogs } from './scripts/website-catalogs.mjs';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => {
     ],
     base,
     // The prerenderer uses the manifest to include each surface’s styles in HTML.
-    build: { outDir: 'dist', manifest: true },
+    // habilab/ is an unlisted page for the mascot, built beside the site but never prerendered.
+    build: { outDir: 'dist', manifest: true, rollupOptions: { input: { main: resolve(process.cwd(), 'index.html'), habilab: resolve(process.cwd(), 'habilab/index.html') } } },
   };
 });

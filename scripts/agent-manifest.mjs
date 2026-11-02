@@ -15,6 +15,9 @@ export async function writeAgentManifest(entries, render, origin, base = '/') {
   for (const [alias, target] of [['termos', 'terms'], ['privacidade', 'privacy']]) {
     for (const path of [`/${alias}`, `/${alias}/`, `/${alias}/index.html`]) routes[path] = routes[`/${target}/`];
   }
+  // The Habi lab is unlisted: served and noindexed, but kept out of sitemaps and llms.txt.
+  const lab = { html: '/habilab/index.html', markdown: '/habilab/index.md', canonical: `${origin}/habilab/`, noindex: true, kind: 'lab', alternates: { pt: '/habilab/', en: '/habilab/', fr: '/habilab/', es: '/habilab/' } };
+  for (const path of ['/habilab', '/habilab/', lab.html]) routes[path] = lab;
   async function walk(directory = '') {
     for (const entry of await readdir(`dist/${directory}`, { withFileTypes: true })) {
       if (entry.name.startsWith('.')) continue;
@@ -26,6 +29,7 @@ export async function writeAgentManifest(entries, render, origin, base = '/') {
   await walk();
   for (const prefix of ['', '/en', '/fr', '/es']) files[`${prefix}/404.md`].noindex = true;
   files['/agent-manifest.json'] = { type: 'application/json', noindex: true };
+  files['/habilab/index.md'] = { type: 'text/markdown', canonical: lab.canonical, noindex: true };
   const manifest = { origin, base, routes, files };
   await writeFile('dist/agent-manifest.json', `${JSON.stringify(manifest, null, 2)}\n`);
   return manifest;

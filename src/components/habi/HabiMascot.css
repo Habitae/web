@@ -1,0 +1,2545 @@
+/* Habi — Habitae's little house. Every shape sits on the 32×32 viewBox, so
+   transform origins below are in viewBox units. Antic animations run for
+   --habi-antic, which HabiMascot.tsx sets from HABI_ANTICS. */
+.habi-mascot {
+  display: block;
+  overflow: visible;
+}
+
+.habi-mascot :where(g, rect, path, circle, ellipse) {
+  transform-box: view-box;
+}
+
+/* ── Paint ─────────────────────────────────────────────── */
+
+.habi-shadow {
+  fill: color-mix(in srgb, var(--text) 12%, transparent);
+  transform-origin: 16px 31px;
+}
+
+.habi-house,
+.habi-hand {
+  fill: var(--primary);
+}
+
+.habi-leg,
+.habi-back-door,
+.habi-chimney,
+.habi-prop-dark {
+  fill: var(--primary-strong);
+}
+
+.habi-roof-shape {
+  fill: var(--habi-gold);
+  stroke: var(--habi-gold);
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.habi-eye,
+.habi-lens-eye {
+  fill: var(--card-bg);
+}
+
+.habi-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-blink 4.6s infinite;
+}
+
+.habi-eye-happy {
+  fill: none;
+  stroke: var(--card-bg);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.habi-hand {
+  stroke: var(--primary-strong);
+  stroke-width: 0.6;
+}
+
+.habi-prop-light {
+  fill: var(--card-bg);
+  stroke: var(--primary-strong);
+  stroke-width: 0.6;
+}
+
+.habi-laptop-shell {
+  fill: color-mix(in srgb, var(--text) 16%, var(--card-bg));
+  stroke: color-mix(in srgb, var(--text) 30%, var(--card-bg));
+  stroke-width: 0.5;
+}
+
+.habi-laptop-screen {
+  fill: none;
+  stroke: color-mix(in srgb, var(--text) 26%, var(--card-bg));
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.habi-laptop-glow {
+  fill: none;
+  stroke: var(--habi-gold);
+  stroke-linecap: round;
+  stroke-width: 0.7;
+  animation: habi-glow 900ms ease-in-out infinite;
+}
+
+.habi-leg--far {
+  opacity: 0.7;
+}
+
+.habi-laptop-base {
+  fill: color-mix(in srgb, var(--text) 26%, var(--card-bg));
+}
+
+.habi-prop-ink {
+  fill: color-mix(in srgb, var(--text) 45%, transparent);
+}
+
+.habi-umbrella-stick {
+  fill: none;
+  stroke: var(--primary-strong);
+  stroke-linecap: round;
+  stroke-width: 1.2;
+}
+
+.habi-prop-line,
+.habi-steam,
+.habi-lens-handle {
+  fill: none;
+  stroke: var(--primary-strong);
+  stroke-linecap: round;
+  stroke-width: 0.8;
+}
+
+.habi-steam {
+  stroke: color-mix(in srgb, var(--text) 40%, transparent);
+}
+
+.habi-lens-handle {
+  stroke-width: 1.4;
+}
+
+.habi-lens-glass {
+  fill: color-mix(in srgb, var(--primary) 82%, var(--card-bg));
+  stroke: var(--primary-strong);
+  stroke-width: 1;
+}
+
+.habi-gold,
+.habi-thought,
+.habi-sparkles,
+.habi-stars,
+.habi-alert,
+.habi-rocket,
+.habi-stamp-mark {
+  fill: var(--habi-gold);
+}
+
+.habi-bulb-rays,
+.habi-burst {
+  fill: none;
+  stroke: var(--habi-gold);
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.habi-zzz {
+  fill: none;
+  stroke: color-mix(in srgb, var(--text) 55%, transparent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 0.8;
+}
+
+.habi-smoke,
+.habi-cloud {
+  fill: color-mix(in srgb, var(--text) 28%, var(--card-bg));
+}
+
+.habi-drops {
+  fill: var(--primary);
+}
+
+.habi-bird,
+.habi-notes {
+  fill: color-mix(in srgb, var(--text) 78%, var(--card-bg));
+}
+
+.habi-bird-beak {
+  fill: var(--habi-gold);
+}
+
+.habi-bird-wing {
+  fill: color-mix(in srgb, var(--text) 50%, var(--card-bg));
+}
+
+.habi-confetti rect:nth-child(3n + 1) { fill: var(--habi-gold); }
+.habi-confetti rect:nth-child(3n + 2) { fill: var(--primary); }
+.habi-confetti rect:nth-child(3n) { fill: color-mix(in srgb, var(--text) 60%, var(--card-bg)); }
+
+/* ── Idle: breathe, blink, glance ──────────────────────── */
+
+.habi-hop {
+  transform-origin: 16px 30px;
+  animation: habi-breathe 2.6s ease-in-out infinite;
+}
+
+.habi-gag {
+  transform-origin: 16px 30px;
+}
+
+.habi-eyes {
+  transform-origin: 16px 19.75px;
+  animation: habi-glance 5.2s steps(1, end) infinite;
+}
+
+.habi-roof-lift,
+.habi-roof {
+  transform-origin: 16px 15px;
+}
+
+.habi-smoke circle {
+  opacity: 0;
+  transform-origin: 22px 5px;
+}
+
+.habi-sparkles path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-twinkle 1.4s ease-in-out infinite;
+}
+
+.habi-sparkles path:nth-child(2) { animation-delay: 350ms; }
+.habi-sparkles path:nth-child(3) { animation-delay: 700ms; }
+.habi-sparkles path:nth-child(4) { animation-delay: 1050ms; }
+
+@keyframes habi-breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.02, 0.97); }
+}
+
+@keyframes habi-blink {
+  0%, 44%, 48%, 52%, 100% { transform: scaleY(1); }
+  46%, 50% { transform: scaleY(0.1); }
+}
+
+@keyframes habi-glance {
+  0% { transform: translate(0, 0); }
+  30% { transform: translate(1px, 0); }
+  50% { transform: translate(-1px, 0); }
+  70% { transform: translate(0, 0); }
+}
+
+@keyframes habi-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.4) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.1) rotate(45deg); }
+}
+
+/* Profile antics turn sideways on the way in and back on the way out. */
+.habi-turn {
+  transform-origin: 13px 20px;
+}
+
+.habi-mascot--profile .habi-turn {
+  animation: habi-turn var(--habi-antic) ease-in-out both;
+}
+
+.habi-mascot--profile .habi-smoke {
+  transform: translate(-12.5px, -1px);
+}
+
+@keyframes habi-turn {
+  0% { transform: scaleX(0.15); }
+  6%, 94% { transform: scaleX(1); }
+  100% { transform: scaleX(0.15); }
+}
+
+/* Shared bits several antics reuse. */
+.habi-hand {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-hand-in var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-hand-in {
+  0% { opacity: 0; transform: scale(0); }
+  8%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-type {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.2px); }
+}
+
+@keyframes habi-prop-pop {
+  0% { transform: scale(0); }
+  10% { transform: scale(1.12); }
+  15%, 88% { transform: scale(1); }
+  100% { transform: scale(0); }
+}
+
+/* ── Welcome antics ────────────────────────────────────── */
+
+/* 1. Hat tip: lifts the roof by its eave, like a gentleman. */
+.habi-antic--hatTip .habi-roof {
+  transform-origin: 4.5px 15px;
+  animation: habi-hat-tip var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-hat-tip {
+  0%, 100% { transform: rotate(0deg); }
+  25%, 60% { transform: translateY(-1.5px) rotate(-18deg); }
+  80% { transform: rotate(4deg); }
+  90% { transform: rotate(-1deg); }
+}
+
+/* 2. Wave: a hand pops out and waves hello. */
+.habi-antic--wave .habi-hand--right {
+  animation: habi-wave var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--wave .habi-gag {
+  animation: habi-lean-left var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-wave {
+  0% { opacity: 0; transform: scale(0); }
+  8% { opacity: 1; transform: scale(1); }
+  20%, 44%, 68% { transform: translate(1.5px, -2.5px); }
+  32%, 56%, 80% { transform: translate(0, 0); }
+  92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-lean-left {
+  0%, 100% { transform: rotate(0deg); }
+  15%, 85% { transform: rotate(-4deg); }
+}
+
+/* 3. Roof slip: the roof slides over its eyes, it shakes it back up. */
+.habi-antic--roofSlip .habi-roof-lift {
+  animation: habi-roof-slip var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--roofSlip .habi-gag {
+  animation: habi-shake-off var(--habi-antic) linear both;
+}
+
+.habi-antic--roofSlip .habi-eyes {
+  animation: habi-peek-under var(--habi-antic) steps(1, end) both;
+}
+
+@keyframes habi-roof-slip {
+  0%, 100% { transform: translateY(0); }
+  12% { transform: translateY(-1px); }
+  25%, 60% { transform: translateY(4.5px) rotate(5deg); }
+  72% { transform: translateY(-4px) rotate(-6deg); }
+  84% { transform: translateY(0.6px) rotate(2deg); }
+}
+
+@keyframes habi-shake-off {
+  0%, 36%, 72%, 100% { transform: rotate(0deg); }
+  40%, 52% { transform: rotate(-7deg); }
+  46%, 58% { transform: rotate(7deg); }
+  64% { transform: rotate(-3deg); }
+}
+
+@keyframes habi-peek-under {
+  0%, 70% { transform: translate(0, 0); }
+  30% { transform: translate(-1.5px, 1px); }
+  45% { transform: translate(1.5px, 1px); }
+}
+
+/* 4. Double hop: two springy bounces. */
+.habi-antic--doubleHop .habi-hop {
+  animation: habi-double-hop var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+.habi-antic--doubleHop .habi-roof-lift {
+  animation: habi-roof-lag var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--doubleHop .habi-shadow {
+  animation: habi-shadow-double var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+@keyframes habi-double-hop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  8% { transform: translateY(0) scale(1.08, 0.9); }
+  22% { transform: translateY(-5px) scale(0.95, 1.06); }
+  36% { transform: translateY(0) scale(1.08, 0.9); }
+  55% { transform: translateY(-7px) scale(0.94, 1.08); }
+  74% { transform: translateY(0) scale(1.1, 0.88); }
+  86% { transform: translateY(0) scale(0.98, 1.02); }
+}
+
+@keyframes habi-roof-lag {
+  0%, 100% { transform: translateY(0); }
+  24% { transform: translateY(-1.5px); }
+  38% { transform: translateY(0.5px); }
+  58% { transform: translateY(-2px) rotate(-4deg); }
+  76% { transform: translateY(0.6px); }
+}
+
+@keyframes habi-shadow-double {
+  0%, 36%, 74%, 100% { transform: scale(1); opacity: 1; }
+  22% { transform: scale(0.7); opacity: 0.6; }
+  55% { transform: scale(0.55); opacity: 0.45; }
+}
+
+/* 5. Peek: ducks down flat, looks around, pops back up. */
+.habi-antic--peek .habi-hop {
+  animation: habi-duck var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--peek .habi-eyes {
+  animation: habi-peek-around var(--habi-antic) steps(1, end) both;
+}
+
+@keyframes habi-duck {
+  0%, 100% { transform: scale(1, 1); }
+  15%, 70% { transform: scale(1.12, 0.62); }
+  80% { transform: translateY(-3px) scale(0.94, 1.08); }
+  90% { transform: scale(1.04, 0.96); }
+}
+
+@keyframes habi-peek-around {
+  0%, 75% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, -1px); }
+  42% { transform: translate(2px, -1px); }
+  58% { transform: translate(0, -1px); }
+}
+
+/* 6. Spin: turns on the spot — front, side, back, other side, front. */
+.habi-view--side {
+  transform: translateX(3px);
+}
+
+.habi-view--side-flip {
+  transform-origin: 13px 20px;
+  transform: translateX(3px) scaleX(-1);
+}
+
+.habi-view--front { animation: habi-view-front var(--habi-antic) steps(1, end) both; }
+.habi-view--side { animation: habi-view-side var(--habi-antic) steps(1, end) both; }
+.habi-view--back { animation: habi-view-back var(--habi-antic) steps(1, end) both; }
+.habi-view--side-flip { animation: habi-view-side-flip var(--habi-antic) steps(1, end) both; }
+
+.habi-antic--spin .habi-gag {
+  transform-origin: 16px 30px;
+  animation: habi-turnaround var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-view-front {
+  0% { opacity: 1; }
+  15% { opacity: 0; }
+  75%, 100% { opacity: 1; }
+}
+
+@keyframes habi-view-side {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  35%, 100% { opacity: 0; }
+}
+
+@keyframes habi-view-back {
+  0% { opacity: 0; }
+  35% { opacity: 1; }
+  55%, 100% { opacity: 0; }
+}
+
+@keyframes habi-view-side-flip {
+  0% { opacity: 0; }
+  55% { opacity: 1; }
+  75%, 100% { opacity: 0; }
+}
+
+@keyframes habi-turnaround {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  13%, 33%, 53%, 73% { transform: translateY(-2px) scale(0.86, 1.04); }
+  17%, 37%, 57% { transform: translateY(-2.5px) scale(1, 1); }
+  77% { transform: translateY(-1px) scale(1, 1); }
+  88% { transform: translateY(0) scale(1.08, 0.92); }
+}
+
+/* 7. Sneeze: "ah… ah… CHOO", out of the chimney. */
+.habi-antic--sneeze .habi-eyes {
+  animation: habi-sneeze-eyes var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sneeze .habi-gag {
+  animation: habi-sneeze-body var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sneeze .habi-roof-lift {
+  animation: habi-sneeze-roof var(--habi-antic) ease-out both;
+}
+
+.habi-antic--sneeze .habi-smoke circle {
+  animation: habi-sneeze-puff var(--habi-antic) ease-out both;
+}
+
+.habi-antic--sneeze .habi-smoke circle:nth-child(2) {
+  animation-name: habi-sneeze-puff-2;
+}
+
+.habi-antic--sneeze .habi-smoke circle:nth-child(3) {
+  animation-name: habi-sneeze-puff-3;
+}
+
+@keyframes habi-sneeze-eyes {
+  0%, 15%, 85%, 100% { transform: scaleY(1); }
+  30% { transform: scaleY(1.25) translateY(-0.5px); }
+  48% { transform: scaleY(1.4) translateY(-1px); }
+  56%, 72% { transform: scaleY(0.12); }
+}
+
+@keyframes habi-sneeze-body {
+  0%, 15%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-4deg) translateY(-0.5px); }
+  50% { transform: rotate(-8deg) translateY(-1px); }
+  57% { transform: rotate(7deg) scale(1.06, 0.92); }
+  66% { transform: rotate(-3deg); }
+  76% { transform: rotate(1deg); }
+}
+
+@keyframes habi-sneeze-roof {
+  0%, 52%, 100% { transform: translateY(0); }
+  58% { transform: translateY(-4px) rotate(10deg); }
+  72% { transform: translateY(0.4px) rotate(-2deg); }
+}
+
+@keyframes habi-sneeze-puff {
+  0%, 55% { opacity: 0; transform: scale(0.3); }
+  60% { opacity: 1; transform: translate(1px, -2px) scale(1.4); }
+  100% { opacity: 0; transform: translate(6px, -7px) scale(3); }
+}
+
+@keyframes habi-sneeze-puff-2 {
+  0%, 56% { opacity: 0; transform: scale(0.3); }
+  62% { opacity: 1; transform: translate(-1px, -3px) scale(1); }
+  100% { opacity: 0; transform: translate(-4px, -8px) scale(2.2); }
+}
+
+@keyframes habi-sneeze-puff-3 {
+  0%, 57% { opacity: 0; transform: scale(0.3); }
+  63% { opacity: 1; transform: translate(3px, -1px) scale(0.8); }
+  100% { opacity: 0; transform: translate(9px, -2px) scale(1.8); }
+}
+
+/* 8. Bird: a bird lands on the roof, Habi glares up, shakes it off. */
+.habi-bird {
+  animation: habi-bird-fly var(--habi-antic) ease-in-out both;
+}
+
+.habi-bird-wing {
+  transform-origin: 15.7px 3.2px;
+  animation: habi-flap 160ms steps(2, jump-none) infinite;
+}
+
+.habi-antic--bird .habi-eyes {
+  animation: habi-look-up var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--bird .habi-gag {
+  animation: habi-bird-shake var(--habi-antic) linear both;
+}
+
+@keyframes habi-bird-fly {
+  0% { opacity: 0; transform: translate(16px, -12px); }
+  8% { opacity: 1; }
+  28% { transform: translate(0, 0); }
+  40% { transform: translate(0, -1.5px); }
+  46% { transform: translate(0, 0); }
+  70% { transform: translate(0, 0); }
+  76% { transform: translate(0, -2px); }
+  92% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-18px, -12px); }
+}
+
+@keyframes habi-flap {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(-1); }
+}
+
+@keyframes habi-look-up {
+  0%, 22%, 90%, 100% { transform: translate(0, 0); }
+  30%, 66% { transform: translate(0, -1.5px) scaleY(0.75); }
+  78% { transform: translate(-1.5px, -1.5px); }
+}
+
+@keyframes habi-bird-shake {
+  0%, 66%, 84%, 100% { transform: rotate(0deg); }
+  69%, 75% { transform: rotate(-6deg); }
+  72%, 78% { transform: rotate(6deg); }
+}
+
+/* 9. Rain: a cloud rains on Habi, so the roof becomes an umbrella. */
+.habi-cloud {
+  animation: habi-cloud-in var(--habi-antic) ease-in-out both;
+}
+
+.habi-drops rect {
+  animation: habi-drop 520ms linear infinite;
+}
+
+.habi-drops rect:nth-child(2) { animation-delay: 170ms; }
+.habi-drops rect:nth-child(3) { animation-delay: 340ms; }
+
+.habi-antic--rain .habi-roof-lift {
+  animation: habi-umbrella var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.4) both;
+}
+
+.habi-umbrella-stick {
+  animation: habi-stick var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--rain .habi-eyes {
+  animation: habi-look-up var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-cloud-in {
+  0% { opacity: 0; transform: translateX(-10px); }
+  12%, 86% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(10px); }
+}
+
+@keyframes habi-drop {
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(7px); }
+}
+
+/* Held off to the side, tilted over its shoulder like a real umbrella. */
+@keyframes habi-umbrella {
+  0%, 25%, 100% { transform: translate(0, 0) rotate(0deg); }
+  35%, 82% { transform: translate(3px, -6px) rotate(-10deg); }
+  58% { transform: translate(3px, -6.5px) rotate(-12deg); }
+  90% { transform: translate(0, 0.6px) rotate(0deg); }
+}
+
+@keyframes habi-stick {
+  0%, 30%, 86%, 100% { opacity: 0; }
+  36%, 80% { opacity: 1; }
+}
+
+@keyframes habi-grip {
+  0%, 28% { opacity: 0; transform: scale(0); }
+  34%, 82% { opacity: 1; transform: scale(1); }
+  58% { transform: translate(0, -0.4px) scale(1); }
+  88%, 100% { opacity: 0; transform: scale(0); }
+}
+
+.habi-antic--rain .habi-hand {
+  animation: habi-grip var(--habi-antic) ease-in-out both;
+}
+
+/* ── Guide antics ──────────────────────────────────────── */
+
+/* 10. Typing: hammers away at a tiny laptop. */
+.habi-laptop {
+  transform-origin: 25px 25px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-laptop .habi-hand {
+  animation: habi-type 180ms ease-in-out infinite;
+}
+
+.habi-laptop .habi-hand--right {
+  animation-delay: 90ms;
+}
+
+/* The far hand sits behind the keyboard, so it reads as depth, not a pair. */
+.habi-laptop .habi-hand--left {
+  opacity: 0.55;
+}
+
+.habi-antic--typing .habi-eyes,
+.habi-antic--overheat .habi-eyes {
+  animation: habi-read-screen var(--habi-antic) steps(1, end) both;
+}
+
+.habi-antic--typing .habi-gag {
+  animation: habi-jitter 240ms linear infinite;
+}
+
+@keyframes habi-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes habi-read-screen {
+  0% { transform: translate(0, 0.8px); }
+  25% { transform: translate(-1px, 0.8px); }
+  50% { transform: translate(1px, 0.8px); }
+  75% { transform: translate(0, 0.8px); }
+}
+
+@keyframes habi-jitter {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.4px); }
+}
+
+/* 11. Overheat: types so hard the chimney smokes and the roof blows off. */
+.habi-antic--overheat .habi-smoke circle {
+  animation: habi-steam-up 700ms ease-out infinite;
+}
+
+.habi-antic--overheat .habi-smoke circle:nth-child(2) { animation-delay: 230ms; }
+.habi-antic--overheat .habi-smoke circle:nth-child(3) { animation-delay: 460ms; }
+
+.habi-antic--overheat .habi-gag {
+  animation: habi-overheat-shake var(--habi-antic) linear both;
+}
+
+.habi-antic--overheat .habi-roof-lift {
+  animation: habi-blow-top var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+@keyframes habi-steam-up {
+  0% { opacity: 0; transform: scale(0.4); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(2px, -7px) scale(2.2); }
+}
+
+@keyframes habi-overheat-shake {
+  0%, 40%, 82%, 100% { transform: translate(0, 0); }
+  44%, 52%, 60%, 68%, 76% { transform: translate(-0.6px, 0); }
+  48%, 56%, 64%, 72%, 80% { transform: translate(0.6px, 0); }
+}
+
+@keyframes habi-blow-top {
+  0%, 74% { transform: translateY(0) rotate(0deg); }
+  82% { transform: translateY(-9px) rotate(-200deg); }
+  90% { transform: translateY(-4px) rotate(-360deg); }
+  95% { transform: translateY(0.6px) rotate(-360deg); }
+  100% { transform: translateY(0) rotate(-360deg); }
+}
+
+/* 12. Coffee: a sip with eyes closed, then a caffeine jitter. */
+.habi-mug {
+  transform-origin: 25px 24px;
+  animation: habi-sip var(--habi-antic) ease-in-out both;
+}
+
+.habi-mug .habi-hand {
+  animation: none;
+}
+
+.habi-steam {
+  animation: habi-glow 700ms ease-in-out infinite;
+}
+
+.habi-antic--coffee .habi-eyes {
+  animation: habi-savour var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--coffee .habi-gag {
+  animation: habi-caffeine var(--habi-antic) linear both;
+}
+
+@keyframes habi-sip {
+  0% { opacity: 0; transform: scale(0); }
+  10%, 22% { opacity: 1; transform: scale(1); }
+  35%, 60% { transform: translate(-6px, 1.5px) rotate(-22deg); }
+  72%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-savour {
+  0%, 30%, 64%, 100% { transform: scaleY(1); }
+  36%, 58% { transform: scaleY(0.12); }
+  70%, 92% { transform: scaleY(1.35); }
+}
+
+@keyframes habi-caffeine {
+  0%, 66%, 96%, 100% { transform: translate(0, 0); }
+  68%, 72%, 76%, 80%, 84%, 88%, 92% { transform: translate(-0.7px, -0.3px); }
+  70%, 74%, 78%, 82%, 86%, 90%, 94% { transform: translate(0.7px, 0.3px); }
+}
+
+/* 13. Think: chin tap, eyes up, thought bubbles. */
+.habi-antic--think .habi-hand--left {
+  animation: habi-chin-tap var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--think .habi-eyes {
+  animation: habi-ponder var(--habi-antic) steps(1, end) both;
+}
+
+.habi-antic--think .habi-roof {
+  animation: habi-sway var(--habi-antic) ease-in-out both;
+}
+
+.habi-thought circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-bubble var(--habi-antic) ease-out both;
+}
+
+.habi-thought circle:nth-child(2) {
+  animation-delay: 300ms;
+}
+
+@keyframes habi-chin-tap {
+  0% { opacity: 0; transform: scale(0); }
+  8% { opacity: 1; transform: scale(1); }
+  20%, 40%, 60%, 80% { transform: translateY(-1px); }
+  30%, 50%, 70% { transform: translateY(0); }
+  92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-ponder {
+  0% { transform: translate(1px, -1.5px) scaleY(0.8); }
+  40% { transform: translate(-1px, -1.5px) scaleY(0.8); }
+  70% { transform: translate(1px, -1.5px) scaleY(0.8); }
+  95% { transform: translate(0, 0); }
+}
+
+@keyframes habi-sway {
+  0%, 100% { transform: rotate(0deg); }
+  25%, 75% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@keyframes habi-bubble {
+  0%, 10% { opacity: 0; transform: scale(0); }
+  25%, 80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.4); }
+}
+
+/* 14. Idea: a lightbulb pops on and Habi jumps with excitement. */
+.habi-bulb {
+  transform-origin: 16px 0px;
+  animation: habi-bulb-on var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.5) both;
+}
+
+.habi-bulb-rays {
+  animation: habi-glow 300ms ease-in-out infinite;
+}
+
+.habi-antic--idea .habi-eyes {
+  animation: habi-eureka var(--habi-antic) ease-out both;
+}
+
+.habi-antic--idea .habi-hop {
+  animation: habi-eureka-jump var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+@keyframes habi-bulb-on {
+  0%, 25% { opacity: 0; transform: scale(0); }
+  38% { opacity: 1; transform: scale(1.3); }
+  46%, 85% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: translateY(-4px) scale(0.6); }
+}
+
+@keyframes habi-eureka {
+  0% { transform: translate(0, 0); }
+  15%, 30% { transform: translate(0, -1.5px) scaleY(0.7); }
+  40%, 85% { transform: translate(0, -0.5px) scale(1.25); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes habi-eureka-jump {
+  0%, 38%, 100% { transform: translateY(0) scale(1, 1); }
+  44% { transform: scale(1.08, 0.9); }
+  58% { transform: translateY(-5px) scale(0.95, 1.06); }
+  72% { transform: translateY(0) scale(1.06, 0.93); }
+  82% { transform: scale(1, 1); }
+}
+
+/* 15. Read: holds up the paperwork and scans every line. */
+.habi-paper {
+  transform-origin: 16px 29px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-paper .habi-hand {
+  animation: none;
+}
+
+.habi-antic--read .habi-eyes {
+  animation: habi-scan var(--habi-antic) steps(1, end) both;
+}
+
+.habi-antic--read .habi-gag {
+  animation: habi-nod var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-scan {
+  0% { transform: translate(-1px, 0.5px); }
+  12% { transform: translate(0, 0.5px); }
+  24% { transform: translate(1px, 0.5px); }
+  36% { transform: translate(-1px, 1px); }
+  48% { transform: translate(0, 1px); }
+  60% { transform: translate(1px, 1px); }
+  72% { transform: translate(-1px, 1.2px); }
+  84% { transform: translate(0, 0) scale(1.3); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes habi-nod {
+  0%, 82%, 100% { transform: rotate(0deg); }
+  86%, 94% { transform: translateY(0.8px) rotate(2deg); }
+  90% { transform: translateY(0) rotate(-1deg); }
+}
+
+/* 16. Magnify: inspects with a lens that shows a giant eye. */
+.habi-lens {
+  animation: habi-lens-sweep var(--habi-antic) ease-in-out both;
+}
+
+.habi-lens .habi-hand {
+  animation: none;
+}
+
+.habi-lens-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-blink 1.6s 400ms infinite;
+}
+
+@keyframes habi-lens-sweep {
+  0% { opacity: 0; transform: translate(14px, 4px); }
+  12% { opacity: 1; }
+  28%, 44% { transform: translate(0, 0); }
+  60%, 78% { transform: translate(6px, 0); }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translate(16px, 6px); }
+}
+
+/* 17. Stamp: APROVADO. Thunk. */
+.habi-stamp {
+  animation: habi-stamp-down var(--habi-antic) cubic-bezier(0.6, 0, 0.9, 0.4) both;
+}
+
+.habi-stamp .habi-hand {
+  animation: none;
+}
+
+.habi-stamp-mark {
+  animation: habi-mark var(--habi-antic) steps(1, end) both;
+}
+
+.habi-antic--stamp .habi-hop {
+  animation: habi-thunk var(--habi-antic) ease-out both;
+}
+
+.habi-antic--stamp .habi-eyes {
+  animation: habi-thunk-eyes var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-stamp-down {
+  0% { opacity: 0; transform: translateY(0); }
+  10% { opacity: 1; }
+  40% { transform: translateY(-4px); }
+  50%, 64% { transform: translateY(7px); }
+  80% { transform: translateY(-2px); }
+  92% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-2px); }
+}
+
+@keyframes habi-mark {
+  0%, 50% { opacity: 0; }
+  51%, 100% { opacity: 1; }
+}
+
+@keyframes habi-thunk {
+  0%, 48%, 100% { transform: scale(1, 1); }
+  52% { transform: scale(1.1, 0.86); }
+  62% { transform: scale(0.97, 1.03); }
+  72% { transform: scale(1, 1); }
+}
+
+@keyframes habi-thunk-eyes {
+  0%, 48%, 100% { transform: scaleY(1); }
+  52%, 60% { transform: scaleY(0.12); }
+  70%, 92% { transform: scale(1.2); }
+}
+
+/* 18. Sleepy: nods off with a few Zzz, then startles awake. */
+.habi-antic--sleepy .habi-eyes {
+  animation: habi-doze var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sleepy .habi-gag {
+  animation: habi-droop var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sleepy .habi-hop {
+  animation: habi-startle var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+.habi-antic--sleepy .habi-roof-lift {
+  animation: habi-startle-roof var(--habi-antic) ease-out both;
+}
+
+.habi-zzz path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-zzz var(--habi-antic) ease-out both;
+}
+
+.habi-zzz path:nth-child(2) { animation-name: habi-zzz-2; }
+.habi-zzz path:nth-child(3) { animation-name: habi-zzz-3; }
+
+.habi-alert {
+  animation: habi-alert var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.5) both;
+  transform-origin: 28px 9px;
+}
+
+@keyframes habi-doze {
+  0% { transform: scaleY(1); }
+  20% { transform: scaleY(0.5) translateY(0.5px); }
+  30% { transform: scaleY(0.8); }
+  45%, 70% { transform: scaleY(0.1) translateY(1px); }
+  74%, 90% { transform: scale(1.35) translateY(-0.5px); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes habi-droop {
+  0%, 100% { transform: rotate(0deg); }
+  45%, 70% { transform: rotate(7deg) translateY(0.5px); }
+  74% { transform: rotate(0deg); }
+}
+
+@keyframes habi-startle {
+  0%, 70%, 100% { transform: translateY(0) scale(1, 1); }
+  45%, 68% { transform: scale(1.02, 0.97); }
+  76% { transform: translateY(-6px) scale(0.92, 1.1); }
+  84% { transform: translateY(0) scale(1.08, 0.92); }
+  92% { transform: scale(1, 1); }
+}
+
+@keyframes habi-startle-roof {
+  0%, 72%, 100% { transform: translateY(0); }
+  78% { transform: translateY(-4px) rotate(-12deg); }
+  88% { transform: translateY(0.5px) rotate(3deg); }
+}
+
+@keyframes habi-zzz {
+  0%, 35% { opacity: 0; transform: translate(0, 2px) scale(0.5); }
+  45%, 60% { opacity: 1; transform: translate(0, 0) scale(1); }
+  70%, 100% { opacity: 0; transform: translate(1px, -2px); }
+}
+
+@keyframes habi-zzz-2 {
+  0%, 42% { opacity: 0; transform: translate(0, 2px) scale(0.5); }
+  52%, 62% { opacity: 1; transform: translate(0, 0) scale(1); }
+  70%, 100% { opacity: 0; transform: translate(1px, -2px); }
+}
+
+@keyframes habi-zzz-3 {
+  0%, 50% { opacity: 0; transform: translate(0, 2px) scale(0.5); }
+  58%, 64% { opacity: 1; transform: translate(0, 0) scale(1); }
+  70%, 100% { opacity: 0; transform: translate(1px, -2px); }
+}
+
+@keyframes habi-alert {
+  0%, 72% { opacity: 0; transform: scale(0); }
+  78%, 90% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* ── Proud antics ──────────────────────────────────────── */
+
+/* 19. Jump: a jump for joy with the roof thrown in the air. */
+.habi-antic--jump .habi-hop {
+  animation: habi-jump var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+.habi-antic--jump .habi-roof-lift {
+  transform-origin: 16px 10px;
+  animation: habi-roof-toss var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+.habi-antic--jump .habi-shadow {
+  animation: habi-shadow-squeeze var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+@keyframes habi-jump {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  12% { transform: translateY(0) scale(1.1, 0.88); }
+  45% { transform: translateY(-6px) scale(0.94, 1.08); }
+  75% { transform: translateY(0) scale(1.08, 0.9); }
+  88% { transform: scale(0.98, 1.02); }
+}
+
+@keyframes habi-roof-toss {
+  0%, 12%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-16deg); }
+  76% { transform: translateY(0.5px) rotate(6deg); }
+  88% { transform: rotate(-2deg); }
+}
+
+@keyframes habi-shadow-squeeze {
+  0%, 15%, 75%, 100% { transform: scale(1); opacity: 1; }
+  45% { transform: scale(0.55); opacity: 0.5; }
+}
+
+/* 20. Backflip: the roof does a full flip and sticks the landing. */
+.habi-antic--backflip .habi-roof-lift {
+  transform-origin: 16px 10px;
+  animation: habi-backflip var(--habi-antic) cubic-bezier(0.4, 0, 0.3, 1) both;
+}
+
+.habi-antic--backflip .habi-hop {
+  animation: habi-jump var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+.habi-antic--backflip .habi-eyes {
+  animation: habi-watch-flip var(--habi-antic) ease-in-out both;
+}
+
+/* Ends at -360deg, not 0, so the roof doesn't unwind backwards at the end. */
+@keyframes habi-backflip {
+  0%, 10% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-11px) rotate(-200deg); }
+  78% { transform: translateY(0.6px) rotate(-360deg); }
+  88% { transform: translateY(-0.6px) rotate(-360deg); }
+  100% { transform: translateY(0) rotate(-360deg); }
+}
+
+@keyframes habi-watch-flip {
+  0%, 10%, 90%, 100% { transform: translate(0, 0); }
+  40%, 60% { transform: translate(0, -1.5px); }
+}
+
+/* 21. Confetti: hands up, confetti everywhere. */
+.habi-confetti rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-confetti-fall var(--habi-antic) ease-in both;
+}
+
+.habi-confetti rect:nth-child(2) { animation-delay: 120ms; }
+.habi-confetti rect:nth-child(3) { animation-delay: 260ms; }
+.habi-confetti rect:nth-child(4) { animation-delay: 60ms; }
+.habi-confetti rect:nth-child(5) { animation-delay: 200ms; }
+.habi-confetti rect:nth-child(6) { animation-delay: 320ms; }
+
+.habi-antic--confetti .habi-hand {
+  animation: habi-hands-up var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--confetti .habi-hand--right {
+  animation-delay: 120ms;
+}
+
+.habi-antic--confetti .habi-hop {
+  animation: habi-double-hop var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+
+@keyframes habi-confetti-fall {
+  0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(34px) rotate(720deg); }
+}
+
+@keyframes habi-hands-up {
+  0% { opacity: 0; transform: scale(0); }
+  8% { opacity: 1; transform: scale(1); }
+  16%, 32%, 48%, 64%, 80% { transform: translateY(-1.5px); }
+  24%, 40%, 56%, 72% { transform: translateY(0.5px); }
+  92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+/* 22. Dance: left, right, hands in the air, music notes. */
+.habi-antic--dance .habi-gag {
+  animation: habi-groove 640ms ease-in-out infinite;
+}
+
+.habi-antic--dance .habi-leg--left {
+  animation: habi-step 640ms ease-in-out infinite;
+}
+
+.habi-antic--dance .habi-leg--right {
+  animation: habi-step 640ms ease-in-out 320ms infinite;
+}
+
+.habi-antic--dance .habi-hand--left {
+  animation: habi-hands-up 640ms ease-in-out infinite;
+}
+
+.habi-antic--dance .habi-hand--right {
+  animation: habi-hands-up 640ms ease-in-out 320ms infinite;
+}
+
+.habi-antic--dance .habi-roof {
+  animation: habi-groove 640ms ease-in-out 80ms infinite reverse;
+}
+
+.habi-notes g {
+  animation: habi-note var(--habi-antic) ease-in-out both;
+}
+
+.habi-notes g:nth-child(2) {
+  animation-delay: 500ms;
+}
+
+@keyframes habi-groove {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg) translateY(-1px); }
+}
+
+@keyframes habi-step {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes habi-note {
+  0% { opacity: 0; transform: translate(0, 2px); }
+  20%, 70% { opacity: 1; }
+  25% { transform: translate(-1px, -1px); }
+  50% { transform: translate(1px, -3px); }
+  100% { opacity: 0; transform: translate(0, -6px); }
+}
+
+/* 23. Fireworks: the chimney launches a rocket. */
+.habi-rocket {
+  animation: habi-rocket var(--habi-antic) cubic-bezier(0.2, 0.6, 0.4, 1) both;
+}
+
+.habi-burst {
+  transform-origin: 22px -5px;
+  animation: habi-burst var(--habi-antic) ease-out both;
+}
+
+.habi-antic--fireworks .habi-eyes {
+  animation: habi-look-up var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--fireworks .habi-hop {
+  animation: habi-recoil var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-rocket {
+  0% { opacity: 0; transform: translateY(0); }
+  5% { opacity: 1; }
+  35% { opacity: 1; transform: translateY(-10px); }
+  38%, 100% { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes habi-burst {
+  0%, 35% { opacity: 0; transform: scale(0.2); }
+  45% { opacity: 1; transform: scale(1); }
+  80% { opacity: 0.7; transform: scale(1.3); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+@keyframes habi-recoil {
+  0%, 100% { transform: scale(1, 1); }
+  6% { transform: scale(1.08, 0.9); }
+  16% { transform: scale(1, 1); }
+  45% { transform: translateY(-3px) scale(0.96, 1.05); }
+  60% { transform: translateY(0) scale(1.04, 0.95); }
+  70% { transform: scale(1, 1); }
+}
+
+/* 24. Moonwalk: glides backwards, then the lean. */
+.habi-antic--moonwalk .habi-hop {
+  animation: habi-glide var(--habi-antic) linear both;
+}
+
+.habi-antic--moonwalk .habi-leg--left {
+  animation: habi-slide-foot 600ms ease-in-out infinite;
+}
+
+.habi-antic--moonwalk .habi-leg--right {
+  animation: habi-slide-foot 600ms ease-in-out 300ms infinite;
+}
+
+.habi-antic--moonwalk .habi-gag {
+  transform-origin: 16px 30px;
+  animation: habi-lean var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--moonwalk .habi-roof {
+  animation: habi-fedora var(--habi-antic) ease-in-out both;
+}
+
+/* Faces right, glides backwards to the left, leans forward, glides home. */
+@keyframes habi-glide {
+  0%, 100% { transform: translateX(3px); }
+  65%, 90% { transform: translateX(-4px); }
+}
+
+@keyframes habi-slide-foot {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(0, -1.5px); }
+  50% { transform: translate(-1.5px, 0); }
+}
+
+@keyframes habi-lean {
+  0%, 66%, 92%, 100% { transform: rotate(0deg); }
+  72%, 86% { transform: rotate(16deg); }
+}
+
+@keyframes habi-fedora {
+  0%, 66%, 92%, 100% { transform: rotate(0deg); }
+  72%, 86% { transform: translate(1px, 1px) rotate(10deg); }
+}
+
+/* 25. Dizzy: spins too fast, eyes go round, stars orbit. */
+.habi-antic--dizzy .habi-gag {
+  transform-origin: 16px 20px;
+  animation: habi-dizzy-spin var(--habi-antic) ease-out both;
+}
+
+.habi-antic--dizzy .habi-eyes {
+  animation: habi-eyes-swirl var(--habi-antic) linear both;
+}
+
+.habi-stars {
+  transform-origin: 16px 4px;
+  animation: habi-orbit var(--habi-antic) linear both;
+}
+
+@keyframes habi-dizzy-spin {
+  0%, 100% { transform: scaleX(1) rotate(0deg); }
+  6%, 18%, 30% { transform: scaleX(-1); }
+  12%, 24% { transform: scaleX(1); }
+  36% { transform: scaleX(1) rotate(0deg); }
+  44% { transform: rotate(-10deg); }
+  54% { transform: rotate(9deg); }
+  64% { transform: rotate(-6deg); }
+  74% { transform: rotate(4deg); }
+  84% { transform: rotate(-2deg); }
+}
+
+@keyframes habi-eyes-swirl {
+  0%, 36% { transform: rotate(0deg); }
+  90% { transform: rotate(720deg); }
+  100% { transform: rotate(720deg); }
+}
+
+@keyframes habi-orbit {
+  0%, 34% { opacity: 0; transform: rotate(0deg) scaleY(0.5); }
+  40% { opacity: 1; transform: rotate(60deg) scaleY(0.5); }
+  90% { opacity: 1; transform: rotate(540deg) scaleY(0.5); }
+  100% { opacity: 0; transform: rotate(600deg) scaleY(0.5); }
+}
+
+/* ── Hands for the antics that need them ───────────────── */
+
+.habi-antic--roofSlip .habi-hand {
+  animation: habi-hands-push var(--habi-antic) ease-out both;
+}
+
+.habi-antic--bird .habi-hand {
+  animation: habi-shoo var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sneeze .habi-hand {
+  animation: habi-cover var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sleepy .habi-hand {
+  animation: habi-hands-startle var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.5) both;
+}
+
+.habi-antic--jump .habi-hand,
+.habi-antic--backflip .habi-hand,
+.habi-antic--doubleHop .habi-hand {
+  animation: habi-hands-up var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--jump .habi-hand--right,
+.habi-antic--backflip .habi-hand--right,
+.habi-antic--doubleHop .habi-hand--right {
+  animation-delay: 80ms;
+}
+
+.habi-antic--idea .habi-hand {
+  animation: habi-point-up var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.5) both;
+}
+
+.habi-antic--fireworks .habi-hand {
+  animation: habi-ears var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--dizzy .habi-hand {
+  animation: habi-flail var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--dizzy .habi-hand--right {
+  animation-delay: 120ms;
+}
+
+@keyframes habi-hands-push {
+  0%, 56% { opacity: 0; transform: scale(0); }
+  62%, 84% { opacity: 1; transform: scale(1); }
+  72% { transform: translateY(-1px) scale(1.15); }
+  92%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-shoo {
+  0%, 60% { opacity: 0; transform: scale(0); }
+  64% { opacity: 1; transform: scale(1); }
+  68%, 76% { transform: translate(-1.5px, -2px); }
+  72%, 80% { transform: translate(0.5px, 0); }
+  88% { opacity: 1; transform: scale(1); }
+  96%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-cover {
+  0%, 30% { opacity: 0; transform: scale(0); }
+  36% { opacity: 1; transform: scale(1); }
+  52%, 72% { opacity: 1; transform: translate(6px, -1.5px); }
+  84% { opacity: 1; transform: translate(0, 0); }
+  94%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-hands-startle {
+  0%, 72% { opacity: 0; transform: scale(0); }
+  77% { opacity: 1; transform: translateY(-2.5px) scale(1.2); }
+  82%, 88% { transform: translateY(-1px) scale(1); }
+  85% { transform: translateY(-2px) scale(1); }
+  96%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-point-up {
+  0%, 34% { opacity: 0; transform: scale(0); }
+  40% { opacity: 1; transform: translateY(-1.5px) scale(1.2); }
+  48%, 86% { opacity: 1; transform: translateY(0) scale(1); }
+  96%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-ears {
+  0% { opacity: 0; transform: scale(0); }
+  8%, 34% { opacity: 1; transform: scale(1); }
+  40%, 52% { transform: translateY(-1px) scale(1.15); }
+  92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-flail {
+  0% { opacity: 0; transform: scale(0); }
+  6% { opacity: 1; transform: scale(1); }
+  14%, 30%, 46%, 62%, 78% { transform: translateY(-2px); }
+  22%, 38%, 54%, 70%, 86% { transform: translateY(1.5px); }
+  94% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+/* ── Antics 26–50 ──────────────────────────────────────── */
+
+/* Paint for the new props. */
+.habi-shades { fill: var(--paper-ink); }
+.habi-shades-glint { fill: var(--paper); }
+.habi-paint-stripe { fill: var(--habi-gold); }
+.habi-calc-screen { fill: color-mix(in srgb, var(--primary) 35%, var(--card-bg)); }
+.habi-blush { fill: var(--danger); opacity: 0.55; }
+.habi-balloon-skin,
+.habi-flag,
+.habi-heart,
+.habi-hearts { fill: var(--danger); }
+.habi-yawn { fill: var(--primary-strong); }
+.habi-wink-sparkle,
+.habi-ding { fill: var(--habi-gold); }
+.habi-speech-dots { fill: color-mix(in srgb, var(--text) 60%, var(--card-bg)); }
+.habi-dust { fill: color-mix(in srgb, var(--text) 28%, var(--card-bg)); }
+.habi-pour { fill: var(--info); }
+.habi-sprout { fill: var(--success); }
+.habi-balls circle:nth-child(1) { fill: var(--habi-gold); }
+.habi-balls circle:nth-child(2) { fill: var(--danger); }
+.habi-balls circle:nth-child(3) { fill: var(--info); }
+
+.habi-calc-keys,
+.habi-checkbox,
+.habi-ticks,
+.habi-broom-stick,
+.habi-ring,
+.habi-can-spout,
+.habi-trophy-handles,
+.habi-medal-ribbon,
+.habi-medal-shine,
+.habi-balloon-string,
+.habi-balloon-pop,
+.habi-clap,
+.habi-bell-rings,
+.habi-jingle,
+.habi-impact {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.habi-calc-keys { stroke: color-mix(in srgb, var(--text) 55%, var(--card-bg)); stroke-width: 1; }
+.habi-checkbox { stroke: color-mix(in srgb, var(--text) 50%, var(--card-bg)); stroke-width: 0.4; }
+.habi-ticks { stroke: var(--success); stroke-width: 0.8; }
+.habi-broom-stick { stroke: var(--primary-strong); stroke-width: 1; }
+.habi-ring,
+.habi-trophy-handles,
+.habi-clap,
+.habi-bell-rings,
+.habi-jingle,
+.habi-impact { stroke: var(--habi-gold); stroke-width: 0.8; }
+.habi-can-spout { stroke: color-mix(in srgb, var(--text) 26%, var(--card-bg)); stroke-width: 1; }
+.habi-medal-ribbon { stroke: var(--danger); stroke-width: 1.1; }
+.habi-medal-shine { stroke: var(--card-bg); stroke-width: 0.5; }
+.habi-balloon-string { stroke: color-mix(in srgb, var(--text) 50%, var(--card-bg)); stroke-width: 0.4; }
+.habi-balloon-pop { stroke: var(--danger); stroke-width: 0.8; }
+
+/* Shared: fade a prop in and out with the antic. */
+@keyframes habi-show {
+  0% { opacity: 0; }
+  8%, 92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* 26. Bow: a polite little bow, eyes closed. */
+.habi-antic--bow .habi-hop { animation: habi-bow var(--habi-antic) ease-in-out both; }
+.habi-antic--bow .habi-roof-lift { animation: habi-bow-roof var(--habi-antic) ease-in-out both; }
+.habi-antic--bow .habi-eyes { animation: habi-bow-eyes var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-bow {
+  0%, 100% { transform: scale(1, 1); }
+  25%, 65% { transform: translateY(1px) scale(1.04, 0.84); }
+  78% { transform: scale(0.98, 1.03); }
+}
+
+@keyframes habi-bow-roof {
+  0%, 100% { transform: translateY(0); }
+  25%, 65% { transform: translateY(2.4px) scaleY(0.85); }
+}
+
+@keyframes habi-bow-eyes {
+  0%, 18%, 75%, 100% { transform: scaleY(1); }
+  25%, 65% { transform: translateY(1px) scaleY(0.12); }
+}
+
+/* 27. High five: the hand comes right at you. */
+.habi-antic--highFive .habi-hand { animation: habi-high-five var(--habi-antic) ease-in-out both; }
+.habi-antic--highFive .habi-eyes { animation: habi-flinch var(--habi-antic) ease-in-out both; }
+
+.habi-clap {
+  transform-origin: 18.6px 18.6px;
+  animation: habi-clap var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-high-five {
+  0% { opacity: 0; transform: scale(0); }
+  12% { opacity: 1; transform: scale(1); }
+  40% { transform: translate(-6px, 1px) scale(2.6); }
+  48% { transform: translate(-6.5px, 1px) scale(3); }
+  56% { transform: translate(-6px, 1px) scale(2.4); }
+  80% { transform: translate(0, 0) scale(1); }
+  92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-clap {
+  0%, 44% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+  66%, 100% { opacity: 0; transform: scale(1.4); }
+}
+
+@keyframes habi-flinch {
+  0%, 42%, 64%, 100% { transform: scaleY(1); }
+  48%, 58% { transform: scaleY(0.12); }
+}
+
+/* 28. Sunglasses: shades drop on, cool nod. */
+.habi-shades {
+  animation: habi-shades-on var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.3) both;
+}
+
+.habi-shades-glint {
+  animation: habi-glint var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--sunglasses .habi-gag { animation: habi-cool var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-shades-on {
+  0% { opacity: 0; transform: translateY(-14px); }
+  10% { opacity: 1; }
+  30% { transform: translateY(0); }
+  34% { transform: translateY(-0.8px); }
+  38%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+
+@keyframes habi-glint {
+  0%, 44% { opacity: 0; transform: translateX(0); }
+  50% { opacity: 1; }
+  58%, 100% { opacity: 0; transform: translateX(7px); }
+}
+
+@keyframes habi-cool {
+  0%, 40%, 82%, 100% { transform: rotate(0deg); }
+  50%, 70% { transform: translateY(0.5px) rotate(-4deg); }
+  60% { transform: rotate(0deg); }
+}
+
+/* 29. Mail: catches a letter, falls a little in love. */
+.habi-envelope { animation: habi-envelope var(--habi-antic) ease-out both; }
+.habi-antic--mail .habi-hand { animation: habi-catch var(--habi-antic) ease-out both; }
+.habi-antic--mail .habi-eyes { animation: habi-starstruck var(--habi-antic) ease-in-out both; }
+
+.habi-heart path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-heart-pop var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-envelope {
+  0% { opacity: 0; transform: translate(14px, -10px) rotate(40deg); }
+  10% { opacity: 1; }
+  30% { transform: translate(0, 0) rotate(-8deg); }
+  36% { transform: rotate(4deg); }
+  42%, 88% { opacity: 1; transform: rotate(0deg); }
+  100% { opacity: 0; transform: rotate(0deg); }
+}
+
+@keyframes habi-catch {
+  0%, 24% { opacity: 0; transform: scale(0); }
+  30%, 90% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-heart-pop {
+  0%, 52% { opacity: 0; transform: scale(0); }
+  60% { opacity: 1; transform: translateY(-1px) scale(1.3); }
+  70%, 88% { opacity: 1; transform: translateY(-2px) scale(1); }
+  100% { opacity: 0; transform: translateY(-4px) scale(0.8); }
+}
+
+@keyframes habi-starstruck {
+  0%, 48%, 94%, 100% { transform: scale(1); }
+  56%, 88% { transform: scale(1.25); }
+}
+
+/* 30. Doorbell: ding-dong! Habi jumps out of its skin. */
+.habi-bell { animation: habi-show var(--habi-antic) linear both; }
+
+.habi-bell-body {
+  transform-origin: 16px -1.4px;
+  animation: habi-bell-swing var(--habi-antic) ease-in-out both;
+}
+
+.habi-bell-rings { animation: habi-rings var(--habi-antic) linear both; }
+.habi-antic--doorbell .habi-hop { animation: habi-jolt var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both; }
+.habi-antic--doorbell .habi-eyes { animation: habi-alarmed var(--habi-antic) steps(1, end) both; }
+.habi-antic--doorbell .habi-hand { animation: habi-hands-jolt var(--habi-antic) ease-out both; }
+
+@keyframes habi-bell-swing {
+  0%, 8%, 46%, 100% { transform: rotate(0deg); }
+  12% { transform: rotate(24deg); }
+  18% { transform: rotate(-24deg); }
+  24% { transform: rotate(18deg); }
+  30% { transform: rotate(-14deg); }
+  36% { transform: rotate(8deg); }
+}
+
+@keyframes habi-rings {
+  0%, 9% { opacity: 0; }
+  12%, 20%, 28%, 36% { opacity: 1; }
+  16%, 24%, 32%, 44%, 100% { opacity: 0.2; }
+}
+
+@keyframes habi-jolt {
+  0%, 9%, 100% { transform: translateY(0) scale(1, 1); }
+  14% { transform: translateY(-5px) scale(0.92, 1.1); }
+  24% { transform: translateY(0) scale(1.08, 0.92); }
+  32% { transform: scale(1, 1); }
+}
+
+@keyframes habi-alarmed {
+  0% { transform: scale(1); }
+  12% { transform: scale(1.4); }
+  45% { transform: translate(-1.5px, 0); }
+  62% { transform: translate(1.5px, 0); }
+  80% { transform: translate(0, 0); }
+}
+
+@keyframes habi-hands-jolt {
+  0%, 9% { opacity: 0; transform: scale(0); }
+  13% { opacity: 1; transform: translateY(-2px) scale(1.2); }
+  36% { opacity: 1; transform: scale(1); }
+  46%, 100% { opacity: 0; transform: scale(0); }
+}
+
+/* 31. Stretch: a long morning stretch and a yawn. */
+.habi-antic--stretch .habi-hop { animation: habi-stretch var(--habi-antic) ease-in-out both; }
+.habi-antic--stretch .habi-eyes { animation: habi-yawn-eyes var(--habi-antic) ease-in-out both; }
+.habi-antic--stretch .habi-hand { animation: habi-reach var(--habi-antic) ease-in-out both; }
+
+.habi-yawn ellipse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-yawn var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-stretch {
+  0%, 100% { transform: scale(1, 1); }
+  30%, 62% { transform: scale(0.88, 1.2); }
+  72% { transform: scale(1.06, 0.92); }
+  82% { transform: scale(1, 1); }
+}
+
+@keyframes habi-yawn-eyes {
+  0%, 24%, 70%, 100% { transform: scaleY(1); }
+  30%, 62% { transform: scaleY(0.12); }
+}
+
+@keyframes habi-reach {
+  0% { opacity: 0; transform: scale(0); }
+  18% { opacity: 1; transform: scale(1); }
+  35%, 62% { transform: translateY(-3px); }
+  76% { transform: translateY(0); }
+  90% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-yawn {
+  0%, 28%, 66%, 100% { transform: scale(0); }
+  38%, 58% { transform: scale(1); }
+}
+
+/* 32. Paint: redecorates itself with a gold stripe. */
+.habi-brush { animation: habi-brush var(--habi-antic) ease-in-out both; }
+
+.habi-paint-stripe {
+  transform-origin: 22.9px 15.4px;
+  animation: habi-stripe var(--habi-antic) ease-in-out both;
+}
+
+.habi-antic--paint .habi-eyes { animation: habi-admire var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-brush {
+  0% { opacity: 0; transform: translateY(0); }
+  8%, 15% { opacity: 1; transform: translateY(0); }
+  40% { transform: translateY(7px); }
+  50% { transform: translateY(1px); }
+  75% { transform: translateY(7px); }
+  85% { transform: translateY(0); }
+  92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-stripe {
+  0%, 15% { opacity: 1; transform: scaleY(0); }
+  40% { transform: scaleY(0.7); }
+  75%, 92% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+
+@keyframes habi-admire {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 80% { transform: translate(1.5px, 0); }
+  86%, 94% { transform: scale(1.2); }
+}
+
+/* 33. Wink: one eye, finger guns, a twinkle. */
+.habi-antic--wink .habi-eye:last-child { animation: habi-wink var(--habi-antic) ease-in-out both; }
+.habi-antic--wink .habi-gag { animation: habi-wink-tilt var(--habi-antic) ease-in-out both; }
+.habi-antic--wink .habi-hand { animation: habi-finger-gun var(--habi-antic) ease-out both; }
+
+.habi-wink-sparkle path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-wink-twinkle var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-wink {
+  0%, 22%, 72%, 100% { transform: scaleY(1); }
+  28%, 66% { transform: scaleY(0.1); }
+}
+
+@keyframes habi-wink-tilt {
+  0%, 18%, 80%, 100% { transform: rotate(0deg); }
+  26%, 72% { transform: rotate(-5deg); }
+}
+
+@keyframes habi-finger-gun {
+  0% { opacity: 0; transform: scale(0); }
+  15%, 40% { opacity: 1; transform: scale(1); }
+  45% { transform: translate(0.8px, -1.2px); }
+  55%, 90% { opacity: 1; transform: translate(0, 0); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-wink-twinkle {
+  0%, 26% { opacity: 0; transform: scale(0) rotate(0deg); }
+  36% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+  62%, 100% { opacity: 0; transform: scale(0.4) rotate(90deg); }
+}
+
+/* 34. Calculator: tap tap tap… ding! */
+.habi-calculator {
+  transform-origin: 13.5px 28px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-calculator .habi-hand--left { animation: none; }
+.habi-calculator .habi-hand--right { animation: habi-tap var(--habi-antic) ease-in-out both; }
+.habi-calc-screen { animation: habi-calc-flash var(--habi-antic) steps(1, end) both; }
+.habi-antic--calculator .habi-eyes { animation: habi-sums var(--habi-antic) ease-in-out both; }
+.habi-antic--calculator .habi-hop { animation: habi-ding-hop var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both; }
+
+.habi-ding path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-ding var(--habi-antic) ease-out both;
+}
+
+@keyframes habi-tap {
+  0% { opacity: 0; transform: scale(0); }
+  8% { opacity: 1; transform: scale(1); }
+  15%, 27%, 39%, 51%, 63% { transform: translate(-4.6px, 2px); }
+  21%, 33%, 45%, 57% { transform: translate(-3px, 0.6px); }
+  70% { transform: translate(0, 0); }
+  92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-calc-flash {
+  0% { opacity: 1; }
+  70% { opacity: 0.3; }
+  74% { opacity: 1; }
+  78% { opacity: 0.3; }
+  82% { opacity: 1; }
+}
+
+@keyframes habi-sums {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 66% { transform: translate(-0.5px, 1px); }
+  72%, 90% { transform: scale(1.35); }
+}
+
+@keyframes habi-ding-hop {
+  0%, 68%, 100% { transform: translateY(0) scale(1, 1); }
+  76% { transform: translateY(-3px) scale(0.96, 1.05); }
+  86% { transform: translateY(0) scale(1.05, 0.95); }
+}
+
+@keyframes habi-ding {
+  0%, 68% { opacity: 0; transform: scale(0); }
+  74% { opacity: 1; transform: scale(1.3) rotate(45deg); }
+  92%, 100% { opacity: 0; transform: scale(0.6) rotate(90deg); }
+}
+
+/* 35. Phone: on a call, nodding along. */
+.habi-phone {
+  transform-origin: 25.7px 20px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-phone .habi-hand { animation: none; }
+.habi-speech-dots { animation: habi-show var(--habi-antic) linear both; }
+
+.habi-speech-dots circle {
+  animation: habi-glow 900ms ease-in-out infinite;
+}
+
+.habi-speech-dots circle:nth-child(2) { animation-delay: 150ms; }
+.habi-speech-dots circle:nth-child(3) { animation-delay: 300ms; }
+.habi-antic--phone .habi-gag { animation: habi-uh-huh var(--habi-antic) ease-in-out both; }
+.habi-antic--phone .habi-eyes { animation: habi-listen var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-uh-huh {
+  0%, 15%, 80%, 100% { transform: rotate(0deg); }
+  22%, 36%, 50%, 64% { transform: translateY(0.4px) rotate(3deg); }
+  29%, 43%, 57%, 71% { transform: rotate(0deg); }
+}
+
+@keyframes habi-listen {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 88% { transform: translate(1px, -0.5px); }
+}
+
+/* 36. Checklist: tick, tick, tick, done. */
+.habi-clipboard {
+  transform-origin: 14px 29px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-clipboard .habi-hand--left { animation: none; }
+.habi-clipboard .habi-hand--right { animation: habi-pen var(--habi-antic) ease-in-out both; }
+
+.habi-ticks path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-tick-1 var(--habi-antic) ease-out both;
+}
+
+.habi-ticks path:nth-child(2) { animation-name: habi-tick-2; }
+.habi-ticks path:nth-child(3) { animation-name: habi-tick-3; }
+.habi-antic--checklist .habi-eyes { animation: habi-follow-list var(--habi-antic) ease-in-out both; }
+.habi-antic--checklist .habi-hop { animation: habi-done-hop var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both; }
+
+@keyframes habi-pen {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-9.5px, 0.6px); }
+  45% { transform: translate(-9.5px, 3px); }
+  65% { transform: translate(-9.5px, 5.4px); }
+  85% { transform: translate(0, 0); }
+}
+
+@keyframes habi-tick-1 {
+  0%, 24% { opacity: 0; transform: scale(0); }
+  30%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-tick-2 {
+  0%, 44% { opacity: 0; transform: scale(0); }
+  50%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-tick-3 {
+  0%, 64% { opacity: 0; transform: scale(0); }
+  70%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-follow-list {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 0.5px); }
+  45% { transform: translate(-1px, 1px); }
+  65% { transform: translate(-1px, 1.5px); }
+  78%, 92% { transform: scale(1.2); }
+}
+
+@keyframes habi-done-hop {
+  0%, 74%, 100% { transform: translateY(0) scale(1, 1); }
+  80% { transform: translateY(-3px) scale(0.96, 1.05); }
+  90% { transform: translateY(0) scale(1.05, 0.95); }
+}
+
+/* 37. Tape: measures the room, the tape snaps back, whiplash. */
+.habi-tape { animation: habi-show var(--habi-antic) linear both; }
+.habi-tape .habi-hand { animation: none; }
+
+.habi-tape-strip {
+  fill: var(--habi-gold);
+  transform-origin: 26px 21.7px;
+  animation: habi-tape-out var(--habi-antic) ease-in both;
+}
+
+.habi-antic--tape .habi-gag { animation: habi-whiplash var(--habi-antic) ease-out both; }
+.habi-antic--tape .habi-eyes { animation: habi-tape-eyes var(--habi-antic) ease-in-out both; }
+.habi-antic--tape .habi-roof-lift { animation: habi-tape-roof var(--habi-antic) ease-out both; }
+
+@keyframes habi-tape-out {
+  0%, 15% { transform: scaleX(0); }
+  50%, 58% { transform: scaleX(1); }
+  62%, 100% { transform: scaleX(0); }
+}
+
+@keyframes habi-whiplash {
+  0%, 60%, 92%, 100% { transform: rotate(0deg); }
+  63% { transform: translateX(1.5px) rotate(9deg); }
+  69% { transform: rotate(-7deg); }
+  75% { transform: rotate(4deg); }
+  81% { transform: rotate(-2deg); }
+}
+
+@keyframes habi-tape-eyes {
+  0%, 100% { transform: translate(0, 0); }
+  15%, 58% { transform: translate(1.5px, 0); }
+  63%, 84% { transform: scale(1.4); }
+}
+
+@keyframes habi-tape-roof {
+  0%, 60%, 100% { transform: translateY(0); }
+  64% { transform: translateY(-2.5px) rotate(-8deg); }
+  74% { transform: translateY(0.4px) rotate(2deg); }
+}
+
+/* 38. Sweep: tidies the common areas. */
+.habi-broom {
+  transform-origin: 26.6px 13.6px;
+  animation: habi-sweep var(--habi-antic) ease-in-out both;
+}
+
+.habi-dust { animation: habi-show var(--habi-antic) linear both; }
+
+.habi-dust circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-dust 640ms ease-out infinite;
+}
+
+.habi-dust circle:nth-child(2) { animation-delay: 210ms; }
+.habi-dust circle:nth-child(3) { animation-delay: 420ms; }
+.habi-antic--sweep .habi-eyes { animation: habi-look-down var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-sweep {
+  0% { opacity: 0; transform: rotate(0deg); }
+  6% { opacity: 1; }
+  20%, 60% { transform: rotate(14deg); }
+  40%, 80% { transform: rotate(-10deg); }
+  92% { opacity: 1; transform: rotate(0deg); }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-dust {
+  0% { opacity: 0; transform: scale(0.3); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-2px) scale(1.8); }
+}
+
+@keyframes habi-look-down {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 90% { transform: translate(1px, 1px); }
+}
+
+/* 39. Keys: jingles the building keys. */
+.habi-keyring {
+  transform-origin: 25.4px 20.4px;
+  animation:
+    habi-keys-swing var(--habi-antic) ease-in-out both,
+    habi-show var(--habi-antic) linear both;
+}
+
+.habi-jingle { animation: habi-glow 160ms steps(2, jump-none) infinite; }
+.habi-antic--keys .habi-eyes { animation: habi-follow-keys var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-keys-swing {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(25deg); }
+  20% { transform: rotate(-25deg); }
+  30% { transform: rotate(20deg); }
+  40% { transform: rotate(-20deg); }
+  50% { transform: rotate(15deg); }
+  60% { transform: rotate(-15deg); }
+  70% { transform: rotate(8deg); }
+  80% { transform: rotate(-4deg); }
+}
+
+@keyframes habi-follow-keys {
+  0%, 90%, 100% { transform: translate(0, 0); }
+  10%, 30%, 50% { transform: translate(1.2px, 0.5px); }
+  20%, 40%, 60% { transform: translate(-0.4px, 0.5px); }
+}
+
+/* 40. Hammer: bang, bang. Maintenance done. */
+.habi-hammer {
+  transform-origin: 24.2px 20.4px;
+  animation: habi-hammer var(--habi-antic) ease-in both;
+}
+
+.habi-nail {
+  animation: habi-nail var(--habi-antic) steps(1, end) both;
+}
+
+.habi-impact {
+  transform-origin: 32px 20px;
+  animation: habi-impact var(--habi-antic) linear both;
+}
+
+.habi-antic--hammer .habi-eyes { animation: habi-wince var(--habi-antic) ease-out both; }
+
+@keyframes habi-hammer {
+  0% { opacity: 0; transform: rotate(0deg); }
+  8% { opacity: 1; transform: rotate(0deg); }
+  22% { transform: rotate(-40deg); }
+  30% { transform: rotate(75deg); }
+  36% { transform: rotate(68deg); }
+  50% { transform: rotate(-40deg); }
+  58% { transform: rotate(75deg); }
+  64% { transform: rotate(68deg); }
+  80% { transform: rotate(0deg); }
+  92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-nail {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 1; }
+  30% { transform: translateX(0.6px); }
+  58% { transform: translateX(1.3px); }
+  94% { opacity: 0; }
+}
+
+@keyframes habi-impact {
+  0%, 29% { opacity: 0; transform: scale(0.6); }
+  30% { opacity: 1; transform: scale(1); }
+  38%, 57% { opacity: 0; transform: scale(1.3); }
+  58% { opacity: 1; transform: scale(1); }
+  66%, 100% { opacity: 0; transform: scale(1.3); }
+}
+
+@keyframes habi-wince {
+  0%, 28%, 40%, 56%, 68%, 100% { transform: scaleY(1); }
+  30%, 36%, 58%, 64% { transform: scaleY(0.3); }
+}
+
+/* 41. Water: waters a sprout, which grows. */
+.habi-can {
+  transform-origin: 24.7px 21.6px;
+  animation: habi-tilt-can var(--habi-antic) ease-in-out both;
+}
+
+.habi-can .habi-hand { animation: none; }
+.habi-pour { animation: habi-pour-show var(--habi-antic) linear both; }
+
+.habi-pour rect {
+  animation: habi-pour 450ms linear infinite;
+}
+
+.habi-pour rect:nth-child(2) { animation-delay: 150ms; }
+.habi-pour rect:nth-child(3) { animation-delay: 300ms; }
+
+.habi-sprout {
+  transform-origin: 30.5px 30.6px;
+  animation: habi-sprout var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.4) both;
+}
+
+.habi-antic--water .habi-eyes { animation: habi-watch-plant var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-tilt-can {
+  0% { opacity: 0; transform: rotate(0deg); }
+  8% { opacity: 1; transform: rotate(0deg); }
+  25%, 70% { transform: rotate(28deg); }
+  80% { transform: rotate(0deg); }
+  92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-pour-show {
+  0%, 26% { opacity: 0; }
+  30%, 68% { opacity: 1; }
+  72%, 100% { opacity: 0; }
+}
+
+@keyframes habi-pour {
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(5px); }
+}
+
+@keyframes habi-sprout {
+  0%, 35% { opacity: 1; transform: scale(0); }
+  70% { transform: scale(1.15); }
+  76%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes habi-watch-plant {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 70% { transform: translate(1.5px, 0.5px); }
+  78%, 92% { transform: translate(1.5px, 0) scale(1.25); }
+}
+
+/* 42. Juggle: three balls, no drops. */
+.habi-balls { animation: habi-show var(--habi-antic) linear both; }
+
+.habi-balls circle {
+  animation: habi-juggle 900ms ease-in-out infinite;
+}
+
+.habi-balls circle:nth-child(2) { animation-delay: -300ms; }
+.habi-balls circle:nth-child(3) { animation-delay: -600ms; }
+
+.habi-antic--juggle .habi-hand--left { animation: habi-type 450ms ease-in-out infinite; }
+.habi-antic--juggle .habi-hand--right { animation: habi-type 450ms ease-in-out 225ms infinite; }
+.habi-antic--juggle .habi-eyes { animation: habi-juggle-eyes 900ms ease-in-out infinite; }
+
+@keyframes habi-juggle {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(8.6px, -10px); }
+  50% { transform: translate(17.6px, 0); }
+  75% { transform: translate(8.6px, -3px); }
+}
+
+@keyframes habi-juggle-eyes {
+  0%, 100% { transform: translate(-1px, -1.5px); }
+  50% { transform: translate(1px, -1.5px); }
+}
+
+/* 43. Trophy: holds it high. */
+.habi-trophy { animation: habi-trophy var(--habi-antic) ease-out both; }
+.habi-trophy .habi-hand { animation: none; }
+.habi-antic--trophy .habi-hop { animation: habi-double-hop var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both; }
+
+@keyframes habi-trophy {
+  0% { opacity: 0; transform: translateY(10px); }
+  15% { opacity: 1; transform: translateY(0); }
+  30% { transform: translateY(-2px); }
+  40% { transform: translateY(0); }
+  55% { transform: translateY(-2px); }
+  65%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-3px); }
+}
+
+/* 44. Medal: lands on its chest and swings. */
+.habi-medal {
+  transform-origin: 16px 14.6px;
+  animation: habi-medal var(--habi-antic) ease-out both;
+}
+
+.habi-medal-shine { animation: habi-shine var(--habi-antic) linear both; }
+.habi-antic--medal .habi-hop { animation: habi-chest-out var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-medal {
+  0% { opacity: 0; transform: translateY(-16px); }
+  10% { opacity: 1; }
+  25% { transform: translateY(0) rotate(0deg); }
+  30% { transform: rotate(14deg); }
+  38% { transform: rotate(-10deg); }
+  46% { transform: rotate(6deg); }
+  54% { transform: rotate(-3deg); }
+  60%, 90% { opacity: 1; transform: rotate(0deg); }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-shine {
+  0%, 62% { opacity: 0; }
+  66% { opacity: 1; }
+  76%, 100% { opacity: 0; }
+}
+
+@keyframes habi-chest-out {
+  0%, 20%, 100% { transform: scale(1, 1); }
+  28%, 70% { transform: scale(1.06, 1.04); }
+}
+
+/* 45. Cartwheel: whee. */
+.habi-antic--cartwheel .habi-gag {
+  transform-origin: 16px 20px;
+  animation: habi-cartwheel var(--habi-antic) ease-in-out both;
+}
+
+@keyframes habi-cartwheel {
+  0% { transform: translateX(0) rotate(0deg); }
+  15% { transform: translateX(-5px) rotate(0deg); }
+  70%, 82% { transform: translateX(5px) rotate(360deg); }
+  100% { transform: translateX(0) rotate(360deg); }
+}
+
+/* 46. Balloon: floats away… pop. */
+.habi-balloon-skin,
+.habi-balloon-string {
+  transform-origin: 27.4px 3px;
+  animation: habi-balloon-pop var(--habi-antic) linear both;
+}
+
+.habi-balloon-pop {
+  transform-origin: 27.4px 3px;
+  animation: habi-pop-lines var(--habi-antic) ease-out both;
+}
+
+.habi-antic--balloon .habi-hop { animation: habi-float-away var(--habi-antic) ease-in-out both; }
+.habi-antic--balloon .habi-eyes { animation: habi-uh-oh var(--habi-antic) ease-in-out both; }
+.habi-antic--balloon .habi-shadow { animation: habi-float-shadow var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-balloon-pop {
+  0% { opacity: 0; transform: scale(0.6); }
+  8% { opacity: 1; transform: scale(1); }
+  58% { transform: scale(1.12); }
+  61% { opacity: 1; transform: scale(1.25); }
+  62%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes habi-pop-lines {
+  0%, 61% { opacity: 0; transform: scale(0.6); }
+  63% { opacity: 1; transform: scale(1); }
+  74%, 100% { opacity: 0; transform: scale(1.4); }
+}
+
+@keyframes habi-float-away {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  10% { transform: translateY(-1px); }
+  35% { transform: translateY(-6px) rotate(-3deg); }
+  55% { transform: translateY(-10px) rotate(3deg); }
+  62% { transform: translateY(-10px) rotate(0deg); }
+  74% { transform: translateY(0) scale(1.1, 0.88); }
+  84% { transform: scale(0.97, 1.03); }
+  92% { transform: scale(1, 1); }
+}
+
+@keyframes habi-uh-oh {
+  0%, 58%, 90%, 100% { transform: scale(1); }
+  62%, 74% { transform: scale(1.4); }
+}
+
+@keyframes habi-float-shadow {
+  0%, 74%, 100% { transform: scale(1); opacity: 1; }
+  55%, 62% { transform: scale(0.4); opacity: 0.4; }
+}
+
+/* 47. Flag: marches and waves the flag. */
+.habi-flagpole {
+  transform-origin: 25.4px 21px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-flagpole .habi-hand { animation: none; }
+
+.habi-flag {
+  transform-origin: 25.9px 8.2px;
+  animation: habi-flag-wave 360ms ease-in-out infinite;
+}
+
+.habi-antic--flag .habi-gag { animation: habi-march 500ms ease-in-out infinite; }
+.habi-antic--flag .habi-leg--left { animation: habi-step 500ms ease-in-out infinite; }
+.habi-antic--flag .habi-leg--right { animation: habi-step 500ms ease-in-out 250ms infinite; }
+
+@keyframes habi-flag-wave {
+  0%, 100% { transform: scaleX(1) skewY(0deg); }
+  50% { transform: scaleX(0.8) skewY(8deg); }
+}
+
+@keyframes habi-march {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: translateY(-0.6px) rotate(2deg); }
+}
+
+/* 48. Drumroll: brrrrr… ta-da! */
+.habi-drum {
+  transform-origin: 16px 30px;
+  animation: habi-prop-pop var(--habi-antic) ease-out both;
+}
+
+.habi-drum .habi-hand--left { animation: habi-type 100ms linear infinite; }
+.habi-drum .habi-hand--right { animation: habi-type 100ms linear 50ms infinite; }
+
+.habi-tada {
+  transform-origin: 16px 2px;
+  animation: habi-tada var(--habi-antic) ease-out both;
+}
+
+.habi-antic--drumroll .habi-hop { animation: habi-tada-hop var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1) both; }
+.habi-antic--drumroll .habi-eyes { animation: habi-focus var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-tada {
+  0%, 68% { opacity: 0; transform: scale(0.5); }
+  72% { opacity: 1; transform: scale(1.1); }
+  90% { opacity: 0.8; transform: scale(1.25); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+
+@keyframes habi-tada-hop {
+  0%, 66%, 100% { transform: translateY(0) scale(1, 1); }
+  72% { transform: translateY(-4px) scale(0.95, 1.06); }
+  82% { transform: translateY(0) scale(1.06, 0.94); }
+  90% { transform: scale(1, 1); }
+}
+
+@keyframes habi-focus {
+  0%, 100% { transform: scaleY(1); }
+  8%, 64% { transform: scaleY(0.5); }
+  70%, 92% { transform: scale(1.2); }
+}
+
+/* 49. Hearts: blushes, hearts float up. */
+.habi-blush {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-blush var(--habi-antic) ease-in-out both;
+}
+
+.habi-hearts g {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: habi-float-heart var(--habi-antic) ease-out both;
+}
+
+.habi-hearts g:nth-child(2) { animation-delay: 300ms; }
+.habi-hearts g:nth-child(3) { animation-delay: 600ms; }
+.habi-antic--hearts .habi-gag { animation: habi-bashful var(--habi-antic) ease-in-out both; }
+
+@keyframes habi-blush {
+  0% { opacity: 0; transform: scale(0.4); }
+  15%, 88% { opacity: 0.55; transform: scale(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes habi-float-heart {
+  0% { opacity: 0; transform: translate(0, 2px) scale(0.4); }
+  20% { opacity: 1; transform: translate(0, 0) scale(1); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translate(1px, -9px) scale(0.8); }
+}
+
+@keyframes habi-bashful {
+  0%, 100% { transform: rotate(0deg); }
+  20%, 60% { transform: rotate(-5deg); }
+  40%, 80% { transform: rotate(4deg); }
+}
+
+/* Arrive and depart: Habi travels by balloon. These aren't random antics:
+   HabiMascot.tsx plays them for sequence="arrive" and sequence="depart". */
+.habi-bunch-strings {
+  fill: none;
+  stroke: color-mix(in srgb, var(--text) 45%, var(--card-bg));
+  stroke-width: 0.35;
+}
+
+.habi-bunch-balloons circle {
+  stroke: color-mix(in srgb, var(--text) 18%, transparent);
+  stroke-width: 0.3;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.habi-bunch-balloons circle:nth-child(6n + 1) { fill: var(--danger); }
+.habi-bunch-balloons circle:nth-child(6n + 2) { fill: var(--info); }
+.habi-bunch-balloons circle:nth-child(6n + 3) { fill: var(--habi-gold); }
+.habi-bunch-balloons circle:nth-child(6n + 4) { fill: var(--success); }
+.habi-bunch-balloons circle:nth-child(6n + 5) { fill: color-mix(in srgb, var(--danger) 50%, var(--habi-gold)); }
+.habi-bunch-balloons circle:nth-child(6n) { fill: color-mix(in srgb, var(--info) 45%, var(--card-bg)); }
+
+.habi-antic--arrive .habi-leg,
+.habi-antic--depart .habi-leg {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: habi-dangle 700ms ease-in-out infinite alternate;
+}
+
+.habi-antic--arrive .habi-leg--right,
+.habi-antic--depart .habi-leg--right {
+  animation-delay: -350ms;
+}
+
+@keyframes habi-dangle {
+  0% { transform: rotate(-10deg); }
+  100% { transform: rotate(10deg); }
+}
+
+/* Arrive: floats down, lets the balloons go one by one, drops the last bit. */
+.habi-antic--arrive .habi-hop { animation: habi-arrive var(--habi-antic) cubic-bezier(0.4, 0, 0.6, 1) both; }
+.habi-antic--arrive .habi-eyes { animation: habi-arrive-eyes var(--habi-antic) ease-in-out both; }
+.habi-antic--arrive .habi-shadow { animation: habi-arrive-shadow var(--habi-antic) ease-in both; }
+.habi-antic--arrive .habi-bunch-strings { animation: habi-strings-go var(--habi-antic) linear both; }
+
+.habi-antic--arrive .habi-bunch-balloons circle {
+  animation: habi-release var(--habi-antic) ease-out both;
+}
+
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(odd) { animation-name: habi-release-left; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(1) { animation-delay: 1100ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(2) { animation-delay: 150ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(3) { animation-delay: 400ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(4) { animation-delay: 650ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(5) { animation-delay: 900ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(6) { animation-delay: 0ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(7) { animation-delay: 280ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(8) { animation-delay: 520ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(9) { animation-delay: 780ms; }
+.habi-antic--arrive .habi-bunch-balloons circle:nth-child(10) { animation-delay: 1000ms; }
+
+@keyframes habi-arrive {
+  0% { transform: translate(-3px, -36px) rotate(-4deg); }
+  25% { transform: translate(2px, -28px) rotate(4deg); }
+  45% { transform: translate(-1px, -19px) rotate(-3deg); }
+  62% { transform: translate(0.5px, -10px) rotate(2deg); }
+  76% { transform: translate(0, 0) rotate(0deg) scale(1, 1); }
+  82% { transform: scale(1.12, 0.86); }
+  90% { transform: translateY(-1.5px) scale(0.96, 1.05); }
+  96%, 100% { transform: translate(0, 0) scale(1, 1); }
+}
+
+/* Each balloon is let go partway down and drifts up out of sight. */
+@keyframes habi-release {
+  0%, 40% { opacity: 1; transform: translate(0, 0); }
+  68%, 100% { opacity: 0; transform: translate(3px, -24px); }
+}
+
+@keyframes habi-release-left {
+  0%, 40% { opacity: 1; transform: translate(0, 0); }
+  68%, 100% { opacity: 0; transform: translate(-3px, -24px); }
+}
+
+@keyframes habi-strings-go {
+  0%, 70% { opacity: 1; }
+  78%, 100% { opacity: 0; }
+}
+
+@keyframes habi-arrive-eyes {
+  0%, 60% { transform: translate(0, 1.2px); }
+  70% { transform: translate(0, 1.2px) scale(1.4); }
+  84% { transform: scaleY(0.2); }
+  92%, 100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes habi-arrive-shadow {
+  0% { transform: scale(0.15); opacity: 0.15; }
+  76% { transform: scale(1); opacity: 1; }
+  82% { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Depart: balloons sprout from the chimney, Habi waves and floats off for good. */
+.habi-antic--depart .habi-hop { animation: habi-depart var(--habi-antic) ease-in-out both; }
+.habi-antic--depart .habi-eyes { animation: habi-depart-eyes var(--habi-antic) ease-in-out both; }
+.habi-antic--depart .habi-shadow { animation: habi-depart-shadow var(--habi-antic) ease-in both; }
+.habi-antic--depart .habi-sparkles { animation: habi-fade-away var(--habi-antic) linear both; }
+.habi-antic--depart .habi-hand { animation: habi-goodbye var(--habi-antic) ease-in-out both; }
+
+.habi-antic--depart .habi-bunch-balloons circle {
+  animation: habi-sprout-balloon var(--habi-antic) cubic-bezier(0.3, 0, 0.3, 1.5) both;
+}
+
+.habi-antic--depart .habi-bunch-strings {
+  animation: habi-strings-in var(--habi-antic) linear both;
+}
+
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(2) { animation-delay: 60ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(3) { animation-delay: 120ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(4) { animation-delay: 180ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(5) { animation-delay: 240ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(6) { animation-delay: 300ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(7) { animation-delay: 360ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(8) { animation-delay: 420ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(9) { animation-delay: 480ms; }
+.habi-antic--depart .habi-bunch-balloons circle:nth-child(10) { animation-delay: 540ms; }
+
+@keyframes habi-sprout-balloon {
+  0% { transform: scale(0); }
+  14% { transform: scale(1.15); }
+  20%, 100% { transform: scale(1); }
+}
+
+@keyframes habi-strings-in {
+  0%, 4% { opacity: 0; }
+  12%, 100% { opacity: 1; }
+}
+
+@keyframes habi-depart {
+  0%, 24% { transform: translate(0, 0) rotate(0deg); }
+  30% { transform: translate(0, -1.5px) rotate(-2deg); }
+  50% { transform: translate(2px, -12px) rotate(4deg); }
+  72% { transform: translate(-2px, -26px) rotate(-4deg); }
+  100% { transform: translate(1px, -52px) rotate(2deg); }
+}
+
+@keyframes habi-depart-eyes {
+  0%, 20% { transform: translate(0, 0); }
+  26% { transform: translate(0, -1.5px) scale(1.3); }
+  40%, 100% { transform: translate(0.5px, 1.2px); }
+}
+
+@keyframes habi-depart-shadow {
+  0%, 26% { transform: scale(1); opacity: 1; }
+  80%, 100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes habi-fade-away {
+  0%, 30% { opacity: 1; }
+  60%, 100% { opacity: 0; }
+}
+
+@keyframes habi-goodbye {
+  0%, 26% { opacity: 0; transform: scale(0); }
+  32% { opacity: 1; transform: scale(1); }
+  40%, 56%, 72% { transform: translate(1.5px, -2.5px); }
+  48%, 64%, 80% { transform: translate(0, 0); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+
+/* Reduced motion is handled with the rest of the onboarding in App.css, and
+   HabiMascot.tsx doesn't schedule antics then. */
