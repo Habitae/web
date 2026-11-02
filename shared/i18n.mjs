@@ -1,10 +1,13 @@
-export const languages = ['pt', 'en', 'fr'];
-export const locales = { pt: 'pt-PT', en: 'en-GB', fr: 'fr-FR' };
+export const languages = ['pt', 'en', 'fr', 'es'];
+export const locales = { pt: 'pt-PT', en: 'en-GB', fr: 'fr-FR', es: 'es-ES' };
+// Values for <html lang> and hreflang.
+export const htmlLanguages = { pt: 'pt-PT', en: 'en', fr: 'fr', es: 'es-ES' };
 export const catalogs = {};
 const loaders = {
   pt: () => import('./locales/pt.json', { with: { type: 'json' } }),
   en: () => import('./locales/en.json', { with: { type: 'json' } }),
   fr: () => import('./locales/fr.json', { with: { type: 'json' } }),
+  es: () => import('./locales/es.json', { with: { type: 'json' } }),
 };
 const pending = new Map();
 const indexes = new Map();
@@ -96,18 +99,23 @@ export function translateCopy(value, language) {
   const identifiers = new Set(['id', 'slug', 'path', 'href', 'src', 'code', 'category', 'updated', 'locale']);
   return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, identifiers.has(key) ? item : translateCopy(item, language)]));
 }
-export function withFrench(copy, transform = value => value) {
-  let cached;
-  let catalog;
-  return {
-    ...copy,
-    get fr() {
-      if (copy.fr != null) return copy.fr;
-      if (!cached || catalog !== catalogs.fr) {
-        cached = transform(translateCopy(copy.pt, 'fr'));
-        catalog = catalogs.fr;
-      }
-      return cached;
-    },
-  };
+// French and Spanish copy is derived from the Portuguese source through the catalogs.
+export function withTranslations(copy, transform = value => value) {
+  const result = { ...copy };
+  for (const language of ['fr', 'es']) {
+    let cached;
+    let catalog;
+    Object.defineProperty(result, language, {
+      enumerable: true,
+      get() {
+        if (copy[language] != null) return copy[language];
+        if (!cached || catalog !== catalogs[language]) {
+          cached = transform(translateCopy(copy.pt, language), language);
+          catalog = catalogs[language];
+        }
+        return cached;
+      },
+    });
+  }
+  return result;
 }

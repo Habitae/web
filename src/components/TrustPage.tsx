@@ -1,5 +1,4 @@
 import { translateCopy } from '../../shared/i18n.mjs';
-import { withFrench } from '../../shared/i18n.mjs';
 import { useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { useI18n } from '../context/I18nContext';
@@ -59,7 +58,7 @@ export default function TrustPage({ pathname = appPathname() }: { pathname?: str
           </article>
         </div>
       </main>
-      <SiteFooter languagePaths={withFrench({ pt: sitePath(`/${id}/`, 'pt'), en: sitePath(`/${id}/`, 'en'), fr: sitePath(`/${id}/`, 'fr') })} />
+      <SiteFooter languagePaths={{ pt: sitePath(`/${id}/`, 'pt'), en: sitePath(`/${id}/`, 'en'), fr: sitePath(`/${id}/`, 'fr'), es: sitePath(`/${id}/`, 'es') }} />
     </div>
   );
 }

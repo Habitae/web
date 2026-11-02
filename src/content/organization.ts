@@ -27,7 +27,7 @@ export const organizationSchema = {
     url: `${organizationDetails.url}contact/`,
     email: organizationDetails.email,
     telephone: organizationDetails.telephone,
-    availableLanguage: ['pt', 'en', 'fr'],
+    availableLanguage: ['pt', 'en', 'fr', 'es'],
   },
   address: { '@type': 'PostalAddress', ...organizationDetails.address },
 } as const;

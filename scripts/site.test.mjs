@@ -24,7 +24,7 @@ test('help paths encode their language; assets never receive a language query', 
 });
 
 test('language comes from translated help paths or a valid query', () => {
-  for (const [path, expected] of [['/?lang=en', 'en'], ['/privacy?lang=pt', 'pt'], ['/app?lang=fr', 'fr'], ['/fr/privacy/', 'fr'], ['/aide/guide/', 'fr'], ['/terms', null], ['/help?lang=pt', 'en'], ['/ajuda/guia?lang=en', 'pt']]) {
+  for (const [path, expected] of [['/?lang=en', 'en'], ['/privacy?lang=pt', 'pt'], ['/app?lang=fr', 'fr'], ['/fr/privacy/', 'fr'], ['/aide/guide/', 'fr'], ['/es/privacy/', 'es'], ['/ayuda/guia/', 'es'], ['/app?lang=es', 'es'], ['/terms', null], ['/help?lang=pt', 'en'], ['/ajuda/guia?lang=en', 'pt']]) {
     location(path);
     assert.equal(languageFromUrl(), expected, path);
   }
@@ -46,5 +46,14 @@ test('French links preserve deployment prefix, anchors and help routes', () => {
   location('/fr/', '/web');
   assert.equal(sitePath('/privacy#storage', 'fr'), '/web/fr/privacy/#storage');
   assert.equal(sitePath('/ajuda/criar-primeiro-condominio', 'fr'), '/web/aide/criar-primeiro-condominio/');
+  assert.equal(appPathname(), '/');
+});
+
+test('Spanish links preserve deployment prefix, anchors and help routes', () => {
+  location('/es/', '/web');
+  assert.equal(languageFromUrl(), 'es');
+  assert.equal(sitePath('/privacy#storage', 'es'), '/web/es/privacy/#storage');
+  assert.equal(sitePath('/ajuda/criar-primeiro-condominio', 'es'), '/web/ayuda/criar-primeiro-condominio/');
+  assert.equal(sitePath('/es/terms/', 'fr'), '/web/fr/terms/');
   assert.equal(appPathname(), '/');
 });

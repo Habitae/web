@@ -1,4 +1,4 @@
-import { translateText, withFrench, locales } from '../../shared/i18n.mjs';
+import { translateText, locales } from '../../shared/i18n.mjs';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Building2, Calculator, ChartNoAxesCombined, Clock3, Copy, FileText, Search, Wrench } from 'lucide-react';
 import { useI18n } from '../context/I18nContext';
@@ -102,10 +102,11 @@ export default function BlogPage({ pathname = appPathname() }: { pathname?: stri
         <section className="blog-bottom-cta"><div><h2>{en ? 'Give your condominium a place to get organised.' : translateText('Dê ao seu condomínio um lugar para se organizar.', language)}</h2><p>{en ? 'Habitae is coming soon. Join the waitlist to hear when it is ready.' : translateText('O Habitae está em preparação. Entre na lista de espera para saber quando estiver disponível.', language)}</p></div><a className="blog-button" href={sitePath('/app/', language)}>{en ? 'Join the waitlist' : translateText('Entrar na lista de espera', language)}<ArrowRight size={18} aria-hidden="true" /></a></section>
       </>}
     </main>
-    <SiteFooter languagePaths={withFrench({
+    <SiteFooter languagePaths={{
       pt: sitePath(blogPath('pt', post ? translatedBlogPost('pt', post.slug) : undefined)),
       en: sitePath(blogPath('en', post ? translatedBlogPost('en', post.slug) : undefined)),
       fr: sitePath(blogPath('fr', post ? translatedBlogPost('fr', post.slug) : undefined)),
-    })} />
+      es: sitePath(blogPath('es', post ? translatedBlogPost('es', post.slug) : undefined)),
+    }} />
   </div>;
 }

@@ -1,16 +1,19 @@
 # Content maintenance
 
-Keep Portuguese, English and French translations in sync. Public content belongs in
+Keep Portuguese, English, French and Spanish translations in sync. Public content belongs in
 `src/content/`; avoid customer records, internal source mappings and operational
 notes. Everything in `public/` is copied to the deployed website.
 
 The standalone translation runtime and catalogs live in `shared/`. Keep catalog
-keys aligned across `pt.json`, `en.json` and `fr.json`. The browser awaits
-`loadLanguage` for the selected locale before hydration; prerendering loads all
-three. Keep catalogs as dynamic imports so other languages stay out of the
-initial download. `withFrench` translates application-owned Portuguese copy
-structures while preserving stable IDs and URLs; never apply it to customer
-records.
+keys aligned across `pt.json`, `en.json`, `fr.json` and `es.json`. The browser
+awaits `loadLanguage` for the selected locale before hydration; prerendering
+loads all four. Keep catalogs as dynamic imports so other languages stay out of
+the initial download. `withTranslations` derives French and Spanish from
+application-owned Portuguese copy structures while preserving stable IDs and
+URLs; never apply it to customer records. Spanish is European Spanish in formal
+*usted*, using the application's terms: comunidad (de propietarios),
+propietario, unidad, cuota, fondo de reserva, junta, convocatoria, acta and
+poder de representación.
 
 Production builds use `scripts/website-catalogs.mjs` to exclude application-only
 copy from the browser catalogs. Website strings and interpolated templates are

@@ -187,3 +187,24 @@ test('French migration preserves signup consent and delivery history and accepts
   assert.match(confirmation.text, /Confidentialité/);
   assert.equal(db.prepare('PRAGMA foreign_key_check').all().length, 0);
 });
+
+test('Spanish migration preserves signup history and accepts Spanish signups', async t => {
+  const { db, env, ctx, flush } = fixture(t, { migrate: true });
+  const sent = captureEmails(t, db);
+  db.exec(readFileSync(new URL('../services/waitlist/migrations/0004_french_language.sql', import.meta.url), 'utf8'));
+  assert.equal((await worker.fetch(request({ email: 'french@example.com', language: 'fr' }), env, ctx)).status, 200);
+  await flush();
+  const before = db.prepare('SELECT * FROM waitlist_email_outbox ORDER BY id').all();
+  db.exec(readFileSync(new URL('../services/waitlist/migrations/0005_spanish_language.sql', import.meta.url), 'utf8'));
+  assert.deepEqual(db.prepare('SELECT * FROM waitlist_email_outbox ORDER BY id').all(), before);
+  assert.equal(db.prepare("SELECT language FROM waitlist WHERE email = 'french@example.com'").get().language, 'fr');
+  assert.equal((await worker.fetch(request({ email: 'spanish@example.com', language: 'es' }), env, ctx)).status, 200);
+  await flush();
+  assert.equal(db.prepare("SELECT language FROM waitlist WHERE email = 'spanish@example.com'").get().language, 'es');
+  const confirmation = sent.find(item => item.payload.to[0] === 'spanish@example.com').payload;
+  assert.match(confirmation.subject, /lista de espera de Habitae/);
+  assert.match(confirmation.html, /lang="es-ES"/);
+  assert.match(confirmation.html, /https:\/\/habitae.pt\/es\/blog\//);
+  assert.match(confirmation.text, /Privacidad: https:\/\/habitae.pt\/es\/privacy\/#waitlist/);
+  assert.equal(db.prepare('PRAGMA foreign_key_check').all().length, 0);
+});

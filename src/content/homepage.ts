@@ -1,5 +1,5 @@
 // Homepage copy.
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { Language } from '../context/I18nContext';
 
 type PricingPlan = {
@@ -16,7 +16,7 @@ type PricingPlan = {
   featured?: boolean;
 };
 
-export const pricingPlans: Record<Language, PricingPlan[]> = withFrench({
+export const pricingPlans: Record<Language, PricingPlan[]> = withTranslations({
   pt: [
     { code: 's', name: 'Habitae S', description: 'A experiência Habitae completa para um condomínio autogerido.', price: '19,99 €', interval: '/ mês', annualPrice: '227,90 €', annualInterval: '/ ano', annualSaving: 'Poupa 11,98 € por ano', features: ['Gestão completa de um condomínio', 'Emails enviados pelo Habitae', 'Convites e equipa de gestão'], action: 'Entrar na lista de espera', featured: true },
     { code: 'm', name: 'Habitae M', description: 'Para administrações profissionais em crescimento.', price: '69,99 €', interval: '/ mês', annualPrice: '797,90 €', annualInterval: '/ ano', annualSaving: 'Poupa 41,98 € por ano', features: ['Gestão de múltiplos condomínios', 'Ferramentas para equipas', 'Apoio ao crescimento'], action: 'Entrar na lista de espera' },
@@ -35,7 +35,7 @@ type FaqItem = {
   link?: { label: string; path: string };
 };
 
-export const faqItems: Record<Language, FaqItem[]> = withFrench({
+export const faqItems: Record<Language, FaqItem[]> = withTranslations({
   pt: [
     { question: 'O que é o Habitae?', answer: 'É uma aplicação de gestão de condomínios que reúne finanças, quotas, frações, pessoas, documentos e manutenção.' },
     { question: 'Quanto custa?', answer: `O Habitae S custa ${pricingPlans.pt[0].price} por mês ou ${pricingPlans.pt[0].annualPrice} por ano, isentos de IVA. Inclui 15 dias gratuitos na modalidade mensal ou 30 dias na anual.`, link: { label: 'Ver planos', path: '/#planos' } },
@@ -52,7 +52,7 @@ export const faqItems: Record<Language, FaqItem[]> = withFrench({
   ],
 });
 
-export const pageCopy = withFrench({
+export const pageCopy = withTranslations({
   pt: {
     faqTitle: 'Perguntas frequentes',
     meta: { title: 'Habitae | Software de gestão de condomínios em Portugal', description: 'O Habitae reúne finanças, quotas, documentos, pessoas e tarefas numa plataforma clara para a gestão de condomínios.', socialDescription: 'Finanças, quotas, documentos, pessoas e tarefas do condomínio, num só lugar.', locale: 'pt_PT' },

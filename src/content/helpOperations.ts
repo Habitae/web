@@ -1,8 +1,8 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { Guide } from './helpTypes';
 
 export const operationsGuides: Guide[] = [
-  withFrench({
+  withTranslations({
     id: 'suppliers', category: 'operations', next: ['maintenance', 'transaction'],
     pt: {
       slug: 'gerir-fornecedores', title: 'Adicionar e gerir fornecedores', excerpt: 'Guarde os contactos de quem presta serviços ao condomínio.',
@@ -21,7 +21,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'maintenance', category: 'operations', next: ['notices', 'suppliers'],
     pt: {
       slug: 'planear-manutencao', title: 'Criar e acompanhar uma tarefa de manutenção', excerpt: 'Registe um problema, atribua um fornecedor e acompanhe o trabalho até à conclusão.',
@@ -42,7 +42,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'cleaning', category: 'operations', next: ['suppliers', 'documents'],
     pt: {
       slug: 'limpeza-folha-presencas', title: 'Planear limpezas e gerar a folha de presenças', excerpt: 'Agende visitas, marque o trabalho realizado e prepare o registo mensal em PDF.',
@@ -63,7 +63,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'notices', category: 'operations', next: ['maintenance', 'reminders'],
     pt: {
       slug: 'publicar-enviar-avisos', title: 'Publicar, imprimir e enviar avisos', excerpt: 'Avise sobre obras, limpeza ou interrupções de serviço, com datas e público definidos.',
@@ -82,7 +82,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'meeting-votes', category: 'assemblies', next: ['minutes', 'signature'],
     pt: {
       slug: 'presencas-votacoes-assembleia', title: 'Registar presenças e votações da assembleia', excerpt: 'Confirme quem participou, quem foi representado e os votos de cada ponto.',
@@ -103,7 +103,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'minutes', category: 'assemblies', next: ['meeting-votes', 'documents'],
     pt: {
       slug: 'atas-anexos-assinaturas-acoes', title: 'Rever atas, anexos, assinaturas e ações', excerpt: 'Do rascunho ao documento final, com histórico e seguimento das decisões.',
@@ -126,7 +126,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'signature', category: 'assemblies', next: ['meeting-votes', 'proxy'],
     pt: {
       slug: 'lista-assinaturas', title: 'Preparar a lista de assinaturas', excerpt: 'Gere a folha da assembleia com os titulares e as permilagens registados.',
@@ -145,7 +145,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'proxy', category: 'assemblies', next: ['people-changes', 'meeting-votes'],
     pt: {
       slug: 'preparar-procuracoes', title: 'Preparar procurações para a assembleia', excerpt: 'Gere os formulários e confira os dados de quem será representado.',
@@ -164,7 +164,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'map', category: 'people', next: ['people-changes', 'documents'],
     pt: {
       slug: 'mapa-condominos', title: 'Gerar o Mapa de Condóminos', excerpt: 'Prepare uma ficha por fração, preenchida ou em branco para recolher dados.',
@@ -181,7 +181,7 @@ export const operationsGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'official', category: 'documents', next: ['documents', 'corrections'],
     pt: {
       slug: 'declaracoes-irs-divida', title: 'Gerar declarações de pagamentos e de dívida', excerpt: 'Escolha o titular e o período e reveja o documento criado pelos registos.',

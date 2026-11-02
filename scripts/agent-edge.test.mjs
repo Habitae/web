@@ -23,6 +23,8 @@ bodies['/en/404.html'] = '<h1>This page does not exist.</h1>';
 bodies['/fr/404.html'] = '<h1>Cette page n’existe pas.</h1>';
 bodies['/en/404.md'] = '# 404 — Page not found\n[llms.txt](https://habitae.pt/llms.txt)';
 bodies['/fr/404.md'] = '# 404 — Page introuvable\n[llms.txt](https://habitae.pt/llms.txt)';
+bodies['/es/404.html'] = '<h1>Esta página no existe.</h1>';
+bodies['/es/404.md'] = '# 404 — Página no encontrada\n[llms.txt](https://habitae.pt/llms.txt)';
 function fixture() {
   bodies['/style.css'] = 'body { color: black; }';
   bodies['/app.js'] = 'export const ready = true;';
@@ -88,7 +90,7 @@ test('alternating variants use separate assets, correct metadata and no shared c
 });
 
 test('404 recovery defaults to Markdown for agents and preserves HTML for browsers', async () => {
-  for (const path of ['/missing', '/help/missing/', '/en/missing/', '/fr/missing/', '/aide/missing/', '/fr/404.html', '/missing.md', '/constructor', '/__proto__', '/404.html']) {
+  for (const path of ['/missing', '/help/missing/', '/en/missing/', '/fr/missing/', '/aide/missing/', '/es/missing/', '/ayuda/missing/', '/es/404.html', '/fr/404.html', '/missing.md', '/constructor', '/__proto__', '/404.html']) {
     for (const accept of [null, '*/*', MARKDOWN, HTML]) {
       const { assets } = fixture();
       const response = await handle(request(path, accept), assets);
@@ -96,9 +98,9 @@ test('404 recovery defaults to Markdown for agents and preserves HTML for browse
       assertVary(response);
       assert.match(response.headers.get('X-Robots-Tag'), /noindex/);
       assert.match(response.headers.get('Link'), /sitemap.xml/);
-      const lang = path.startsWith('/fr/') || path.startsWith('/aide/') ? 'fr' : path.startsWith('/en/') || path.startsWith('/help/') ? 'en' : 'pt';
+      const lang = path.startsWith('/fr/') || path.startsWith('/aide/') ? 'fr' : path.startsWith('/es/') || path.startsWith('/ayuda/') ? 'es' : path.startsWith('/en/') || path.startsWith('/help/') ? 'en' : 'pt';
       assert.equal(response.headers.get('Content-Language'), lang);
-      assert.match(await response.text(), accept === HTML ? { pt: /Esta página/, en: /This page/, fr: /Cette page/ }[lang] : /# 404[\s\S]*llms.txt/);
+      assert.match(await response.text(), accept === HTML ? { pt: /Esta página não/, en: /This page/, fr: /Cette page/, es: /Esta página no existe/ }[lang] : /# 404[\s\S]*llms.txt/);
     }
   }
 });

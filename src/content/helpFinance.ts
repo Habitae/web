@@ -1,8 +1,8 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { Guide } from './helpTypes';
 
 export const financeGuides: Guide[] = [
-  withFrench({
+  withTranslations({
     id: 'transaction-review', category: 'finance', next: ['bank', 'corrections'],
     pt: {
       slug: 'conferir-corrigir-exportar-movimentos', title: 'Conferir, corrigir e exportar movimentos', excerpt: 'Use os filtros, reveja o FCR e exporte os registos que está a consultar.',
@@ -25,7 +25,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'bank', category: 'finance', next: ['bank-import', 'safes'],
     pt: {
       slug: 'saldo-conta-bancaria', title: 'Perceber o saldo da Conta Bancária', excerpt: 'Distinga o saldo do banco, o dinheiro reservado e o valor disponível.',
@@ -44,7 +44,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'bank-import', category: 'finance', next: ['bank', 'payment'],
     pt: {
       slug: 'importar-extrato-bancario', title: 'Importar e conferir um extrato bancário', excerpt: 'Reveja as linhas, evite duplicados e associe recebimentos às quotas corretas.',
@@ -65,7 +65,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'safes', category: 'finance', next: ['standalone', 'bank'],
     pt: {
       slug: 'gerir-cofres-reservas', title: 'Gerir cofres e valores a repor', excerpt: 'Acompanhe dinheiro reservado para uma finalidade, como uma obra.',
@@ -86,7 +86,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'budget-details', category: 'finance', next: ['schedule', 'standalone'],
     pt: {
       slug: 'rubricas-distribuicao-orcamento', title: 'Distribuir rubricas e acompanhar o orçamento', excerpt: 'Escolha que frações participam em cada despesa e compare o previsto com o gasto.',
@@ -107,7 +107,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'standalone', category: 'fees', next: ['safes', 'payment'],
     pt: {
       slug: 'criar-quota-avulsa', title: 'Criar uma quota avulsa ou extraordinária', excerpt: 'Prepare uma cobrança única ou prestações para uma obra ou outra despesa extra.',
@@ -128,7 +128,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'corrections', category: 'fees', next: ['credit', 'audit'],
     pt: {
       slug: 'corrigir-dispensar-reabrir-quotas', title: 'Corrigir, dispensar ou reabrir uma quota', excerpt: 'Escolha a ação certa para um valor errado, uma dispensa ou um pagamento mal registado.',
@@ -149,7 +149,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'credit', category: 'fees', next: ['payment', 'receipts'],
     pt: {
       slug: 'saldo-antecipado-devolucoes', title: 'Registar saldo antecipado e devoluções', excerpt: 'Guarde pagamentos adiantados, use-os em quotas futuras ou registe uma devolução.',
@@ -168,7 +168,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'receipts', category: 'documents', next: ['payment', 'settings'],
     pt: {
       slug: 'recibos-personalizados-email', title: 'Gerar, agrupar e enviar recibos', excerpt: 'Prepare um PDF a partir de recebimentos já registados, sem cobrar duas vezes.',
@@ -187,7 +187,7 @@ export const financeGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'reminders', category: 'fees', next: ['notices', 'settings'],
     pt: {
       slug: 'avisos-debito-comunicacoes', title: 'Preparar avisos de débito e comunicações', excerpt: 'Escolha o documento e o destinatário certos para cobrar ou informar.',

@@ -1,4 +1,4 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import { organizationDetails } from './organization';
 import type { Language } from '../context/I18nContext';
 
@@ -24,14 +24,14 @@ export const legalDetails = {
   supportEmail: organizationDetails.email,
   privacyEmail: organizationDetails.email,
   effectiveDate: '2026-09-06',
-  hosting: withFrench({ pt: 'OVH, França', en: 'OVH, France' }),
-  transfers: withFrench({
+  hosting: withTranslations({ pt: 'OVH, França', en: 'OVH, France' }),
+  transfers: withTranslations({
     pt: 'A aplicação está alojada na OVH, em França. O website e o formulário utilizam Cloudflare, cuja rede processa pedidos internacionalmente; a base de dados D1 da lista de espera está restrita à jurisdição da União Europeia. O GitHub Pages mantém o alojamento de origem de recurso. Os termos publicados do Cloudflare e do GitHub preveem cláusulas contratuais-tipo para as transferências abrangidas. A localização da base de dados não limita, por si só, todos os tratamentos dos fornecedores ao EEE.',
     en: 'The application is hosted by OVH in France. The website and signup form use Cloudflare, whose network processes requests internationally; the waitlist D1 database is restricted to European Union jurisdiction. GitHub Pages retains fallback origin hosting. Cloudflare and GitHub’s published terms provide standard contractual clauses for covered transfers. The database location alone does not restrict all provider processing to the EEA.',
   }),
   disputeResolution: 'CNIACC — Centro Nacional de Informação e Arbitragem de Conflitos de Consumo; Rua D. Afonso Henriques, 1, 4700-030 Braga; +351 253 619 107; geral@cniacc.pt; https://www.cniacc.pt',
   // Commercial refund policy approved by the operator on 2026-09-06.
-  refundPolicy: withFrench({
+  refundPolicy: withTranslations({
     pt: 'Nas subscrições pagas, o cancelamento antes da renovação impede a cobrança do período seguinte e mantém o acesso até ao fim do período já pago. Não são concedidos reembolsos comerciais proporcionais por períodos não utilizados. Esta regra não limita a livre resolução, os direitos por falta de conformidade do serviço nem outros reembolsos obrigatórios por lei. Cobranças duplicadas ou indevidas são corrigidas. Os pedidos devem ser enviados para o contacto de apoio, com o email da conta e a referência da cobrança.',
     en: 'For paid subscriptions, cancellation before renewal prevents the next period’s charge and preserves access until the end of the paid period. Discretionary prorated refunds are not offered for unused periods. This rule does not limit statutory withdrawal, remedies for a non-conforming service or other legally required refunds. Duplicate or incorrect charges are corrected. Send requests to the support contact with the account email and charge reference.',
   }),
@@ -45,7 +45,7 @@ const cloudflarePrivacy = { label: 'Cloudflare — Privacy Policy', href: 'https
 const ovhPrivacy = { label: 'OVHcloud — RGPD / GDPR', href: 'https://www.ovhcloud.com/pt/personal-data-protection/gdpr/' };
 const githubPrivacy = { label: 'GitHub — Privacy Statement', href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' };
 
-export const legalContent: Record<Language, Record<LegalDocumentId, LegalDocument>> = withFrench({
+export const legalContent: Record<Language, Record<LegalDocumentId, LegalDocument>> = withTranslations({
   pt: {
     terms: {
       title: 'Termos e Condições',

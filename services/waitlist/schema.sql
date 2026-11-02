@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS waitlist (
   email TEXT PRIMARY KEY,
-  language TEXT NOT NULL CHECK (language IN ('pt', 'en', 'fr')),
+  language TEXT NOT NULL CHECK (language IN ('pt', 'en', 'fr', 'es')),
   role TEXT NOT NULL CHECK (role IN ('owner', 'resident', 'manager', 'other')),
   consent_version TEXT NOT NULL,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP

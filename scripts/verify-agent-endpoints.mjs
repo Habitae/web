@@ -3,7 +3,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 
 const base = new URL(process.argv[2] || 'http://127.0.0.1:8787');
 const manifest = JSON.parse(await readFile('dist/agent-manifest.json', 'utf8'));
-const errorDocuments = Object.keys(manifest.files).filter(path => /^\/(?:en\/|fr\/)?404\.html$/.test(path));
+const errorDocuments = Object.keys(manifest.files).filter(path => /^\/(?:en\/|fr\/|es\/)?404\.html$/.test(path));
 const failures = [];
 let checks = 0;
 async function check(name, fn) { try { await fn(); checks++; } catch (error) { failures.push({ name, error: error.message }); } }
@@ -83,7 +83,7 @@ for (const path of ['/agent-check-does-not-exist', '/help/agent-check-missing/',
       assert.equal(response.status, 404);
       assertVary(response);
       assert.match(response.headers.get('Link'), /sitemap.xml/);
-      const language = path.startsWith('/fr/') ? 'fr' : /^\/(?:en|help)\//.test(path) ? 'en' : 'pt';
+      const language = path.startsWith('/fr/') ? 'fr' : path.startsWith('/es/') ? 'es' : /^\/(?:en|help)\//.test(path) ? 'en' : 'pt';
       const extension = accept === 'text/html' ? 'html' : 'md';
       const source = `${language === 'pt' ? '' : `/${language}`}/404.${extension}`;
       assert.equal(response.headers.get('Content-Language'), language);

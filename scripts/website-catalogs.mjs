@@ -40,7 +40,7 @@ export function websiteCatalogs(root) {
     enforce: 'pre',
     buildStart() { sources = websiteSources(join(root, 'src')); },
     transform(code, id) {
-      if (!/\/shared\/locales\/(pt|en|fr)\.json$/.test(id)) return;
+      if (!/\/shared\/locales\/(pt|en|fr|es)\.json$/.test(id)) return;
       return { code: JSON.stringify(selectWebsiteCopy(JSON.parse(code), sources)), map: null };
     },
   };

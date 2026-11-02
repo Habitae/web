@@ -13,7 +13,7 @@ async function htmlFiles(dir = '') {
 
 test('all static surfaces have real content, metadata, schema, and styles before JS', async () => {
   const files = (await htmlFiles()).filter(file => !file.endsWith('404.html'));
-  assert.equal(files.length, 173);
+  assert.equal(files.length, 230);
   for (const file of files) {
     const html = await read(file);
     assert.match(html, /<h1[ >]/, file);
@@ -30,6 +30,7 @@ test('all static surfaces have real content, metadata, schema, and styles before
     assert.match(html, /hreflang="pt-PT"/, file);
     assert.match(html, /hreflang="en"/, file);
     assert.match(html, /hreflang="fr"/, file);
+    assert.match(html, /hreflang="es-ES"/, file);
     assert.match(html, /type="text\/markdown"/, file);
     assert.match(html, /rel="describedby" href="https:\/\/habitae.pt\/llms.txt"/, file);
     assert(!html.includes('<div id="root"></div>'), file);
@@ -39,7 +40,7 @@ test('all static surfaces have real content, metadata, schema, and styles before
 test('blog articles have complete sections, translated canonicals, article schema and Markdown discovery', async () => {
   const manifest = JSON.parse(await read('agent-manifest.json'));
   const routes = Object.entries(manifest.routes).filter(([path, route]) => route.kind === 'blog' && path.endsWith('/'));
-  assert.equal(routes.length, 21);
+  assert.equal(routes.length, 28);
   const sitemap = await read('sitemap.xml');
   const llms = await read('llms.txt');
   for (const [path, route] of routes) {
@@ -48,9 +49,9 @@ test('blog articles have complete sections, translated canonicals, article schem
     assert(sitemap.includes(`<loc>${route.canonical}</loc>`));
     assert(llms.includes(`https://habitae.pt${route.markdown}`));
     assert(!html.includes('noindex'));
-    for (const lang of ['pt', 'en', 'fr']) {
+    for (const lang of ['pt', 'en', 'fr', 'es']) {
       assert(html.includes(`href="https://habitae.pt${route.alternates[lang]}"`));
-      assert.equal(manifest.routes[route.alternates[lang]].alternates[path.startsWith('/en/') ? 'en' : path.startsWith('/fr/') ? 'fr' : 'pt'], path);
+      assert.equal(manifest.routes[route.alternates[lang]].alternates[path.match(/^\/(en|fr|es)\//)?.[1] ?? 'pt'], path);
     }
     const graph = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1])['@graph'];
     const article = graph.find(item => item['@type'] === 'BlogPosting');
@@ -82,8 +83,9 @@ test('blog articles have complete sections, translated canonicals, article schem
     assert.equal((html.match(/property="og:type"/g) || []).length, 1);
     assert(html.includes('property="og:type" content="article"'));
     assert(md.includes(article.headline));
-    assert(md.includes('https://habitae.pt/' + (path.startsWith('/en/') ? 'en/' : path.startsWith('/fr/') ? 'fr/' : '') + 'app/'));
-    assert(md.includes(path.startsWith('/fr/') ? '## Plan du site' : path.startsWith('/en/') ? '## Sitemap' : '## Mapa do site'));
+    const lang = path.match(/^\/(en|fr|es)\//)?.[1] ?? 'pt';
+    assert(md.includes('https://habitae.pt/' + (lang === 'pt' ? '' : `${lang}/`) + 'app/'));
+    assert(md.includes({ pt: '## Mapa do site', en: '## Sitemap', fr: '## Plan du site', es: '## Mapa del sitio' }[lang]));
     for (const [, href] of body.matchAll(/href="(https:[^"]+)"/g)) assert(md.includes(href.replaceAll('&amp;', '&')), path);
   }
   assert((await read('index.html')).includes('href="/blog/"'));
@@ -131,7 +133,7 @@ test('law-referenced articles retain review dates, primary sources and navigable
     for (const [, href] of references) assert(md.includes(href), path);
     for (const [, anchor] of html.matchAll(/href="#([^"]+)"/g)) assert(html.includes(`id="${anchor}"`), path);
   }
-  assert.equal(reviewed, 15);
+  assert.equal(reviewed, 20);
 });
 
 test('English, legal drafts, missing pages, and discovery files are accurate', async () => {
@@ -140,7 +142,13 @@ test('English, legal drafts, missing pages, and discovery files are accurate', a
   const fr = await read('fr/index.html');
   assert.match(fr, /<html lang="fr"/);
   assert.match(fr, /href="\/fr\/app\/"/);
-  for (const [prefix, lang, text] of [['', 'pt-PT', 'Esta página não existe.'], ['en/', 'en', 'This page does not exist.'], ['fr/', 'fr', 'Cette page n’existe pas.']]) {
+  const es = await read('es/index.html');
+  assert.match(es, /<html lang="es-ES"/);
+  assert.match(es, /href="\/es\/app\/"/);
+  assert.match(es, /<title>Habitae \| Software de gestión de comunidades de propietarios en Portugal<\/title>/);
+  assert.match(es, /hreflang="es-ES" href="https:\/\/habitae.pt\/es\/"/);
+  assert.match(es, /href="\/es\/"[^>]*lang="es"[^>]*>Español<\/a>/);
+  for (const [prefix, lang, text] of [['', 'pt-PT', 'Esta página não existe.'], ['en/', 'en', 'This page does not exist.'], ['fr/', 'fr', 'Cette page n’existe pas.'], ['es/', 'es-ES', 'Esta página no existe.']]) {
     const missing = await read(`${prefix}404.html`);
     assert(missing.includes(`<html lang="${lang}"`));
     assert(missing.includes(text));
@@ -152,7 +160,7 @@ test('English, legal drafts, missing pages, and discovery files are accurate', a
   assert.match(await read('404.html'), /noindex, follow/);
   assert.match(await read('robots.txt'), /Sitemap: https:\/\/habitae.pt\/sitemap.xml/);
   const sitemap = await read('sitemap.xml');
-  assert.equal((sitemap.match(/<loc>/g) || []).length, 165);
+  assert.equal((sitemap.match(/<loc>/g) || []).length, 220);
   assert(!sitemap.includes('/privacy/'));
   assert(!sitemap.includes('/terms/'));
   assert.match(await read('help/create-first-condominium/index.md'), /## Sitemap/);
@@ -197,7 +205,7 @@ test('organization and site identity are consistent on every rendered page', asy
 test('About and Contact are substantial, indexable, translated and discoverable', async () => {
   const sitemap = await read('sitemap.xml');
   const llms = await read('llms.txt');
-  for (const prefix of ['', 'en/', 'fr/']) {
+  for (const prefix of ['', 'en/', 'fr/', 'es/']) {
     const home = await read(`${prefix}index.html`);
     for (const [page, type] of [['about', 'AboutPage'], ['contact', 'ContactPage']]) {
       const path = `${prefix}${page}/`;
@@ -234,7 +242,7 @@ test('About and Contact are substantial, indexable, translated and discoverable'
 });
 
 test('waitlist privacy identifies the real operator, removal contact and actual storage', async () => {
-  for (const prefix of ['', 'en/', 'fr/']) {
+  for (const prefix of ['', 'en/', 'fr/', 'es/']) {
     const html = await read(`${prefix}privacy/index.html`);
     const section = html.match(/<section id="waitlist"[^>]*>(.*?)<\/section>/s)?.[1];
     assert(section);
@@ -245,25 +253,25 @@ test('waitlist privacy identifies the real operator, removal contact and actual 
     assert(section.includes('180'));
     assert(!section.includes('[['));
     assert(html.includes('noindex, follow'), 'Application legal drafts remain identified');
-    assert(html.includes(prefix ? 'OVH, France' : 'OVH, França'));
+    assert(html.includes({ '': 'OVH, França', 'es/': 'OVH, Francia' }[prefix] ?? 'OVH, France'));
     assert(!html.includes('[[FORNECEDOR E REGIÃO DO ALOJAMENTO DA APLICAÇÃO]]'));
   }
 });
 
 test('legal drafts describe current hosting, transfer safeguards and conditional dispute resolution', async () => {
-  for (const prefix of ['', 'en/', 'fr/']) {
+  for (const prefix of ['', 'en/', 'fr/', 'es/']) {
     const privacy = await read(`${prefix}privacy/index.html`);
     const terms = await read(`${prefix}terms/index.html`);
     const transfers = privacy.match(/<section id="transfers"[^>]*>(.*?)<\/section>/s)?.[1];
     assert(transfers);
     for (const provider of ['OVH', 'Cloudflare', 'GitHub Pages']) assert(transfers.includes(provider));
-    assert(transfers.includes(prefix === 'fr/' ? 'juridiction de l’Union européenne' : prefix ? 'European Union jurisdiction' : 'jurisdição da União Europeia'));
-    assert(transfers.includes(prefix === 'fr/' ? 'clauses contractuelles types' : prefix ? 'standard contractual clauses' : 'cláusulas contratuais-tipo'));
+    assert(transfers.includes({ '': 'jurisdição da União Europeia', 'en/': 'European Union jurisdiction', 'fr/': 'juridiction de l’Union européenne', 'es/': 'jurisdicción de la Unión Europea' }[prefix]));
+    assert(transfers.includes({ '': 'cláusulas contratuais-tipo', 'en/': 'standard contractual clauses', 'fr/': 'clauses contractuelles types', 'es/': 'cláusulas contractuales tipo' }[prefix]));
     assert(transfers.includes('https://www.cloudflare.com/cloudflare-customer-dpa/'));
     assert(!transfers.includes('[['));
     assert(!privacy.includes(prefix ? 'GitHub Pages serves the website.' : 'O website é servido por GitHub Pages.'));
     for (const value of ['CNIACC', 'geral@cniacc.pt', '+351 253 619 107']) assert(terms.includes(value));
-    assert(terms.includes(prefix === 'fr/' ? 'relève de sa compétence' : prefix ? 'within its jurisdiction' : 'abrangido pela sua competência'));
+    assert(terms.includes({ '': 'abrangido pela sua competência', 'en/': 'within its jurisdiction', 'fr/': 'relève de sa compétence', 'es/': 'comprendido en su competencia' }[prefix]));
     for (const html of [privacy, terms]) {
       assert(html.includes('noindex, follow'));
       assert(html.includes('id="legal-draft-title"'));
@@ -273,7 +281,7 @@ test('legal drafts describe current hosting, transfer safeguards and conditional
 });
 
 test('approved identity, date and refund policy render while unfinished legal documents remain draft', async () => {
-  for (const prefix of ['', 'en/', 'fr/']) {
+  for (const prefix of ['', 'en/', 'fr/', 'es/']) {
     for (const document of ['terms', 'privacy']) {
       const html = await read(`${prefix}${document}/index.html`);
       assert(html.includes('259605948'));
@@ -286,7 +294,8 @@ test('approved identity, date and refund policy render while unfinished legal do
     const terms = await read(`${prefix}terms/index.html`);
     const cancellation = terms.match(/<section id="cancellation"[^>]*>(.*?)<\/section>/s)?.[1];
     assert(cancellation);
-    for (const phrase of prefix === 'fr/'
+    for (const phrase of prefix === 'es/'
+      ? ['En las suscripciones de pago,', 'hasta el final del periodo ya pagado', 'desistimiento', 'falta de conformidad del servicio', 'cobros duplicados o indebidos'] : prefix === 'fr/'
       ? ['Pour les abonnements payants,', 'fin de la période déjà payée', 'rétractation', 'non-conformité du service', 'facturations en double ou indues'] : prefix
       ? ['For paid subscriptions,', 'until the end of the paid period', 'statutory withdrawal', 'non-conforming service', 'Duplicate or incorrect charges']
       : ['Nas subscrições pagas,', 'até ao fim do período já pago', 'livre resolução', 'falta de conformidade', 'Cobranças duplicadas ou indevidas']) assert(cancellation.includes(phrase));
@@ -296,14 +305,14 @@ test('approved identity, date and refund policy render while unfinished legal do
 });
 
 test('production waitlist exposes a real native form with explicit consent and privacy links', async () => {
-  for (const prefix of ['', 'en/', 'fr/']) {
+  for (const prefix of ['', 'en/', 'fr/', 'es/']) {
     const html = await read(`${prefix}app/index.html`);
     const form = html.match(/<form\b([^>]*)>(.*?)<\/form>/s);
     assert(form, 'Production waitlist must be available');
     assert.match(form[1], /action="https:\/\/[^\"]+\/waitlist"/);
     assert.match(form[1], /method="post"/);
     assert.match(form[2], /type="email"/);
-    assert(form[2].includes(`<option value="resident">${prefix === 'fr/' ? 'Résident' : prefix ? 'Resident' : 'Morador'}</option>`));
+    assert(form[2].includes(`<option value="resident">${{ '': 'Morador', 'en/': 'Resident', 'fr/': 'Résident', 'es/': 'Residente' }[prefix]}</option>`));
     const consent = form[2].match(/<input\b[^>]*name="consent"[^>]*>/)?.[0];
     assert(consent);
     assert.match(consent, /type="checkbox"/);

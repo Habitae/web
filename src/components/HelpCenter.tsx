@@ -1,5 +1,5 @@
 import { helpRoot } from '../site';
-import { withFrench, translateText } from '../../shared/i18n.mjs';
+import { htmlLanguages, withTranslations, translateText } from '../../shared/i18n.mjs';
 import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import {
   ArrowLeft,
@@ -76,7 +76,7 @@ const categoryIcons: Record<CategoryId, Icon> = {
   account: Settings2,
 };
 
-const helpContent: Record<Language, HelpContent> = withFrench<{ pt: HelpContent; en: HelpContent }>({
+const helpContent: Record<Language, HelpContent> = withTranslations<{ pt: HelpContent; en: HelpContent }>({
   pt: {
     metaTitle: 'Ajuda Habitae',
     brandAlt: 'Habitae, Gestão de Condomínios',
@@ -179,7 +179,7 @@ const helpContent: Record<Language, HelpContent> = withFrench<{ pt: HelpContent;
     availability: 'These guides explain the Habitae application. On this site, “Open Habitae” takes you to the launch page.',
     articles: helpArticles.en,
   },
-}, copy => ({ ...copy, articles: helpArticles.fr, updated: 'Mis à jour' }));
+}, (copy, language) => ({ ...copy, articles: helpArticles[language], updated: language === 'es' ? 'Actualizado' : 'Mis à jour' }));
 
 function routeArticleSlug() {
   const parts = appPathname().split('/').filter(Boolean);
@@ -238,7 +238,8 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
       ? 'en'
       : appPathname().startsWith('/ajuda')
         ? 'pt'
-        : appPathname().startsWith('/aide') ? 'fr' : null;
+        : appPathname().startsWith('/aide') ? 'fr'
+          : appPathname().startsWith('/ayuda') ? 'es' : null;
     if (languageFromPath && languageFromPath !== language) setLanguage(languageFromPath);
     // The public URL establishes the initial language. Subsequent language
     // changes use changeLanguage so they update the URL at the same time.
@@ -246,7 +247,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = language === 'pt' ? 'pt-PT' : language;
+    document.documentElement.lang = htmlLanguages[language];
     document.title = selectedArticle ? `${selectedArticle.title} · ${c.metaTitle}` : c.metaTitle;
   }, [c.metaTitle, language, selectedArticle]);
 
@@ -254,7 +255,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
     const onPopState = () => {
       const slug = routeArticleSlug();
       focusOnNavigation.current = slug !== selectedSlug;
-      setLanguage(appPathname().startsWith('/help') ? 'en' : appPathname().startsWith('/aide') ? 'fr' : 'pt');
+      setLanguage(appPathname().startsWith('/help') ? 'en' : appPathname().startsWith('/aide') ? 'fr' : appPathname().startsWith('/ayuda') ? 'es' : 'pt');
       setSelectedSlug(slug);
     };
     window.addEventListener('popstate', onPopState);
@@ -490,7 +491,7 @@ export default function HelpCenter({ pathname = appPathname() }: { pathname?: st
         </div>
       </main>
 
-      <SiteFooter languagePaths={withFrench({ pt: languageLink('pt'), en: languageLink('en'), fr: languageLink('fr') })} />
+      <SiteFooter languagePaths={{ pt: languageLink('pt'), en: languageLink('en'), fr: languageLink('fr'), es: languageLink('es') }} />
     </div>
   );
 }

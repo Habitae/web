@@ -1,4 +1,4 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useI18n, type Language } from '../context/I18nContext';
 import { sitePath, helpRoot } from '../site';
@@ -12,7 +12,7 @@ const copy: Record<Language, {
   help: string;
   language: string;
   brandAlt: string;
-}> = withFrench({
+}> = withTranslations({
   pt: {
     title: 'Esta página não existe.',
     body: 'O endereço pode estar errado ou a página já não está disponível. Volte ao início ou procure uma resposta no centro de ajuda.',

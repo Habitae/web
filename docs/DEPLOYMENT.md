@@ -74,8 +74,9 @@ pnpm exec wrangler deploy --config services/waitlist/wrangler.local.jsonc
 ```
 
 Use migrations for existing databases; rerunning `schema.sql` does not upgrade
-them. French signups require `0004_french_language.sql`, which preserves existing
-signups, consent and email delivery history. Signup email delivery requires the email-outbox migration and all four
+them. French signups require `0004_french_language.sql` and Spanish signups
+`0005_spanish_language.sql`; both preserve existing signups, consent and email
+delivery history. Apply `0005` before deploying a Worker that accepts Spanish. Signup email delivery requires the email-outbox migration and all four
 email settings. The Worker stores signups before attempting delivery and retries
 pending email jobs on its schedule. Keep deployment records and signup exports
 in private storage.

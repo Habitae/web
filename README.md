@@ -1,8 +1,8 @@
 # Habitae Web
 
 The public [Habitae website](https://habitae.pt) for condominium management,
-built with React, TypeScript and Vite. It includes Portuguese, English and French
-marketing pages, a blog, help guides, legal pages and a waitlist.
+built with React, TypeScript and Vite. It includes Portuguese, English, French and
+Spanish marketing pages, a blog, help guides, legal pages and a waitlist.
 
 ## Development
 
@@ -42,9 +42,9 @@ Worker with mocked integrations. Install Chromium first with
 - `tests/` — browser tests.
 
 The build creates static HTML, Markdown mirrors, sitemaps and agent discovery
-files in `dist/`. Portuguese is the default; English pages use `/en/` and
-French pages use `/fr/`. Help centers are at `/ajuda/`, `/help/` and `/aide/`,
-respectively. `/app/` is the waitlist page.
+files in `dist/`. Portuguese is the default; English pages use `/en/`, French
+pages use `/fr/` and Spanish (es-ES) pages use `/es/`. Help centers are at
+`/ajuda/`, `/help/`, `/aide/` and `/ayuda/`, respectively. `/app/` is the waitlist page.
 
 See [content maintenance](docs/CONTENT.md) and [deployment](docs/DEPLOYMENT.md).
 Keep internal plans, operational records and data exports out of this public

@@ -1,4 +1,4 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { BlogTranslation } from './blog';
 
 const administration = 'https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/1966-34509075-49925475';
@@ -8,8 +8,8 @@ const incorporatedAnnexCase = 'https://diariodarepublica.pt/dr/detalhe/acordao/3
 const collectionExpensesCase = 'https://www.dgsi.pt/jtrc.nsf/c3fb530030ea1c61802568d9005cd5bb/6b8bf60fa5850841802589d7003f423e';
 const condominiumLaw = 'https://diariodarepublica.pt/dr/detalhe/lei/8-2022-177350573';
 
-export const managerPosts: Array<{ id: string; legalReviewed: string; pt: BlogTranslation; en: BlogTranslation; fr: BlogTranslation }> = [
-  withFrench({
+export const managerPosts: Array<{ id: string; legalReviewed: string; pt: BlogTranslation; en: BlogTranslation; fr: BlogTranslation; es: BlogTranslation }> = [
+  withTranslations({
     id: 'arrears', legalReviewed: '2026-09-06',
     pt: {
       slug: 'quotas-condominio-em-atraso', title: 'Quotas de condomínio em atraso: o que confirmar antes de cobrar',
@@ -70,7 +70,7 @@ export const managerPosts: Array<{ id: string; legalReviewed: string; pt: BlogTr
       ], guide: { label: 'Organise fees and payments in Habitae', href: '/help/create-fee-schedule/' },
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'repairs', legalReviewed: '2026-09-06',
     pt: {
       slug: 'avarias-condominio-pedidos-reparacoes', title: 'Avarias no condomínio: como organizar pedidos e reparações',
@@ -125,7 +125,7 @@ export const managerPosts: Array<{ id: string; legalReviewed: string; pt: BlogTr
       ], guide: { label: 'Prepare your condominium records in Habitae', href: '/help/create-first-condominium/' },
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'handover', legalReviewed: '2026-09-06',
     pt: {
       slug: 'mudanca-administrador-condominio-checklist', title: 'Mudança de administrador do condomínio: checklist de passagem',

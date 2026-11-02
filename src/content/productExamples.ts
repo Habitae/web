@@ -1,7 +1,7 @@
 // Feature copy for the homepage's feature cards.
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 
-export const productCopy = withFrench({
+export const productCopy = withTranslations({
   pt: {
     label: 'Funcionalidades', example: 'Exemplo ilustrativo',
     finance: { title: 'Saiba o que entrou e o que falta pagar.', description: 'Registe receitas e despesas, acompanhe quotas por fração e consulte os saldos do condomínio.', details: ['Orçamentos e fundo de reserva', 'Pagamentos e recibos ligados a cada fração'], link: 'Como gerir quotas', slug: 'criar-plano-quotas' },

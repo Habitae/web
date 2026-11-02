@@ -1,4 +1,4 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { Language } from '../context/I18nContext';
 
 import type { Article, Guide } from './helpTypes';
@@ -10,7 +10,7 @@ export type { Article, CategoryId } from './helpTypes';
 // Checked against the application screens in the parent Habitae project.
 // Keep IDs stable: they connect translations, the starting path and related guides.
 const guides: Guide[] = [
-  withFrench({
+  withTranslations({
     id: 'start', category: 'getting-started', next: ['condominium', 'glossary'],
     pt: {
       slug: 'comecar-aqui', title: 'É a sua primeira vez? Comece aqui.',
@@ -35,7 +35,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'condominium', category: 'getting-started', next: ['units', 'people'],
     pt: {
       slug: 'criar-primeiro-condominio', title: 'Criar o primeiro condomínio',
@@ -58,7 +58,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'units', category: 'people', next: ['people', 'glossary'],
     pt: {
       slug: 'adicionar-fracoes', title: 'Adicionar as frações do edifício',
@@ -81,7 +81,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'people', category: 'people', next: ['people-changes', 'map'],
     pt: {
       slug: 'associar-pessoas-fracoes', title: 'Associar pessoas às frações',
@@ -102,7 +102,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'budget', category: 'finance', next: ['budget-details', 'schedule'],
     pt: {
       slug: 'criar-orcamento', title: 'Criar o orçamento do condomínio',
@@ -123,7 +123,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'transaction', category: 'finance', next: ['transaction-review', 'bank-import'],
     pt: {
       slug: 'registar-movimento', title: 'Registar uma receita ou despesa',
@@ -144,7 +144,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'schedule', category: 'fees', next: ['standalone', 'payment'],
     pt: {
       slug: 'criar-plano-quotas', title: 'Criar um plano de quotas',
@@ -167,7 +167,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'payment', category: 'fees', next: ['credit', 'receipts'],
     pt: {
       slug: 'registar-pagamento-quota', title: 'Registar o pagamento de uma quota',
@@ -192,7 +192,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'meeting', category: 'assemblies', next: ['meeting-votes', 'minutes'],
     pt: {
       slug: 'preparar-reuniao', title: 'Preparar uma reunião e a respetiva ata',
@@ -213,7 +213,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'documents', category: 'documents', next: ['official', 'receipts'],
     pt: {
       slug: 'encontrar-documentos', title: 'Encontrar recibos e documentos PDF',
@@ -236,7 +236,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'team', category: 'account', next: ['troubleshooting', 'people'],
     pt: {
       slug: 'convidar-equipa', title: 'Convidar a equipa de gestão',
@@ -259,7 +259,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'billing', category: 'account', next: ['billing-changes', 'permissions'],
     pt: {
       slug: 'subscricao-e-faturacao', title: 'Consultar a subscrição e a faturação',
@@ -280,7 +280,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'glossary', category: 'getting-started', next: ['start', 'schedule'],
     pt: {
       slug: 'glossario', title: 'Palavras do condomínio, sem complicar',
@@ -307,7 +307,7 @@ const guides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'troubleshooting', category: 'account', next: ['start', 'team'],
     pt: {
       slug: 'resolver-duvidas', title: 'Não encontra uma opção ou um registo?',
@@ -354,7 +354,7 @@ if (new Set(helpReadingOrder).size !== helpReadingOrder.length ||
 }
 const allGuides = helpReadingOrder.map((id) => guidesById.get(id)!);
 
-export const helpArticles: Record<Language, Article[]> = withFrench({
+export const helpArticles: Record<Language, Article[]> = withTranslations({
   pt: allGuides.map(({ id, category, next, pt }) => ({ id, category, next, ...pt, updated: '6 set 2026' })),
   en: allGuides.map(({ id, category, next, en }) => ({ id, category, next, ...en, updated: '6 Sep 2026' })),
-}, articles => articles.map(article => ({ ...article, updated: '6 sept. 2026' })));
+}, (articles, language) => articles.map(article => ({ ...article, updated: language === 'es' ? '6 sept 2026' : '6 sept. 2026' })));

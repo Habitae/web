@@ -1,5 +1,4 @@
 import { translateCopy } from '../../shared/i18n.mjs';
-import { withFrench } from '../../shared/i18n.mjs';
 import { useEffect } from 'react';
 import { ArrowUp, Printer } from 'lucide-react';
 import { useI18n } from '../context/I18nContext';
@@ -45,7 +44,7 @@ export default function LegalPage({ pathname = appPathname() }: { pathname?: str
       ['meta[property="og:title"]', document.title],
       ['meta[property="og:description"]', content.description],
       ['meta[property="og:url"]', url],
-      ['meta[property="og:locale"]', ({pt:'pt_PT',en:'en_GB',fr:'fr_FR'})[language]],
+      ['meta[property="og:locale"]', ({pt:'pt_PT',en:'en_GB',fr:'fr_FR',es:'es_ES'})[language]],
       ['meta[name="twitter:title"]', document.title],
       ['meta[name="twitter:description"]', content.description],
     ]) document.querySelector(selector)?.setAttribute('content', value);
@@ -109,7 +108,7 @@ export default function LegalPage({ pathname = appPathname() }: { pathname?: str
           </article>
         </div>
       </main>
-      <SiteFooter languagePaths={withFrench({ pt: sitePath(`/${documentId}/`, 'pt'), en: sitePath(`/${documentId}/`, 'en'), fr: sitePath(`/${documentId}/`, 'fr') })} />
+      <SiteFooter languagePaths={{ pt: sitePath(`/${documentId}/`, 'pt'), en: sitePath(`/${documentId}/`, 'en'), fr: sitePath(`/${documentId}/`, 'fr'), es: sitePath(`/${documentId}/`, 'es') }} />
     </div>
   );
 }

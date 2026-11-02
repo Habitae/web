@@ -25,7 +25,7 @@ async function start() {
   }
   // Existing shared query-language URLs continue to work; new links use static routes.
   const current = new URL(window.location.href);
-  if (current.searchParams.has('lang') && !/^\/(help|ajuda|aide)(\/|$)/.test(pathname)) {
+  if (current.searchParams.has('lang') && !/^\/(help|ajuda|aide|ayuda)(\/|$)/.test(pathname)) {
     rememberLanguage(language);
     if (/^\/blog\//.test(pathname)) {
       const { blogPath, translatedBlogPost } = await import('./content/blog');
@@ -41,7 +41,7 @@ async function start() {
     ? import('./components/MarketingPage')
     : /^\/app\/?$/.test(pathname) ? import('./components/ComingSoonPage')
     : /^\/blog(?:\/|$)/.test(pathname) ? import('./components/BlogPage')
-    : /^\/(?:ajuda|help|aide)(?:\/|$)/.test(pathname) ? import('./components/HelpCenter')
+    : /^\/(?:ajuda|help|aide|ayuda)(?:\/|$)/.test(pathname) ? import('./components/HelpCenter')
     : /^\/(?:terms|privacy|termos|privacidade)\/?$/.test(pathname) ? import('./components/LegalPage')
     : /^\/(?:about|contact)\/?$/.test(pathname) ? import('./components/TrustPage')
     : import('./components/NotFoundPage'));

@@ -1,4 +1,4 @@
-import { withFrench, locales } from '../../shared/i18n.mjs';
+import { withTranslations, locales } from '../../shared/i18n.mjs';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
@@ -22,7 +22,7 @@ import './MarketingHome.css';
 
 // The homepage. Shares its product copy with content/homepage.ts; the
 // strings below are its own (French falls back to Portuguese until translated).
-const extraCopy = withFrench({
+const extraCopy = withTranslations({
   pt: {
     featuresTitle: 'Tudo o que o condomínio precisa.',
     stepsTitle: 'Pronto em três passos.',
@@ -82,7 +82,7 @@ const extraCopy = withFrench({
 // The hero shows a static snapshot of the real timeline screen, captured from
 // the app by scripts/capture-app-preview.mjs (1280×800, scaled to fit).
 // Words inside the feature pictures that the shared product copy doesn't have.
-const bentoCopy = withFrench({
+const bentoCopy = withTranslations({
   pt: { tenant: 'Arrendatário', budgetApproved: 'Orçamento 2026 aprovado', today: 'hoje' },
   en: { tenant: 'Tenant', budgetApproved: 'Budget 2026 approved', today: 'today' },
 });
@@ -217,7 +217,7 @@ const SNAPSHOT_WIDTH = 1280;
 const SNAPSHOT_HEIGHT = 800;
 const SIDEBAR_WIDTH = 252;
 
-const previewLabel = withFrench({
+const previewLabel = withTranslations({
   pt: { label: 'Linha cronológica do Habitae com dados de exemplo' },
   en: { label: 'The Habitae timeline with example data' },
 } as const);

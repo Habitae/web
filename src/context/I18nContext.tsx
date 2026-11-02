@@ -1,17 +1,17 @@
-import { loadLanguage } from '../../shared/i18n.mjs';
+import { htmlLanguages, loadLanguage } from '../../shared/i18n.mjs';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { LANGUAGE_KEY, readConsent } from '../consent';
 import { useConsent } from './ConsentContext';
 import { appPathname, languageFromUrl, sitePath } from '../site';
 
-export type Language = 'pt' | 'en' | 'fr';
+export type Language = 'pt' | 'en' | 'fr' | 'es';
 
 function storedLanguage(): Language {
   const routeLanguage = languageFromUrl();
   if (routeLanguage) return routeLanguage;
   try {
     const saved = readConsent()?.preferences && window.localStorage.getItem(LANGUAGE_KEY);
-    return saved === 'en' || saved === 'fr' ? saved : 'pt';
+    return saved === 'en' || saved === 'fr' || saved === 'es' ? saved : 'pt';
   } catch { return 'pt'; }
 }
 
@@ -29,7 +29,7 @@ export function I18nProvider({ children, initialLanguage }: { children: ReactNod
   const setLanguage = useCallback(async (nextLanguage: Language) => {
     await loadLanguage(nextLanguage);
     // The help centre owns its translated slugs; other surfaces use static language paths.
-    if (!/^\/(?:help|ajuda|aide)(?:\/|$)/.test(appPathname())) {
+    if (!/^\/(?:help|ajuda|aide|ayuda)(?:\/|$)/.test(appPathname())) {
       const url = new URL(window.location.href);
       url.pathname = sitePath(appPathname(), nextLanguage);
       url.searchParams.delete('lang');
@@ -52,7 +52,7 @@ export function I18nProvider({ children, initialLanguage }: { children: ReactNod
   }, [choice?.preferences, language]);
 
   useEffect(() => {
-    document.documentElement.lang = language === 'pt' ? 'pt-PT' : language;
+    document.documentElement.lang = htmlLanguages[language];
   }, [language]);
 
   const value = useMemo(() => ({ language, setLanguage }), [language, setLanguage]);

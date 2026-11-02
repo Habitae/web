@@ -1,5 +1,5 @@
 import { helpRoot } from './site';
-import { translateText } from '../shared/i18n.mjs';
+import { htmlLanguages, translateText } from '../shared/i18n.mjs';
 import { organizationSchema } from './content/organization';
 import { renderToString } from 'react-dom/server';
 import { I18nProvider, type Language } from './context/I18nContext';
@@ -20,7 +20,7 @@ import { legalContent, legalDraft } from './content/legal';
 export const contentUpdatedAt = '2026-09-06';
 
 export function pages() {
-  return (['pt', 'en', 'fr'] as const).flatMap(language => {
+  return (['pt', 'en', 'fr', 'es'] as const).flatMap(language => {
     const prefix = language === 'pt' ? '' : `/${language}`;
     const root = helpRoot(language);
     return [
@@ -49,7 +49,7 @@ export function render(page: Page) {
   const trust = kind === 'about' || kind === 'contact' ? trustContent[language][kind] : null;
   const title = kind === 'blog' ? `${post?.title ?? blogIndex[language].title} | Habitae` : trust ? `${trust.title} | Habitae` : legal ? `${legal.title} | Habitae` : article ? `${article.title} · ${en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)}` : kind === 'help' ? (en ? 'Habitae Help Centre' : translateText('Ajuda Habitae', language)) : kind === 'app' ? (en ? 'Join the Habitae waitlist' : translateText('Lista de espera Habitae', language)) : homeTitle;
   const description = post?.description ?? (kind === 'blog' ? blogIndex[language].description : undefined) ?? trust?.description ?? legal?.description ?? article?.excerpt ?? (kind === 'app' ? appDescription : kind === 'help' ? (en ? 'Step-by-step guides to get started and manage your condominium in Habitae.' : translateText('Guias passo a passo para começar e gerir o seu condomínio no Habitae.', language)) : homeDescription);
-  const pathname = page.path.replace(/^\/(?:en|fr)\//, '/');
+  const pathname = page.path.replace(/^\/(?:en|fr|es)\//, '/');
   const surface = kind === 'blog' ? <BlogPage pathname={pathname} /> : kind === 'home' ? <MarketingPage /> : kind === 'help' ? <HelpCenter pathname={pathname} /> : trust ? <TrustPage pathname={pathname} /> : legal ? <LegalPage pathname={pathname} /> : kind === 'app' ? <ComingSoonPage /> : <NotFoundPage />;
   const html = renderToString(<ConsentProvider><I18nProvider initialLanguage={language}>{surface}</I18nProvider></ConsentProvider>);
   const alternate = (lang: Language) => {
@@ -68,14 +68,15 @@ export function render(page: Page) {
   ] };
   const structuredData = { '@context': 'https://schema.org', '@graph': [
     { ...organizationSchema, description: translateText(organizationSchema.description, language) },
-    { '@type': 'WebSite', '@id': 'https://habitae.pt/#website', name: 'Habitae', alternateName: 'habitae.pt', url: 'https://habitae.pt/', inLanguage: ['pt-PT', 'en', 'fr'], publisher: { '@id': 'https://habitae.pt/#organization' } },
+    { '@type': 'WebSite', '@id': 'https://habitae.pt/#website', name: 'Habitae', alternateName: 'habitae.pt', url: 'https://habitae.pt/', inLanguage: ['pt-PT', 'en', 'fr', 'es-ES'], publisher: { '@id': 'https://habitae.pt/#organization' } },
     { '@type': post ? 'BlogPosting' : kind === 'blog' ? 'CollectionPage' : kind === 'about' ? 'AboutPage' : kind === 'contact' ? 'ContactPage' : article ? 'TechArticle' : 'WebPage', '@id': `${url}#page`, name: title, headline: post?.title ?? title, description, url, dateModified: post?.updated ?? contentUpdatedAt,
-      ...(post ? { datePublished: post.published, author: { '@type': 'Organization', '@id': organizationSchema['@id'], name: 'Habitae', url: 'https://habitae.pt/about/' }, publisher: { '@id': organizationSchema['@id'] }, image: ['https://habitae.pt/social-preview-v2.png'], mainEntityOfPage: url, articleSection: post.category } : {}), inLanguage: language === 'pt' ? 'pt-PT' : language, ...(trust ? { about: { '@id': organizationSchema['@id'] } } : {}), isPartOf: { '@id': 'https://habitae.pt/#website' }, breadcrumb },
+      ...(post ? { datePublished: post.published, author: { '@type': 'Organization', '@id': organizationSchema['@id'], name: 'Habitae', url: 'https://habitae.pt/about/' }, publisher: { '@id': organizationSchema['@id'] }, image: ['https://habitae.pt/social-preview-v2.png'], mainEntityOfPage: url, articleSection: post.category } : {}), inLanguage: htmlLanguages[language], ...(trust ? { about: { '@id': organizationSchema['@id'] } } : {}), isPartOf: { '@id': 'https://habitae.pt/#website' }, breadcrumb },
   ] };
   const embedCopy = {
     pt: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ajuda' },
     en: { open: 'Open page', waitlist: 'Join the waitlist', help: 'Help centre' },
     fr: { open: 'Ouvrir la page', waitlist: "S'inscrire", help: "Centre d'aide" },
+    es: { open: 'Abrir página', waitlist: 'Lista de espera', help: 'Centro de ayuda' },
   }[language];
   const componentEmbed = {
     component: {

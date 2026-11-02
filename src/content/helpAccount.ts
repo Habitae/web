@@ -1,8 +1,8 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { Guide } from './helpTypes';
 
 export const accountGuides: Guide[] = [
-  withFrench({
+  withTranslations({
     id: 'billing-changes', category: 'account', next: ['billing', 'workspace'],
     pt: {
       slug: 'alterar-plano-limites-subcricao', title: 'Alterar o plano e consultar os limites', excerpt: 'Compare a utilização, a periodicidade e as condições antes de mudar a subscrição.',
@@ -23,7 +23,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'access', category: 'getting-started', next: ['start', 'permissions'],
     pt: {
       slug: 'conta-acesso-palavra-passe', title: 'Criar conta, entrar e alterar a palavra-passe', excerpt: 'Escolha entre criar a sua organização ou aceitar o convite de uma equipa.',
@@ -44,7 +44,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'workspace', category: 'account', next: ['permissions', 'billing'],
     pt: {
       slug: 'organizacoes-arquivar-condominios', title: 'Trocar de organização e arquivar condomínios', excerpt: 'Mantenha as áreas de trabalho separadas e retire edifícios da lista sem apagar os dados.',
@@ -65,7 +65,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'permissions', category: 'account', next: ['team', 'audit'],
     pt: {
       slug: 'funcoes-permissoes', title: 'Perceber as funções e os acessos', excerpt: 'Saiba quem pode consultar, editar, gerir utilizadores e tratar da subscrição.',
@@ -84,7 +84,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'settings', category: 'account', next: ['reminders', 'privacy'],
     pt: {
       slug: 'configuracoes-documentos-seguros', title: 'Configurar dados, documentos e seguros', excerpt: 'Preencha os dados do edifício e os modelos usados em avisos e recibos.',
@@ -105,7 +105,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'privacy', category: 'account', next: ['permissions', 'audit'],
     pt: {
       slug: 'pedidos-privacidade-exportacao', title: 'Registar pedidos de privacidade e exportar dados', excerpt: 'Acompanhe pedidos na aplicação e perceba o alcance da exportação.',
@@ -126,7 +126,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'audit', category: 'account', next: ['permissions', 'corrections'],
     pt: {
       slug: 'consultar-auditoria', title: 'Consultar o registo de auditoria', excerpt: 'Procure quem realizou uma ação e em que condomínio.',
@@ -145,7 +145,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'people-changes', category: 'people', next: ['map', 'proxy'],
     pt: {
       slug: 'alterar-proprietarios-pagadores', title: 'Alterar proprietários, pagadores e contactos', excerpt: 'Atualize uma mudança de pessoa sem confundir a fração, o contacto e o acesso à aplicação.',
@@ -166,7 +166,7 @@ export const accountGuides: Guide[] = [
       ],
     },
   }),
-  withFrench({
+  withTranslations({
     id: 'timeline', category: 'getting-started', next: ['bank', 'payment'],
     pt: {
       slug: 'ler-linha-cronologica', title: 'Ler a Linha cronológica', excerpt: 'Perceba o resumo financeiro, a atividade recente e o que precisa de acompanhamento.',

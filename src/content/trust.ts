@@ -1,11 +1,11 @@
-import { withFrench } from '../../shared/i18n.mjs';
+import { withTranslations } from '../../shared/i18n.mjs';
 import type { Language } from '../context/I18nContext';
 
 export type TrustPageId = 'about' | 'contact';
 type Section = { id: string; title: string; paragraphs: string[]; contacts?: boolean; links?: { label: string; href: string }[] };
 type TrustContent = { title: string; description: string; sections: Section[] };
 
-export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> = withFrench({
+export const trustContent: Record<Language, Record<TrustPageId, TrustContent>> = withTranslations({
   pt: {
     about: {
       title: 'Sobre o Habitae',

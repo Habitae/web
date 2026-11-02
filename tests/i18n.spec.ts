@@ -43,6 +43,46 @@ for (const javaScriptEnabled of [false, true]) {
   });
 }
 
+for (const javaScriptEnabled of [false, true]) {
+  test(`Spanish pages and article language links work with JavaScript ${javaScriptEnabled}`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled, viewport: { width: 1440, height: 1000 } });
+    const page = await context.newPage();
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    for (const [route, heading] of [
+      ['/es/', 'Preguntas frecuentes'],
+      ['/es/blog/', 'Blog de gestión de comunidades'],
+      ['/es/terms/', 'Términos y condiciones'],
+      ['/es/privacy/', 'Política de privacidad'],
+      ['/es/about/', 'Sobre Habitae'],
+      ['/ayuda/', 'Su comunidad, paso a paso.'],
+      ['/ayuda/registar-pagamento-quota/', 'Registrar el pago de una cuota'],
+    ]) {
+      await page.goto(`http://127.0.0.1:4174${route}`);
+      await expect(page.locator('html')).toHaveAttribute('lang', 'es-ES');
+      await expect(page.getByRole('heading', { name: heading, exact: true }).first()).toBeVisible();
+      if (javaScriptEnabled) {
+        await expect(page.locator('[data-cookie-settings="true"]')).toBeEnabled();
+        const rejectCookies = page.getByRole('button', { name: 'Rechazar opcionales', exact: true });
+        if (await rejectCookies.isVisible()) await rejectCookies.click();
+      }
+      await expect(page.locator('footer').getByRole('link', { name: 'Español', exact: true })).toHaveAttribute('aria-current', 'page');
+    }
+    await page.locator('footer').getByRole('link', { name: 'Français', exact: true }).click();
+    await expect(page).toHaveURL(/\/aide\/registar-pagamento-quota\/$/);
+    await page.locator('footer').getByRole('link', { name: 'Español', exact: true }).click();
+    await expect(page).toHaveURL(/\/ayuda\/registar-pagamento-quota\/$/);
+    if (process.env.HABITAE_TEST_EDGE === 'true') {
+      const response = await page.goto('http://127.0.0.1:4174/es/unknown-i18n-page/');
+      expect(response?.status()).toBe(404);
+      await expect(page.locator('html')).toHaveAttribute('lang', 'es-ES');
+      await expect(page.getByRole('heading', { name: 'Esta página no existe.', exact: true })).toBeVisible();
+    }
+    expect(errors).toEqual([]);
+    await context.close();
+  });
+}
+
 test('French consent preferences and help search translate client-only states', async ({ page }) => {
   await page.goto('/fr/');
   await expect(page.getByText('Nous conservons votre choix.', { exact: false })).toBeVisible();
@@ -58,12 +98,12 @@ test('French consent preferences and help search translate client-only states', 
 
 
 test('each homepage downloads only its active translation catalog', async ({ browser }) => {
-  for (const language of ['pt', 'en', 'fr']) {
+  for (const language of ['pt', 'en', 'fr', 'es']) {
     const context = await browser.newContext();
     const page = await context.newPage();
     const downloaded = new Set<string>();
     page.on('request', request => {
-      const match = new URL(request.url()).pathname.match(/\/assets\/(pt|en|fr)-[^/]+\.js$/);
+      const match = new URL(request.url()).pathname.match(/\/assets\/(pt|en|fr|es)-[^/]+\.js$/);
       if (match) downloaded.add(match[1]);
     });
     await page.goto(`http://127.0.0.1:4174/${language === 'pt' ? '' : `${language}/`}`);
