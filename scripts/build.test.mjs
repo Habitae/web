@@ -167,6 +167,19 @@ test('English, legal drafts, missing pages, and discovery files are accurate', a
   assert.match(await read('llms.txt'), /help\/.*index.md/);
 });
 
+test('help guides show app screenshots in their own language, with alt text and a size', async () => {
+  for (const [file, language] of [['ajuda/adicionar-fracoes/index.html', 'pt'], ['help/add-units/index.html', 'en']]) {
+    const figures = [...(await read(file)).matchAll(/<figure class="hc-figure[^"]*"><img ([^>]*)>/g)].map(match => match[1]);
+    assert.equal(figures.length, 2, file);
+    for (const attributes of figures) {
+      assert.match(attributes, new RegExp(`src="/help-screens/units(?:-form)?-${language}\\.webp"`), file);
+      assert.match(attributes, /alt="[^"]{40,}"/, file);
+      assert.match(attributes, /width="\d+" height="\d+"/, file);
+    }
+  }
+  assert.match(await read('help/add-units/index.md'), /!\[[^\]]+\]\(https:\/\/habitae\.pt\/help-screens\/units-en\.webp\)/);
+});
+
 test('every internal page and asset link resolves to a generated file', async () => {
   const known = new Set(await htmlFiles());
   const missing = new Set();

@@ -660,6 +660,24 @@ body.help-center-site {
   border-left: 1px solid var(--hc-line);
 }
 
+/* App screenshots: the full picture, never cropped, framed like a window. */
+.hc-figure {
+  margin: var(--space-4) 0 0;
+}
+
+.hc-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--hc-line);
+  border-radius: var(--radius-card);
+  background: var(--habitae-sand);
+}
+
+.hc-figure-phone img {
+  max-width: 20rem;
+}
+
 .hc-note {
   margin-top: var(--space-4);
   padding: var(--space-4);
